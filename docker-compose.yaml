@@ -16,12 +16,12 @@ services:
     depends_on:
       - mariadb
     environment:
-      WORDPRESS_DB_HOST: mariadb:3306
+      WORDPRESS_DB_HOST: mariadb
       WORDPRESS_DB_NAME: wordpress
       WORDPRESS_DB_USER: wpuser
       WORDPRESS_DB_PASSWORD: wppass
-    ports:
-      - "80:80"
+    expose:
+      - "80"
 
 volumes:
   mariadb_data:
