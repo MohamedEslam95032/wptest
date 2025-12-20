@@ -11,7 +11,7 @@ services:
       - mariadb_data:/var/lib/mysql
 
   wordpress:
-    image: moe425352/coonex-wp:v1
+    image: moe425352/coonex-wp:v1.1.0
     restart: always
     depends_on:
       - mariadb
