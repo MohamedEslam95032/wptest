@@ -8,11 +8,11 @@ RUN apt-get update && apt-get install -y \
  && rm -rf /var/lib/apt/lists/*
 
 # --------------------------------------------------
-# PHP DEFAULTS (official & safe way)
+# PHP defaults
 # --------------------------------------------------
 RUN { \
-      echo "upload_max_filesize = 20M"; \
-      echo "post_max_size = 25M"; \
+      echo "upload_max_filesize = 50M"; \
+      echo "post_max_size = 60M"; \
       echo "memory_limit = 256M"; \
       echo "max_execution_time = 300"; \
       echo "max_input_time = 300"; \
@@ -21,7 +21,7 @@ RUN { \
 # --------------------------------------------------
 # WP-CLI
 # --------------------------------------------------
-RUN curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+RUN curl -sSLo /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
  && chmod +x /usr/local/bin/wp
 
 # --------------------------------------------------
@@ -29,22 +29,15 @@ RUN curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh
 # --------------------------------------------------
 RUN sed -i "/require_once ABSPATH . 'wp-settings.php';/i \
 /** ==============================\\n\
- * Coonex URL & Proxy Detection (NO FORCE HTTPS)\\n\
+ * Coonex URL & Proxy Detection\\n\
  * ============================== */\\n\
 if (getenv('WP_URL')) {\\n\
     define('WP_HOME', getenv('WP_URL'));\\n\
     define('WP_SITEURL', getenv('WP_URL'));\\n\
 }\\n\\n\
-if (!empty(\$_SERVER['HTTP_X_FORWARDED_PROTO'])) {\\n\
-    \$_SERVER['HTTPS'] = \$_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https' ? 'on' : 'off';\\n\
+if (!empty(\\$_SERVER['HTTP_X_FORWARDED_PROTO'])) {\\n\
+    \\$_SERVER['HTTPS'] = \\$_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https' ? 'on' : 'off';\\n\
 }\\n" /usr/src/wordpress/wp-config-sample.php
-
-# --------------------------------------------------
-# Copy themes / plugins / MU plugins
-# --------------------------------------------------
-COPY assets/themes/ /usr/src/wordpress/wp-content/themes/
-COPY assets/plugins/ /usr/src/wordpress/wp-content/plugins/
-COPY assets/mu-plugins/ /usr/src/wordpress/wp-content/mu-plugins/
 
 # --------------------------------------------------
 # Entrypoint
