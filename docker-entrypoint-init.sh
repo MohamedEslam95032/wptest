@@ -176,6 +176,7 @@ chown -R www-data:www-data "$WP_PATH"
 # --------------------------------------------------
 # 10.9) Initialize Houzez (Theme + Plugins + Demo)
 # --------------------------------------------------
+/usr/local/bin/fetch-houzez-assets.sh
 /usr/local/bin/init-houzez.sh
 
 # --------------------------------------------------

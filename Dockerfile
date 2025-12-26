@@ -4,7 +4,7 @@ FROM wordpress:php8.2-apache
 # System packages
 # --------------------------------------------------
 RUN apt-get update && apt-get install -y \
-    curl unzip less mariadb-client \
+    curl unzip less mariadb-client awscli \
  && rm -rf /var/lib/apt/lists/*
 
 # --------------------------------------------------
@@ -40,11 +40,20 @@ if (!empty(\$_SERVER['HTTP_X_FORWARDED_PROTO'])) {\\n\
 }\\n" /usr/src/wordpress/wp-config-sample.php
 
 # --------------------------------------------------
-# Copy themes / plugins / MU plugins
+# MU Plugins only (safe to keep in Git)
 # --------------------------------------------------
-#COPY assets/themes/ /usr/src/wordpress/wp-content/themes/
-COPY assets/plugins/ /usr/src/wordpress/wp-content/plugins/
 COPY assets/mu-plugins/ /usr/src/wordpress/wp-content/mu-plugins/
+COPY assets/plugins/ /usr/src/wordpress/wp-content/plugins/
+
+
+# --------------------------------------------------
+# Cloud asset scripts
+# --------------------------------------------------
+COPY fetch-houzez-assets.sh /usr/local/bin/fetch-houzez-assets.sh
+COPY init-houzez.sh /usr/local/bin/init-houzez.sh
+
+RUN chmod +x /usr/local/bin/fetch-houzez-assets.sh \
+             /usr/local/bin/init-houzez.sh
 
 # --------------------------------------------------
 # Entrypoint
