@@ -1,44 +1,140 @@
-FROM wordpress:php8.2-apache
+#!/bin/bash
+set -e
+
+WP_PATH="/var/www/html"
+WP_CONFIG="$WP_PATH/wp-config.php"
+
+echo "▶ Starting Coonex WordPress Init Script"
 
 # -----------------------------
-# System packages
+# 0) Validate ENV
 # -----------------------------
-RUN apt-get update && apt-get install -y \
-    curl unzip less mariadb-client \
- && rm -rf /var/lib/apt/lists/*
+: "${WORDPRESS_DB_HOST:?Missing WORDPRESS_DB_HOST}"
+: "${WORDPRESS_DB_NAME:?Missing WORDPRESS_DB_NAME}"
+: "${WORDPRESS_DB_USER:?Missing WORDPRESS_DB_USER}"
+: "${WORDPRESS_DB_PASSWORD:?Missing WORDPRESS_DB_PASSWORD}"
+: "${WP_URL:?Missing WP_URL}"
+
+cd "$WP_PATH"
+
+echo "ℹ DB_HOST=${WORDPRESS_DB_HOST}"
+echo "ℹ DB_NAME=${WORDPRESS_DB_NAME}"
+echo "ℹ DB_USER=${WORDPRESS_DB_USER}"
 
 # -----------------------------
-# Install WP-CLI
+# 1) Wait for DB
 # -----------------------------
-RUN curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
- && chmod +x /usr/local/bin/wp \
- && wp --info
+echo "⏳ Waiting for database..."
+ATTEMPTS=0
+MAX_ATTEMPTS=40
+
+until mariadb \
+  -h"${WORDPRESS_DB_HOST}" \
+  -u"${WORDPRESS_DB_USER}" \
+  -p"${WORDPRESS_DB_PASSWORD}" \
+  -e "SELECT 1" >/dev/null 2>&1; do
+
+  ATTEMPTS=$((ATTEMPTS+1))
+  echo "⏳ DB not ready ($ATTEMPTS/$MAX_ATTEMPTS)"
+
+  if [ "$ATTEMPTS" -ge "$MAX_ATTEMPTS" ]; then
+    echo "❌ Database not reachable"
+    exit 1
+  fi
+
+  sleep 2
+done
+
+echo "✅ Database is reachable"
 
 # -----------------------------
-# Apache "ServerName" (remove warning - optional)
+# 2) Ensure DB exists
 # -----------------------------
-RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+mariadb \
+  -h"${WORDPRESS_DB_HOST}" \
+  -u"${WORDPRESS_DB_USER}" \
+  -p"${WORDPRESS_DB_PASSWORD}" \
+  -e "CREATE DATABASE IF NOT EXISTS \`${WORDPRESS_DB_NAME}\`
+      DEFAULT CHARACTER SET utf8mb4
+      COLLATE utf8mb4_unicode_ci;"
 
 # -----------------------------
-# PHP defaults
+# 3) Ensure WP core exists
 # -----------------------------
-RUN { \
-      echo "upload_max_filesize = 64M"; \
-      echo "post_max_size = 64M"; \
-      echo "memory_limit = 512M"; \
-      echo "max_execution_time = 120"; \
-    } > /usr/local/etc/php/conf.d/coonex.ini
+if [ ! -f "$WP_PATH/wp-load.php" ]; then
+  echo "▶ Copying WordPress core"
+  cp -a /usr/src/wordpress/. "$WP_PATH/"
+  chown -R www-data:www-data "$WP_PATH"
+else
+  echo "ℹ WordPress core already exists"
+fi
 
 # -----------------------------
-# Copy assets (plugins + MU plugins)
+# 4) Create wp-config.php
 # -----------------------------
-COPY assets/plugins/ /usr/src/wordpress/wp-content/plugins/
-COPY assets/mu-plugins/ /usr/src/wordpress/wp-content/mu-plugins/
+if [ ! -f "$WP_CONFIG" ]; then
+  echo "▶ Creating wp-config.php"
+  wp config create \
+    --path="$WP_PATH" \
+    --dbname="${WORDPRESS_DB_NAME}" \
+    --dbuser="${WORDPRESS_DB_USER}" \
+    --dbpass="${WORDPRESS_DB_PASSWORD}" \
+    --dbhost="${WORDPRESS_DB_HOST}" \
+    --skip-check \
+    --allow-root
+else
+  echo "ℹ wp-config.php already exists"
+fi
 
 # -----------------------------
-# Entrypoint
+# 5) Inject Proxy + WP_URL
 # -----------------------------
-COPY docker-entrypoint-init.sh /usr/local/bin/docker-entrypoint-init.sh
-RUN chmod +x /usr/local/bin/docker-entrypoint-init.sh
+if ! grep -q "Coonex URL & Proxy Detection" "$WP_CONFIG"; then
+  sed -i "/require_once ABSPATH . 'wp-settings.php';/i \
+/** ==============================\\n\
+ * Coonex URL & Proxy Detection\\n\
+ * ============================== */\\n\
+if (getenv('WP_URL')) {\\n\
+  define('WP_HOME', getenv('WP_URL'));\\n\
+  define('WP_SITEURL', getenv('WP_URL'));\\n\
+}\\n\\n\
+if (!empty(\$_SERVER['HTTP_X_FORWARDED_PROTO'])) {\\n\
+  \$_SERVER['HTTPS'] = \$_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https' ? 'on' : 'off';\\n\
+}\\n\
+" "$WP_CONFIG"
+fi
 
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint-init.sh"]
+# -----------------------------
+# 6) Install WordPress
+# -----------------------------
+if ! wp core is-installed --allow-root --path="$WP_PATH"; then
+  echo "▶ Installing WordPress"
+  wp core install \
+    --path="$WP_PATH" \
+    --url="$WP_URL" \
+    --title="${WP_TITLE:-Coonex}" \
+    --admin_user="${WP_ADMIN_USER:-admin}" \
+    --admin_password="${WP_ADMIN_PASS:-Admin@123}" \
+    --admin_email="${WP_ADMIN_EMAIL:-admin@coonex.io}" \
+    --skip-email \
+    --allow-root
+else
+  echo "ℹ WordPress already installed"
+fi
+
+# -----------------------------
+# 7) Fix siteurl/home
+# -----------------------------
+wp option update siteurl "$WP_URL" --allow-root --path="$WP_PATH"
+wp option update home "$WP_URL" --allow-root --path="$WP_PATH"
+
+# -----------------------------
+# 8) Permissions
+# -----------------------------
+chown -R www-data:www-data "$WP_PATH"
+
+# -----------------------------
+# 9) Start Apache
+# -----------------------------
+echo "🚀 Starting Apache"
+exec apache2-foreground

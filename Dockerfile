@@ -11,11 +11,11 @@ RUN apt-get update && apt-get install -y \
 # Install WP-CLI
 # -----------------------------
 RUN curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
- && chmod +x /usr/local/bin/wp \
+ && chmod 755 /usr/local/bin/wp \
  && wp --info
 
 # -----------------------------
-# Apache "ServerName" (remove warning - optional)
+# Apache ServerName (remove warning)
 # -----------------------------
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
@@ -30,7 +30,7 @@ RUN { \
     } > /usr/local/etc/php/conf.d/coonex.ini
 
 # -----------------------------
-# Copy assets (plugins + MU plugins)
+# Copy plugins
 # -----------------------------
 COPY assets/plugins/ /usr/src/wordpress/wp-content/plugins/
 COPY assets/mu-plugins/ /usr/src/wordpress/wp-content/mu-plugins/
@@ -39,6 +39,8 @@ COPY assets/mu-plugins/ /usr/src/wordpress/wp-content/mu-plugins/
 # Entrypoint
 # -----------------------------
 COPY docker-entrypoint-init.sh /usr/local/bin/docker-entrypoint-init.sh
-RUN chmod +x /usr/local/bin/docker-entrypoint-init.sh
+RUN chmod 755 /usr/local/bin/docker-entrypoint-init.sh \
+ && sed -i 's/\r$//' /usr/local/bin/docker-entrypoint-init.sh
 
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint-init.sh"]
+# 🔥 استخدم bash لتفادي exec format error
+ENTRYPOINT ["bash", "/usr/local/bin/docker-entrypoint-init.sh"]
