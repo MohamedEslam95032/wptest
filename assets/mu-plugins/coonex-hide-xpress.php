@@ -17,7 +17,10 @@ function coonex_is_internal_admin() {
 /**
  * Plugin main file
  */
-define('COONEX_XPRESS_PLUGIN', 'xpress/uixpress.php');
+if (!defined('COONEX_XPRESS_PLUGIN')) {
+    return; // أو exit quietly
+}
+
 
 /**
  * 1️⃣ Hide uiXpress from Plugins list
