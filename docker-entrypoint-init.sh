@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+WP_PATH="/var/www/html"
+
 echo "▶ Starting Coonex WordPress Init Script"
 
 # --------------------------------------------------
@@ -28,6 +30,8 @@ echo "ℹ Using DB_HOST=$DB_HOST"
 echo "ℹ Using DB_NAME=$DB_NAME"
 echo "ℹ Using DB_USER=$DB_USER"
 
+cd "$WP_PATH"
+
 # --------------------------------------------------
 # 3️⃣ Wait for Database
 # --------------------------------------------------
@@ -45,9 +49,9 @@ echo "✅ Database is reachable"
 # --------------------------------------------------
 # 4️⃣ Ensure WordPress core exists
 # --------------------------------------------------
-if [ ! -f wp-load.php ]; then
+if [ ! -f "$WP_PATH/wp-load.php" ]; then
   echo "▶ Downloading WordPress core"
-  wp core download --allow-root
+  wp core download --path="$WP_PATH" --allow-root
 else
   echo "ℹ WordPress core already exists"
 fi
@@ -55,10 +59,11 @@ fi
 # --------------------------------------------------
 # 5️⃣ Create wp-config.php (ONLY if missing)
 # --------------------------------------------------
-if [ ! -f wp-config.php ]; then
+if [ ! -f "$WP_PATH/wp-config.php" ]; then
   echo "▶ Creating wp-config.php"
 
   wp config create \
+    --path="$WP_PATH" \
     --dbname="$DB_NAME" \
     --dbuser="$DB_USER" \
     --dbpass="$DB_PASSWORD" \
@@ -74,10 +79,11 @@ fi
 # --------------------------------------------------
 # 6️⃣ Install WordPress (ONLY ONCE)
 # --------------------------------------------------
-if ! wp core is-installed --allow-root; then
+if ! wp core is-installed --path="$WP_PATH" --allow-root; then
   echo "▶ Installing WordPress"
 
   wp core install \
+    --path="$WP_PATH" \
     --url="$WP_URL" \
     --title="Coonex CMS" \
     --admin_user="${WP_ADMIN_USER:-admin}" \
@@ -94,12 +100,12 @@ fi
 # --------------------------------------------------
 # 7️⃣ Enforce siteurl & home
 # --------------------------------------------------
-wp option update siteurl "$WP_URL" --allow-root
-wp option update home "$WP_URL" --allow-root
+wp option update siteurl "$WP_URL" --path="$WP_PATH" --allow-root
+wp option update home "$WP_URL" --path="$WP_PATH" --allow-root
 
 # --------------------------------------------------
 # 8️⃣ Permissions
 # --------------------------------------------------
-chown -R www-data:www-data /var/www/html || true
+chown -R www-data:www-data "$WP_PATH" || true
 
 echo "🚀 Coonex WordPress Init Completed"
