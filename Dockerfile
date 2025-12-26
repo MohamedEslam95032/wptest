@@ -1,14 +1,10 @@
 FROM wordpress:php8.2-apache
 
 # --------------------------------------------------
-# System packages (awscli + unzip + basics)
+# System packages
 # --------------------------------------------------
 RUN apt-get update && apt-get install -y \
-    curl \
-    unzip \
-    less \
-    mariadb-client \
-    awscli \
+    curl unzip less mariadb-client \
  && rm -rf /var/lib/apt/lists/*
 
 # --------------------------------------------------
@@ -44,21 +40,11 @@ if (!empty(\$_SERVER['HTTP_X_FORWARDED_PROTO'])) {\\n\
 }\\n" /usr/src/wordpress/wp-config-sample.php
 
 # --------------------------------------------------
-# MU Plugins (always-on, safe to bake)
+# Copy themes / plugins / MU plugins
 # --------------------------------------------------
+#COPY assets/themes/ /usr/src/wordpress/wp-content/themes/
+COPY assets/plugins/ /usr/src/wordpress/wp-content/plugins/
 COPY assets/mu-plugins/ /usr/src/wordpress/wp-content/mu-plugins/
-
-# --------------------------------------------------
-# Fetch Houzez assets from DigitalOcean Spaces
-# --------------------------------------------------
-COPY fetch-houzez-assets.sh /usr/local/bin/fetch-houzez-assets.sh
-RUN chmod +x /usr/local/bin/fetch-houzez-assets.sh
-
-# --------------------------------------------------
-# Houzez ONE-TIME init script (activate theme + demo)
-# --------------------------------------------------
-COPY init-houzez-once.sh /usr/local/bin/init-houzez-once.sh
-RUN chmod +x /usr/local/bin/init-houzez-once.sh
 
 # --------------------------------------------------
 # Entrypoint
