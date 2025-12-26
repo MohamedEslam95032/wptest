@@ -8,16 +8,17 @@ defined('ABSPATH') || exit;
 
 /**
  * Optional internal admin bypass
- * (لو حابب فريقك يشوفه)
  */
 function coonex_is_internal_admin() {
     return function_exists('current_user_can') && current_user_can('coonex_internal_admin');
 }
 
 /**
- * Plugin main file
+ * Plugin main file (SAFE)
  */
-define('COONEX_XPRESS_PLUGIN', 'xpress/uixpress.php');
+if (!defined('COONEX_XPRESS_PLUGIN')) {
+    define('COONEX_XPRESS_PLUGIN', 'xpress/uixpress.php');
+}
 
 /**
  * 1️⃣ Hide uiXpress from Plugins list
@@ -28,15 +29,13 @@ add_filter('all_plugins', function ($plugins) {
         return $plugins;
     }
 
-    if (isset($plugins[COONEX_XPRESS_PLUGIN])) {
-        unset($plugins[COONEX_XPRESS_PLUGIN]);
-    }
+    unset($plugins[COONEX_XPRESS_PLUGIN]);
 
     return $plugins;
 });
 
 /**
- * 2️⃣ Remove uiXpress from Admin Bar (Top Bar)
+ * 2️⃣ Remove uiXpress from Admin Bar
  */
 add_action('admin_bar_menu', function ($wp_admin_bar) {
 
@@ -44,7 +43,6 @@ add_action('admin_bar_menu', function ($wp_admin_bar) {
         return;
     }
 
-    // uiXpress غالبًا بيستخدم ids فيها uip أو xpress
     foreach ($wp_admin_bar->get_nodes() as $node) {
         if (
             isset($node->id) &&
@@ -57,7 +55,7 @@ add_action('admin_bar_menu', function ($wp_admin_bar) {
 }, 999);
 
 /**
- * 3️⃣ (اختياري) Hide uiXpress menu from sidebar
+ * 3️⃣ Hide uiXpress menu from sidebar
  */
 add_action('admin_menu', function () {
 
