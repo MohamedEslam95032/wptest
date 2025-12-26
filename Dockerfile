@@ -1,10 +1,14 @@
 FROM wordpress:php8.2-apache
 
 # --------------------------------------------------
-# System packages
+# System packages (awscli + unzip + basics)
 # --------------------------------------------------
 RUN apt-get update && apt-get install -y \
-    curl unzip less mariadb-client awscli \
+    curl \
+    unzip \
+    less \
+    mariadb-client \
+    awscli \
  && rm -rf /var/lib/apt/lists/*
 
 # --------------------------------------------------
@@ -40,19 +44,15 @@ if (!empty(\$_SERVER['HTTP_X_FORWARDED_PROTO'])) {\\n\
 }\\n" /usr/src/wordpress/wp-config-sample.php
 
 # --------------------------------------------------
-# MU Plugins only (safe to keep in Git)
+# Copy MU plugins (safe to bake in image)
 # --------------------------------------------------
 COPY assets/mu-plugins/ /usr/src/wordpress/wp-content/mu-plugins/
 
-
 # --------------------------------------------------
-# Cloud asset scripts
+# Copy fetch script
 # --------------------------------------------------
 COPY fetch-houzez-assets.sh /usr/local/bin/fetch-houzez-assets.sh
-COPY init-houzez.sh /usr/local/bin/init-houzez.sh
-
-RUN chmod +x /usr/local/bin/fetch-houzez-assets.sh \
-             /usr/local/bin/init-houzez.sh
+RUN chmod +x /usr/local/bin/fetch-houzez-assets.sh
 
 # --------------------------------------------------
 # Entrypoint
