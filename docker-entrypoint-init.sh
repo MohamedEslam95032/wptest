@@ -108,4 +108,7 @@ wp option update home "$WP_URL" --path="$WP_PATH" --allow-root
 # --------------------------------------------------
 chown -R www-data:www-data "$WP_PATH" || true
 
-echo "🚀 Coonex WordPress Init Completed"
+echo "🚀 Starting Apache"
+exec apache2-foreground
+
+
