@@ -1,31 +1,28 @@
 <?php
 /**
- * Plugin Name: Coonex Xpress Installer (Activate Only)
- * Description: Activates uiXpress plugin once. No hiding, no blocking, no self-heal.
+ * Plugin Name: Coonex Xpress Flag
+ * Description: Marks uiXpress for safe activation.
  */
 
 defined('ABSPATH') || exit;
 
-// Emergency kill switch
-if (getenv('COONEX_DISABLE_XPRESS_INSTALL') === '1') {
+if (getenv('COONEX_DISABLE_XPRESS_FLAG') === '1') {
     return;
 }
 
-add_action('admin_init', function () {
+define('COONEX_XPRESS_PLUGIN', 'xpress/uixpress.php');
+define('COONEX_XPRESS_FLAG', 'coonex_xpress_pending');
 
-    // IMPORTANT: adjust this ONLY if your path differs
-    $plugin = 'xpress/uixpress.php';
+/**
+ * Mark activation needed (once)
+ */
+add_action('init', function () {
 
-    // Fail-safe: if not present, do nothing
-    if (!file_exists(WP_PLUGIN_DIR . '/' . $plugin)) {
+    if (get_option(COONEX_XPRESS_FLAG)) {
         return;
     }
 
-    // Load plugin functions
-    require_once ABSPATH . 'wp-admin/includes/plugin.php';
-
-    // Activate once
-    if (!is_plugin_active($plugin)) {
-        activate_plugin($plugin);
+    if (file_exists(WP_PLUGIN_DIR . '/' . COONEX_XPRESS_PLUGIN)) {
+        update_option(COONEX_XPRESS_FLAG, 1);
     }
 });
