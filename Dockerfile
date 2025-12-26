@@ -44,15 +44,21 @@ if (!empty(\$_SERVER['HTTP_X_FORWARDED_PROTO'])) {\\n\
 }\\n" /usr/src/wordpress/wp-config-sample.php
 
 # --------------------------------------------------
-# Copy MU plugins (safe to bake in image)
+# MU Plugins (always-on, safe to bake)
 # --------------------------------------------------
 COPY assets/mu-plugins/ /usr/src/wordpress/wp-content/mu-plugins/
 
 # --------------------------------------------------
-# Copy fetch script
+# Fetch Houzez assets from DigitalOcean Spaces
 # --------------------------------------------------
 COPY fetch-houzez-assets.sh /usr/local/bin/fetch-houzez-assets.sh
 RUN chmod +x /usr/local/bin/fetch-houzez-assets.sh
+
+# --------------------------------------------------
+# Houzez ONE-TIME init script (activate theme + demo)
+# --------------------------------------------------
+COPY init-houzez-once.sh /usr/local/bin/init-houzez-once.sh
+RUN chmod +x /usr/local/bin/init-houzez-once.sh
 
 # --------------------------------------------------
 # Entrypoint
