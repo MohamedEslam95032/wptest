@@ -10,10 +10,7 @@ if (getenv('COONEX_DISABLE_XPRESS_FLAG') === '1') {
     return;
 }
 
-if (!defined('COONEX_XPRESS_PLUGIN')) {
-    define('COONEX_XPRESS_PLUGIN', 'xpress/uixpress.php');
-}
-
+define('COONEX_XPRESS_PLUGIN', 'xpress/uixpress.php');
 define('COONEX_XPRESS_FLAG', 'coonex_xpress_pending');
 
 /**
