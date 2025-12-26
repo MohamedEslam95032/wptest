@@ -1,36 +1,44 @@
 <?php
 /**
- * Plugin Name: Coonex Admin UI Restrictions
+ * Plugin Name: Coonex Admin Lockdown (Safe)
+ * Description: Hide risky admin areas for non-admins without breaking the site.
  */
 
-if (!defined('ABSPATH')) {
-    exit;
+if (!defined('ABSPATH')) exit;
+
+function coonex_lockdown_enabled(): bool {
+    return (getenv('COONEX_LOCKDOWN_ADMIN') === '1');
 }
 
-/**
- * Hide dangerous admin menus for non-admins
- */
-function coonex_hide_admin_menus() {
+function coonex_is_admin_user(): bool {
+    return is_user_logged_in() && current_user_can('administrator');
+}
 
-    if (!current_user_can('administrator')) {
+add_action('admin_menu', function () {
+    if (!coonex_lockdown_enabled()) return;
+    if (coonex_is_admin_user()) return;
 
-        remove_menu_page('theme-editor.php');
-        remove_menu_page('plugin-editor.php');
-        remove_menu_page('tools.php');
-        remove_menu_page('profile.php');
+    // Hide risky menus
+    remove_menu_page('theme-editor.php');
+    remove_menu_page('plugin-editor.php');
+    remove_menu_page('tools.php');
+    remove_menu_page('profile.php');
 
-        remove_submenu_page('themes.php', 'theme-editor.php');
-        remove_submenu_page('plugins.php', 'plugin-editor.php');
+    // Hide submenus
+    remove_submenu_page('themes.php', 'theme-editor.php');
+    remove_submenu_page('plugins.php', 'plugin-editor.php');
+}, 999);
+
+add_action('admin_init', function () {
+    if (!coonex_lockdown_enabled()) return;
+    if (coonex_is_admin_user()) return;
+
+    // Block direct editor access safely (redirect instead of wp_die)
+    $pagenow = $GLOBALS['pagenow'] ?? '';
+    $blocked = ['plugin-editor.php', 'theme-editor.php', 'profile.php', 'user-edit.php'];
+
+    if (in_array($pagenow, $blocked, true)) {
+        wp_safe_redirect(admin_url());
+        exit;
     }
-}
-add_action('admin_menu', 'coonex_hide_admin_menus', 999);
-
-/**
- * Block direct access to profile edit
- */
-function coonex_block_profile_access() {
-    if (!current_user_can('administrator') && isset($_GET['profile'])) {
-        wp_die('Access denied');
-    }
-}
-add_action('admin_init', 'coonex_block_profile_access');
+});

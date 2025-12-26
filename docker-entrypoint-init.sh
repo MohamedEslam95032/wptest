@@ -1,114 +1,44 @@
-#!/bin/bash
-set -e
+FROM wordpress:php8.2-apache
 
-WP_PATH="/var/www/html"
+# -----------------------------
+# System packages
+# -----------------------------
+RUN apt-get update && apt-get install -y \
+    curl unzip less mariadb-client \
+ && rm -rf /var/lib/apt/lists/*
 
-echo "▶ Starting Coonex WordPress Init Script"
+# -----------------------------
+# Install WP-CLI
+# -----------------------------
+RUN curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+ && chmod +x /usr/local/bin/wp \
+ && wp --info
 
-# --------------------------------------------------
-# 1️⃣ Map WordPress DB ENV variables
-# --------------------------------------------------
-DB_HOST="${WORDPRESS_DB_HOST}"
-DB_NAME="${WORDPRESS_DB_NAME}"
-DB_USER="${WORDPRESS_DB_USER}"
-DB_PASSWORD="${WORDPRESS_DB_PASSWORD}"
+# -----------------------------
+# Apache "ServerName" (remove warning - optional)
+# -----------------------------
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
-# --------------------------------------------------
-# 2️⃣ Validate ENV
-# --------------------------------------------------
-if [ -z "$DB_HOST" ] || [ -z "$DB_NAME" ] || [ -z "$DB_USER" ] || [ -z "$DB_PASSWORD" ]; then
-  echo "❌ Database environment variables are missing"
-  exit 1
-fi
+# -----------------------------
+# PHP defaults
+# -----------------------------
+RUN { \
+      echo "upload_max_filesize = 64M"; \
+      echo "post_max_size = 64M"; \
+      echo "memory_limit = 512M"; \
+      echo "max_execution_time = 120"; \
+    } > /usr/local/etc/php/conf.d/coonex.ini
 
-if [ -z "$WP_URL" ]; then
-  echo "❌ WP_URL is not set"
-  exit 1
-fi
+# -----------------------------
+# Copy assets (plugins + MU plugins)
+# -----------------------------
+COPY assets/plugins/ /usr/src/wordpress/wp-content/plugins/
+COPY assets/mu-plugins/ /usr/src/wordpress/wp-content/mu-plugins/
 
-echo "ℹ Using DB_HOST=$DB_HOST"
-echo "ℹ Using DB_NAME=$DB_NAME"
-echo "ℹ Using DB_USER=$DB_USER"
+# -----------------------------
+# Entrypoint
+# -----------------------------
+COPY docker-entrypoint-init.sh /usr/local/bin/docker-entrypoint-init.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint-init.sh
 
-cd "$WP_PATH"
-
-# --------------------------------------------------
-# 3️⃣ Wait for Database
-# --------------------------------------------------
-until mysqladmin ping \
-  -h"$DB_HOST" \
-  -u"$DB_USER" \
-  -p"$DB_PASSWORD" \
-  --silent; do
-  echo "⏳ Waiting for database..."
-  sleep 3
-done
-
-echo "✅ Database is reachable"
-
-# --------------------------------------------------
-# 4️⃣ Ensure WordPress core exists
-# --------------------------------------------------
-if [ ! -f "$WP_PATH/wp-load.php" ]; then
-  echo "▶ Downloading WordPress core"
-  wp core download --path="$WP_PATH" --allow-root
-else
-  echo "ℹ WordPress core already exists"
-fi
-
-# --------------------------------------------------
-# 5️⃣ Create wp-config.php (ONLY if missing)
-# --------------------------------------------------
-if [ ! -f "$WP_PATH/wp-config.php" ]; then
-  echo "▶ Creating wp-config.php"
-
-  wp config create \
-    --path="$WP_PATH" \
-    --dbname="$DB_NAME" \
-    --dbuser="$DB_USER" \
-    --dbpass="$DB_PASSWORD" \
-    --dbhost="$DB_HOST" \
-    --skip-check \
-    --allow-root
-
-  echo "✅ wp-config.php created"
-else
-  echo "ℹ wp-config.php already exists"
-fi
-
-# --------------------------------------------------
-# 6️⃣ Install WordPress (ONLY ONCE)
-# --------------------------------------------------
-if ! wp core is-installed --path="$WP_PATH" --allow-root; then
-  echo "▶ Installing WordPress"
-
-  wp core install \
-    --path="$WP_PATH" \
-    --url="$WP_URL" \
-    --title="Coonex CMS" \
-    --admin_user="${WP_ADMIN_USER:-admin}" \
-    --admin_password="${WP_ADMIN_PASS:-Admin@123}" \
-    --admin_email="${WP_ADMIN_EMAIL:-admin@coonex.io}" \
-    --skip-email \
-    --allow-root
-
-  echo "✅ WordPress installed"
-else
-  echo "ℹ WordPress already installed"
-fi
-
-# --------------------------------------------------
-# 7️⃣ Enforce siteurl & home
-# --------------------------------------------------
-wp option update siteurl "$WP_URL" --path="$WP_PATH" --allow-root
-wp option update home "$WP_URL" --path="$WP_PATH" --allow-root
-
-# --------------------------------------------------
-# 8️⃣ Permissions
-# --------------------------------------------------
-chown -R www-data:www-data "$WP_PATH" || true
-
-echo "🚀 Starting Apache"
-exec apache2-foreground
-
-
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint-init.sh"]
