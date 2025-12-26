@@ -3,183 +3,29 @@ set -e
 
 echo "▶ Starting Coonex WordPress Init Script"
 
-WP_PATH="/var/www/html"
-WP_CONFIG="$WP_PATH/wp-config.php"
-
-# --------------------------------------------------
-# 1) Wait for Database
-# --------------------------------------------------
-echo "⏳ Waiting for database..."
-
-ATTEMPTS=0
-MAX_ATTEMPTS=30
-
-until mariadb \
-  -h"${WORDPRESS_DB_HOST}" \
-  -u"${WORDPRESS_DB_USER}" \
-  -p"${WORDPRESS_DB_PASSWORD}" \
-  -e "SELECT 1" >/dev/null 2>&1; do
-
-  ATTEMPTS=$((ATTEMPTS+1))
-  echo "⏳ DB not ready ($ATTEMPTS/$MAX_ATTEMPTS)"
-
-  if [ "$ATTEMPTS" -ge "$MAX_ATTEMPTS" ]; then
-    echo "❌ Database not reachable"
-    exit 1
-  fi
-
-  sleep 2
+# Wait for DB
+until wp db check --allow-root >/dev/null 2>&1; do
+  echo "⏳ Waiting for database..."
+  sleep 3
 done
 
-echo "✅ Database is reachable"
-
-# --------------------------------------------------
-# 2) Ensure Database Exists
-# --------------------------------------------------
-echo "▶ Ensuring database exists..."
-
-mariadb \
-  -h"${WORDPRESS_DB_HOST}" \
-  -u"${WORDPRESS_DB_USER}" \
-  -p"${WORDPRESS_DB_PASSWORD}" \
-  -e "CREATE DATABASE IF NOT EXISTS \`${WORDPRESS_DB_NAME}\`
-      DEFAULT CHARACTER SET utf8mb4
-      COLLATE utf8mb4_unicode_ci;"
-
-# --------------------------------------------------
-# 3) Copy WordPress Core (if not exists)
-# --------------------------------------------------
-if [ ! -f "$WP_PATH/wp-load.php" ]; then
-  echo "▶ Copying WordPress core"
-  cp -a /usr/src/wordpress/. "$WP_PATH/"
-  chown -R www-data:www-data "$WP_PATH"
-else
-  echo "ℹ WordPress core already exists"
-fi
-
-# --------------------------------------------------
-# 4) Create wp-config.php (if not exists)
-# --------------------------------------------------
-if [ ! -f "$WP_CONFIG" ]; then
-  echo "▶ Creating wp-config.php"
-
-  wp config create \
-    --path="$WP_PATH" \
-    --dbname="${WORDPRESS_DB_NAME}" \
-    --dbuser="${WORDPRESS_DB_USER}" \
-    --dbpass="${WORDPRESS_DB_PASSWORD}" \
-    --dbhost="${WORDPRESS_DB_HOST}" \
-    --skip-check \
-    --allow-root
-else
-  echo "ℹ wp-config.php already exists"
-fi
-
-# --------------------------------------------------
-# 5) Inject Coonex URL + Proxy Fix (REAL FILE)
-# --------------------------------------------------
-if ! grep -q "Coonex URL & Proxy Detection" "$WP_CONFIG"; then
-  echo "▶ Injecting Coonex URL & Proxy Detection into wp-config.php"
-
-  sed -i "/require_once ABSPATH . 'wp-settings.php';/i \
-/** ==============================\\n\
- * Coonex URL & Proxy Detection (NO FORCE HTTPS)\\n\
- * ============================== */\\n\
-if (getenv('WP_URL')) {\\n\
-    define('WP_HOME', getenv('WP_URL'));\\n\
-    define('WP_SITEURL', getenv('WP_URL'));\\n\
-}\\n\\n\
-if (!empty(\$_SERVER['HTTP_X_FORWARDED_PROTO'])) {\\n\
-    \$_SERVER['HTTPS'] = \$_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https' ? 'on' : 'off';\\n\
-}\\n\
-" "$WP_CONFIG"
-else
-  echo "ℹ Coonex proxy config already present"
-fi
-
-# --------------------------------------------------
-# 6) Secure defaults
-# --------------------------------------------------
-
-
-# --------------------------------------------------
-# 7) Install WordPress (once only)
-# --------------------------------------------------
-if ! wp core is-installed --allow-root --path="$WP_PATH"; then
+# Install WordPress ONLY if not installed
+if ! wp core is-installed --allow-root; then
   echo "▶ Installing WordPress"
-
   wp core install \
-    --path="$WP_PATH" \
-    --url="${WP_URL}" \
-    --title="${WP_TITLE:-Coonex}" \
-    --admin_user="${WP_ADMIN_USER:-admin}" \
-    --admin_password="${WP_ADMIN_PASS:-Admin@123}" \
-    --admin_email="${WP_ADMIN_EMAIL:-admin@coonex.io}" \
+    --url="$WP_URL" \
+    --title="Coonex CMS" \
+    --admin_user="$WP_ADMIN_USER" \
+    --admin_password="$WP_ADMIN_PASSWORD" \
+    --admin_email="$WP_ADMIN_EMAIL" \
     --skip-email \
     --allow-root
 else
   echo "ℹ WordPress already installed"
 fi
 
-# --------------------------------------------------
-# 8) Ensure admin user from ENV exists (Bootstrap User)
-# --------------------------------------------------
-if [ -n "$WP_ADMIN_USER" ] && [ -n "$WP_ADMIN_PASS" ] && [ -n "$WP_ADMIN_EMAIL" ]; then
-  echo "▶ Ensuring admin user from ENV exists"
+# Ensure siteurl & home (once)
+wp option update siteurl "$WP_URL" --allow-root
+wp option update home "$WP_URL" --allow-root
 
-  if ! wp user get "$WP_ADMIN_USER" --allow-root --path="$WP_PATH" >/dev/null 2>&1; then
-    wp user create \
-      "$WP_ADMIN_USER" \
-      "$WP_ADMIN_EMAIL" \
-      --user_pass="$WP_ADMIN_PASS" \
-      --role="${WP_ADMIN_ROLE:-administrator}" \
-      --allow-root \
-      --path="$WP_PATH"
-
-    echo "✅ Admin user created from ENV"
-  else
-    echo "ℹ Admin user already exists"
-  fi
-else
-  echo "ℹ Admin ENV vars not fully set, skipping admin creation"
-fi
-
-# --------------------------------------------------
-# 9) Fix siteurl/home in DB (final guard)
-# --------------------------------------------------
-echo "▶ Enforcing siteurl/home in database"
-
-wp option update siteurl "$WP_URL" --allow-root --path="$WP_PATH"
-wp option update home "$WP_URL" --allow-root --path="$WP_PATH"
-
-# --------------------------------------------------
-# 10) Activate uiXpress (SAFE – WP-CLI)
-# --------------------------------------------------
-echo "▶ Checking uiXpress plugin"
-
-if wp plugin is-installed xpress/uixpress.php --allow-root --path="$WP_PATH"; then
-  if ! wp plugin is-active xpress/uixpress.php --allow-root --path="$WP_PATH"; then
-    echo "▶ Activating uiXpress via WP-CLI"
-    wp plugin activate xpress/uixpress.php --allow-root --path="$WP_PATH"
-  else
-    echo "ℹ uiXpress already active"
-  fi
-else
-  echo "⚠ uiXpress plugin not found, skipping activation"
-fi
-
-# --------------------------------------------------
-# 10) Permissions
-# --------------------------------------------------
-chown -R www-data:www-data "$WP_PATH"
-
-# --------------------------------------------------
-# 10.9) Initialize Houzez (Theme + Plugins + Demo)
-# --------------------------------------------------
-#/usr/local/bin/init-houzez.sh
-
-# --------------------------------------------------
-# 11) Start Apache
-# --------------------------------------------------
-echo "🚀 Starting Apache"
-exec apache2-foreground
+echo "✅ WordPress Init Completed"
