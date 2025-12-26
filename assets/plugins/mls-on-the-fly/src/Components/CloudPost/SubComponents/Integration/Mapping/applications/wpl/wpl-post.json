@@ -1,0 +1,63 @@
+{
+    "ID": {
+        "mapping": "{post_id}"
+    },
+    "post_status": {
+        "default": "publish"
+    },
+    "post_author" : {
+        "default" : 1
+    },
+    "filter": {
+        "default": "raw"
+    },
+    "post_content": {
+        "mapping": "{PublicRemarks}"
+    },
+    "post_excerpt": {
+        "mapping": "{PropertyType} - {PropertySubType}"
+    },
+    "post_title": {
+        "mapping": "{City}, {StateOrProvince}, {PostalCode}"
+    },
+    "post_name": {
+        "mapping": "{ListingKey}"
+    },
+    "post_type": {
+        "mapping": "{PropertyType}",
+        "replaces": [
+            {
+                "search": "Land",
+                "replace": "land"
+            },
+            {
+                "search": "Residential Income",
+                "replace": "property"
+            },
+            {
+                "search": "Residential Lease",
+                "replace": "rental"
+            },
+            {
+                "search": "Residential",
+                "replace": "property"
+            },
+            {
+                "search": "Residential Income",
+                "replace": "property"
+            },
+            {
+                "search": "Commercial Lease",
+                "replace": "commercial"
+            },
+            {
+                "search": "Commercial Sale",
+                "replace": "commercial"
+            },
+            {
+                "search": "BusinessOpportunity",
+                "replace": "business"
+            }
+        ]
+    }
+}

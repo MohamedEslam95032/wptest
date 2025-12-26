@@ -1,0 +1,110 @@
+{
+    "key_mappings": {
+        "date": "ModificationTimestamp",
+        "wpcf-toolset_property_price": "ListPrice",
+        "wpcf-toolset_property_bedrooms": "BedroomsTotal",
+        "wpcf-toolset_property_bathrooms": "BathroomsTotalInteger",
+        "wpcf-toolset_property_garage": "GarageSpaces",
+        "wpcf-toolset_property_address": "UnparsedAddress"
+    },
+    "post_metas": {
+        "wpcf-toolset_property_price": {
+            "method": "where",
+            "rf_field": "ListPrice",
+            "value": false
+        },
+        "wpcf-number-of-bedrooms": {
+            "method": "where",
+            "rf_field" : "BedroomsTotal",
+            "value": false
+        },
+        "wpcf-toolset_property_bathrooms": {
+            "method": "where",
+            "value": false
+        },
+        "wpcf-toolset_property_garage": {
+            "method": "where",
+            "value": false
+        },
+        "wpcf-toolset_property_address": {
+            "method": "LIKE",
+            "value": false
+        }
+    },
+    "post_types": {
+        "fave_property": {
+            "rf_field": "PropertyType",
+            "method": "contains",
+            "value": "Residential",
+            "boolean": "or"
+        },
+        "rental": {
+            "rf_field": "PropertyType",
+            "method": "contains",
+            "value": "Lease",
+            "boolean": "or"
+        },
+        "land": {
+            "rf_field": "PropertyType",
+            "method": "contains",
+            "value": "Land",
+            "boolean": "or"
+        },
+        "commercial": {
+            "rf_field": "PropertyType",
+            "method": "contains",
+            "value": "Commercial",
+            "boolean": "or"
+        },
+        "rural": {
+            "rf_field": "PropertyType",
+            "method": "contains",
+            "value": "Farm",
+            "boolean": "or"
+        },
+        "business": {
+            "rf_field": "PropertyType",
+            "method": "contains",
+            "value": "BusinessOpportunity",
+            "boolean": "or"
+        }
+    },
+    "taxonomies": {
+        "location": {
+            "mapping": "City"
+        },
+        "tax_feature": {
+            "mapping": ""
+        },
+        "property-feature": {
+            "mapping": ""
+        },
+        "property_type": {
+            "mapping": "PropertyType"
+        },
+        "property-type": {
+            "mapping": "PropertyType"
+        },
+        "property-state": {
+            "mapping": "StateOrProvince"
+        },
+        "property-city": {
+            "mapping": "City"
+        },
+        "property_state": {
+            "mapping": "StateOrProvince"
+        },
+        "property_city": {
+            "mapping": "City"
+        },
+        "property_status": {
+            "mapping": "StandardStatus"
+        },
+        "property-status": {
+            "mapping": "StandardStatus"
+        },
+        "property_country": {
+            "mapping": "Country"
+        }
+    }
+}

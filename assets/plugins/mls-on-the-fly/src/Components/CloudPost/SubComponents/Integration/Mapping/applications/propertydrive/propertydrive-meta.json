@@ -1,0 +1,80 @@
+{
+    "currency": {
+        "mapping": "EUR"
+    },
+    "price": {
+        "mapping": "{ListPrice}"
+    },
+    "price_term": {
+        "mapping": ""
+    },
+    "property_size": {
+        "mapping": "{BuildingAreaTotal}"
+    },
+    "property_acres": {
+        "mapping": "{LotSizeAcres}"
+    },
+    "bedrooms": {
+        "mapping": "{BedroomsTotal}"
+    },
+    "bathrooms": {
+        "mapping": "{BathroomsTotalInteger}"
+    },
+    "importer_id": {
+        "mapping": "{ListingId}"
+    },
+    "latitude": {
+        "mapping": "IF('{Latitude}' != '','{Latitude}', '')"
+    },
+    "longitude": {
+        "mapping": "IF('{Longitude}' != '','{Longitude}', '')"
+    },
+    "is_featured": {
+        "mapping": ""
+    },
+    "full_address": {
+        "mapping": "{StreetNumber} {StreetDirPrefix} {StreetName} {StreetDirSuffix} {StreetSuffix}, {City}, {StateOrProvince} {PostalCode}"
+    },
+    "address_only": {
+        "mapping": "{StreetNumber} {StreetDirPrefix} {StreetName} {StreetDirSuffix} {StreetSuffix} "
+    },
+    "eircode": {
+        "mapping": "{PostalCode}"
+    },
+    "country": {
+        "default": "Ireland"
+    },
+    "wppd_property_office_name": {
+        "mapping": "{ListOfficeName}"
+    },
+    "agent_name": {
+        "mapping": "{ListAgentFullName}"
+    },
+    "property_type": {
+        "mapping": "{PropertySubType}"
+    },
+    "property_status": {
+        "mapping": "{StandardStatus}"
+    },
+    "property_state": {
+        "mapping": "{StateOrProvince}"
+    },
+    "property_city": {
+        "mapping": "{City}"
+    },
+    "property_area": {
+        "mapping": "{SubdivisionName}"
+    },
+    "property_county": {
+        "mapping": "{CountyOrParish}"
+    },
+    "property_features": {
+        "mapping": "{ListingTerms}|{AssociationFee}|{SchoolDistrict}|{Roof}|{Utilities}|{Sewer}|{Cooling}|{Heating}|{Flooring}|{CountyOrParish}|{PropertyType}|{PoolFeatures}|{ParkingFeatures}|{ElementarySchool}|{MiddleOrJuniorSchool}|{HighSchool}|{CommunityFeatures}|{WaterfrontFeatures}|{ArchitecturalStyle}|{Appliances}|{ExteriorFeatures}|{InteriorFeatures}"
+    },
+    "wppd_property_tours": {
+        "mapping": "{VirtualTourURLBranded}"
+    },
+    "property_tours": {
+        "mapping": "IF('{VirtualTourURLUnbranded}' != '', '<iframe src={VirtualTourURLUnbranded}></iframe>', '')"
+    }
+}

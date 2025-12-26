@@ -1,0 +1,41 @@
+{
+    "name": "realtyna/wp-plugin-framework",
+    "description": "A framework for developing WordPress plugins with consistent design and structure.",
+    "type": "library",
+    "license": "LGPL-3.0-or-later",
+    "require": {
+        "php": ">=8.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Realtyna\\Core\\": "src/",
+            "Realtyna\\Test\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Chandler P",
+            "email": "chandler.p@realtyna.net"
+        }
+    ],
+    "minimum-stability": "stable",
+    "keywords": [
+        "wordpress",
+        "plugin",
+        "framework"
+    ],
+    "support": {
+        "issues": "https://github.com/realtyna/wp-plugin-framework/issues",
+        "source": "https://github.com/realtyna/wp-plugin-framework"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^v5.4.0",
+        "phpunit/phpunit": "^9.5",
+        "vlucas/phpdotenv": "^5.4",
+        "yoast/phpunit-polyfills": "^2.0"
+    },
+    "scripts": {
+        "test": "phpunit",
+        "install-wp-tests": "bash bin/install-wp-tests.sh"
+    }
+}

@@ -1,0 +1,81 @@
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.hidden, .fts-options-none .fts-row {
+    display: none;
+}
+
+.fts-columns-content {
+    margin-bottom: 5px;
+}
+
+#fts_metaboxes_setting .inside {
+    padding: 0;
+    margin: 0;
+}
+.houzez-custom-wpadmin-table {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+}
+.houzez-custom-wpadmin-table td,
+.houzez-custom-wpadmin-table th {
+    border-bottom: 1px solid #c3c4c7;
+    padding: 16px 10px 16px 16px;
+    position: relative;
+}
+.houzez-custom-wpadmin-table th {
+    border-right: 1px solid #c3c4c7;
+    width: 45%;
+}
+.houzez-custom-wpadmin-table select,
+.houzez-custom-wpadmin-table input[type="text"] {
+    width: 100%;
+}
+.houzez-custom-wpadmin-table .houzez-custom-wpadmin-form-row {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    margin-bottom: 8px;
+}
+.houzez-custom-wpadmin-table .houzez-custom-wpadmin-form-row:last-of-type {
+    margin-bottom: 0;
+}
+.houzez-custom-wpadmin-table a {
+    text-decoration: none;
+}
+.houzez-custom-wpadmin-separator {
+    margin: 8px 0;
+}
+.fts-selection_field {
+    width: 95%;
+}
+.fts-rule_condition_block, .fts-targeted-page-wrap {
+    position: relative;
+    margin-bottom: 12px;
+    margin-top: 10px;
+}
+.fts-fields_builder_wrap .select2-container {
+    width: 95% !important;
+}
+.fts-delete_rule_icon {
+    position: absolute;
+    right: -5px;
+    top: 15%;
+}
+
+span.fts-shortcode-wrap > input {
+    background: inherit;
+    color: inherit;
+    font-size: 12px;
+    border: none;
+    box-shadow: none;
+    padding: 4px 8px;
+    margin: 0;
+}

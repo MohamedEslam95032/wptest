@@ -1,0 +1,66 @@
+{
+    "key_mappings": {
+        "date": "ModificationTimestamp",
+        "REAL_HOMES_property_id": "ListingId",
+        "REAL_HOMES_property_price": "ListPrice",
+        "REAL_HOMES_property_bedrooms": "BedroomsTotal",
+        "REAL_HOMES_property_bathrooms": "BathroomsTotalInteger",
+        "REAL_HOMES_property_size": "BuildingAreaTotal",
+        "REAL_HOMES_property_garage": "GarageSpaces"
+    },
+    "post_metas": {
+        "REAL_HOMES_property_id": {
+            "method": "where",
+            "rf_field": "ListingId",
+            "compare": "eq",
+            "value": false,
+            "boolean": "or"
+        },
+        "REAL_HOMES_property_price": {
+            "method": "where",
+            "rf_field": "ListPrice",
+            "value": false
+        },
+        "REAL_HOMES_property_bedrooms": {
+            "method": "where",
+            "rf_field": "BedroomsTotal",
+            "value": false
+        },
+        "REAL_HOMES_property_bathrooms": {
+            "method": "where",
+            "rf_field": "BathroomsTotalInteger",
+            "value": false
+        },
+        "REAL_HOMES_property_size": {
+            "method": "where",
+            "rf_field": "BuildingAreaTotal",
+            "value": false
+        },
+        "REAL_HOMES_property_garage": {
+            "method": "where",
+            "rf_field": "GarageSpaces",
+            "value": false
+        }
+    },
+    "taxonomies": {
+        "property-feature": {
+            "mapping": [
+                "ExteriorFeatures",
+                "InteriorFeatures",
+                "Appliances"
+            ],
+            "method": "contains",
+            "separator": ","
+        },
+        "property-type": {
+            "mapping": "PropertyType",
+            "child": "PropertySubType"
+        },
+        "property-status": {
+            "mapping": "StandardStatus"
+        },
+        "property-city": {
+            "mapping": "City"
+        }
+    }
+}

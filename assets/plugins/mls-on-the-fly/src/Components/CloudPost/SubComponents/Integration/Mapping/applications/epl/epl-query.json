@@ -1,0 +1,141 @@
+{
+    "key_mappings": {
+        "date": "ModificationTimestamp",
+        "property_price": "ListPrice",
+        "property_unique_id": "ListingKey",
+        "property_bedrooms": "BedroomsTotal",
+        "property_bathrooms": "BathroomsTotalInteger",
+        "property_carport": "CarportSpaces",
+        "property_garage": "GarageSpaces",
+        "property_status": "StandardStatus",
+        "property_address": "UnparsedAddress"
+    },
+    "post_metas": {
+        "property_pool": {
+            "rf_field": "PoolYN",
+            "method": "where",
+            "compare": "eq",
+            "value": true
+        },
+        "property_price": {
+            "rf_field": "ListPrice",
+            "method": "where",
+            "value": false
+        },
+        "property_unique_id": {
+            "rf_field": "ListingKey",
+            "method": "where",
+            "value": false
+        },
+        "property_bedrooms": {
+            "rf_field": "BedroomsTotal",
+            "method": "where",
+            "value": false
+        },
+        "property_bathrooms": {
+            "rf_field": "BathroomsTotalInteger",
+            "method": "where",
+            "value": false
+        },
+        "property_carport": {
+            "rf_field": "CarportSpaces",
+            "method": "where",
+            "value": false
+        },
+        "property_garage": {
+            "rf_field": "GarageSpaces",
+            "method": "where",
+            "value": false
+        },
+        "property_status": {
+            "rf_field": "StandardStatus",
+            "method": "whereIn",
+            "value": {
+                "current": "Active",
+                "current1": "ActiveUnderContract",
+                "current2": "Canceled",
+                "current3": "Closed",
+                "current4": "Delete",
+                "current5": "Expired",
+                "current6": "Hold",
+                "current7": "Incomplete",
+                "current8": "Pending",
+                "current9": "Withdrawn"
+            }
+        },
+        "property_address": {
+            "rf_field": "UnparsedAddress",
+            "method": "contains",
+            "value": false
+        }
+    },
+    "post_types": {
+        "property": {
+            "rf_field": "PropertyType",
+            "operator": "eq",
+            "method": "where",
+            "value": "Residential",
+            "boolean": "and"
+        },
+        "rental": {
+            "rf_field": "PropertyType",
+            "operator": "eq",
+            "method": "contains",
+            "value": "Lease",
+            "boolean": "and"
+        },
+        "land": {
+            "rf_field": "PropertyType",
+            "operator": "eq",
+            "method": "where",
+            "value": "Land",
+            "boolean": "and"
+        },
+        "commercial": {
+            "rf_field": "PropertyType",
+            "operator": "eq",
+            "method": "where",
+            "value": "Commercial Sale",
+            "boolean": "and"
+        },
+        "rural": {
+            "rf_field": "PropertyType",
+            "operator": "eq",
+            "method": "where",
+            "value": "Farm",
+            "boolean": "and"
+        },
+        "business": {
+            "rf_field": "PropertyType",
+            "operator": "eq",
+            "method": "where",
+            "value": "BusinessOpportunity",
+            "boolean": "and"
+        }
+    },
+    "taxonomies": {
+        "location": {
+            "mapping": "City"
+        },
+        "tax_feature": {
+            "mapping": [
+                "ExteriorFeatures",
+                "InteriorFeatures",
+                "Appliances"
+            ],
+            "separator": ","
+        },
+        "property-feature": {
+            "mapping": ""
+        },
+        "property-type": {
+            "mapping": "PropertyType"
+        },
+        "property-city": {
+            "mapping": "City"
+        },
+        "property-status": {
+            "mapping": "StandardStatus"
+        }
+    }
+}

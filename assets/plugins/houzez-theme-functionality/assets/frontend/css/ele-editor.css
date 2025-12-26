@@ -1,0 +1,75 @@
+.elementor-element .houzez-element-icon:after {
+    content: "Houzez";
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    color: #a4afb7;
+    background: transparent;
+    font-size: 10px;
+    font-family: Roboto,Arial,Helvetica,Verdana,sans-serif;
+    padding: 0.2em 0.5em;
+    border-width: 0 0 1px 1px;
+    border-color: #e0e0e0;
+    border-style: solid;
+}
+
+#elementor-panel-categories {
+    display: flex;
+    flex-direction: column;
+}
+.elementor-panel-category {
+    order: 1;
+}
+#elementor-panel-category-houzez-header-footer-builder {
+    order: -10;
+}
+#elementor-panel-category-houzez-single-property-builder {
+    order: -10;
+}
+#elementor-panel-category-houzez-single-agent-builder {
+    order: -10;
+}
+#elementor-panel-category-houzez-single-agency-builder {
+    order: -10;
+}
+#elementor-panel-category-houzez-single-post-builder {
+    order: -10;
+}
+
+#elementor-panel-category-houzez-elements,
+#elementor-panel-category-houzez-header-footer,
+#elementor-panel-category-houzez-single-property,
+#elementor-panel-category-houzez-single-agent,
+#elementor-panel-category-houzez-single-agency, 
+#elementor-panel-category-houzez-single-post {
+    order: -1;
+}
+#elementor-panel-category-layout {
+    order: -11;
+}
+#elementor-panel-category-favorites {
+    order: -11;
+}
+
+.elementor-element .houzez-element-icon.houzez-single-agent:after,
+.elementor-element .houzez-element-icon.houzez-single-agent-builder:after {
+    content: "Houzez Single Agent";
+    padding: 0.1em 0.5em;
+}
+
+.elementor-element .houzez-element-icon.houzez-single-agency:after,
+.elementor-element .houzez-element-icon.houzez-single-agency-builder:after {
+    content: "Houzez Single Agency";
+    padding: 0.1em 0.5em;
+}
+
+.elementor-element .houzez-element-icon.houzez-agent:after {
+    content: "Houzez Agent";
+}
+
+.elementor-element .houzez-element-icon.houzez-single-listing:after,
+.elementor-element .houzez-element-icon.houzez-single-listing-builder:after {
+    content: "Houzez Single Listing";
+    padding: 0.1em 0.5em;
+}

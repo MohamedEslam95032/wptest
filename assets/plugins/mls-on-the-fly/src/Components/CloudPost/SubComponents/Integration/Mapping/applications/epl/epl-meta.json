@@ -1,0 +1,334 @@
+{
+    "property_address_display": {
+        "mapping": "yes"
+    },
+    "property_address_sub_number": {
+        "mapping": "{UnitNumber}"
+    },
+    "property_address_street_number": {
+        "mapping": "{StreetNumber}"
+    },
+    "property_address_street": {
+        "mapping": "{StreetNumber} {StreetName} {StreetSuffix}"
+    },
+    "property_address_suburb": {
+        "mapping": "{SubdivisionName}"
+    },
+    "property_address_state": {
+        "mapping": "{StateOrProvince}"
+    },
+    "property_address_postal_code": {
+        "mapping": "{PostalCode}"
+    },
+    "property_address_country": {
+        "mapping": "{Country}"
+    },
+    "property_address_coordinates": {
+        "mapping": "{Coordinates.0}, {Coordinates.1}"
+    },
+    "property_address_hide_map": {
+        "mapping": ""
+    },
+    "property_price_global": {
+        "mapping": "{ListPrice}"
+    },
+    "property_rent": {
+        "mapping": "{ListPrice}"
+    },
+    "property_rent_display_yes": {
+        "default": "yes"
+    },
+    "property_price_currency": {
+        "mapping": ""
+    },
+    "property_price": {
+        "mapping": "{ListPrice}"
+    },
+    "property_price_view": {
+        "mapping": ""
+    },
+    "property_auction": {
+        "mapping": ""
+    },
+    "property_price_display": {
+        "default": "yes"
+    },
+    "property_under_offer": {
+        "mapping": ""
+    },
+    "property_is_home_land_package": {
+        "mapping": ""
+    },
+    "property_sold_price": {
+        "mapping": ""
+    },
+    "property_sold_date": {
+        "mapping": ""
+    },
+    "property_sold_price_display": {
+        "mapping": ""
+    },
+    "property_owner": {
+        "mapping": ""
+    },
+    "property_heading": {
+        "mapping": "{StreetNumber} {StreetDirPrefix} {StreetName} {StreetDirSuffix} {StreetSuffix}, {City}, {StateOrProvince} {PostalCode}"
+    },
+    "property_office_id": {
+        "mapping": "{ListOfficeKey}"
+    },
+    "property_agent": {
+        "mapping": "{ListAgentFullName}"
+    },
+    "property_second_agent": {
+        "mapping": ""
+    },
+    "property_agent_hide_author_box": {
+        "mapping": ""
+    },
+    "property_status": {
+        "mapping": "{StandardStatus}",
+        "replaces": [
+            {
+                "search": "Active",
+                "replace": "current"
+            },
+            {
+                "search": "Hold",
+                "replace": "offmarket"
+            },
+            {
+                "search": "Canceled",
+                "replace": "deleted"
+            },
+            {
+                "search": "Closed",
+                "replace": "sold"
+            },
+            {
+                "search": "Pending",
+                "replace": "offmarket"
+            },
+            {
+                "search": "Expired",
+                "replace": "sold"
+            }
+        ]
+    },
+    "property_list_date": {
+        "mapping": ""
+    },
+    "property_authority": {
+        "mapping": ""
+    },
+    "property_unique_id": {
+        "mapping": "{ListingId}"
+    },
+    "property_category": {
+        "mapping": ""
+    },
+    "property_mod_date": {
+        "mapping": "{ModificationTimestamp}"
+    },
+    "property_images_mod_date": {
+        "mapping": ""
+    },
+    "property_floorplan_mod_date": {
+        "mapping": ""
+    },
+    "property_inspection_times": {
+        "mapping": ""
+    },
+    "property_featured": {
+        "mapping": ""
+    },
+    "property_bedrooms": {
+        "mapping": "{BedroomsTotal}"
+    },
+    "property_bathrooms": {
+        "mapping": "{BathroomsTotalInteger}"
+    },
+    "property_toilet": {
+        "mapping": ""
+    },
+    "property_ensuite": {
+        "mapping": ""
+    },
+    "property_garage": {
+        "mapping": "{GarageSpaces}"
+    },
+    "property_carport": {
+        "mapping": ""
+    },
+    "property_open_spaces": {
+        "mapping": ""
+    },
+    "property_rooms": {
+        "mapping": ""
+    },
+    "property_year_built": {
+        "mapping": "{YearBuilt}"
+    },
+    "property_new_construction": {
+        "mapping": ""
+    },
+    "property_pool": {
+        "mapping": ""
+    },
+    "property_air_conditioning": {
+        "mapping": ""
+    },
+    "property_security_system": {
+        "mapping": ""
+    },
+    "property_land_area": {
+        "mapping": "{LotSizeAcres}"
+    },
+    "property_land_area_unit": {
+        "default": "acre"
+    },
+    "property_building_area": {
+        "mapping": "{LivingArea}"
+    },
+    "property_building_area_unit": {
+        "mapping": "sqft"
+    },
+    "property_energy_rating": {
+        "mapping": ""
+    },
+    "property_land_fully_fenced": {
+        "mapping": ""
+    },
+    "property_broadband": {
+        "mapping": ""
+    },
+    "property_built_in_robes": {
+        "mapping": ""
+    },
+    "property_dishwasher": {
+        "mapping": "IF(IN_ARRAY({Appliances}, Dishwasher), \"yes\", \"no\")"
+    },
+    "property_floor_boards": {
+        "mapping": ""
+    },
+    "property_gym": {
+        "mapping": ""
+    },
+    "property_intercom": {
+        "mapping": ""
+    },
+    "property_pay_tv": {
+        "mapping": ""
+    },
+    "property_remote_garage": {
+        "mapping": ""
+    },
+    "property_rumpus_room": {
+        "mapping": ""
+    },
+    "property_secure_parking": {
+        "mapping": ""
+    },
+    "property_spa": {
+        "mapping": ""
+    },
+    "property_study": {
+        "mapping": ""
+    },
+    "property_vacuum_system": {
+        "mapping": ""
+    },
+    "property_workshop": {
+        "mapping": ""
+    },
+    "property_balcony": {
+        "mapping": ""
+    },
+    "property_courtyard": {
+        "mapping": ""
+    },
+    "property_deck": {
+        "mapping": ""
+    },
+    "property_outdoor_entertaining": {
+        "mapping": ""
+    },
+    "property_shed": {
+        "mapping": ""
+    },
+    "property_tennis_court": {
+        "mapping": ""
+    },
+    "property_ducted_cooling": {
+        "mapping": ""
+    },
+    "property_ducted_heating": {
+        "mapping": ""
+    },
+    "property_evaporative_cooling": {
+        "mapping": ""
+    },
+    "property_gas_heating": {
+        "mapping": ""
+    },
+    "property_hydronic_heating": {
+        "mapping": ""
+    },
+    "property_open_fire_place": {
+        "mapping": ""
+    },
+    "property_reverse_cycle_aircon": {
+        "mapping": ""
+    },
+    "property_split_system_aircon": {
+        "mapping": ""
+    },
+    "property_split_system_heating": {
+        "mapping": ""
+    },
+    "property_video_url": {
+        "mapping": ""
+    },
+    "property_external_link": {
+        "mapping": ""
+    },
+    "property_external_link_label": {
+        "mapping": ""
+    },
+    "property_external_link_2": {
+        "mapping": ""
+    },
+    "property_external_link_2_label": {
+        "mapping": ""
+    },
+    "property_external_link_3": {
+        "mapping": ""
+    },
+    "property_external_link_3_label": {
+        "mapping": ""
+    },
+    "property_com_mini_web": {
+        "mapping": ""
+    },
+    "property_com_mini_web_2": {
+        "mapping": ""
+    },
+    "property_floorplan": {
+        "mapping": ""
+    },
+    "property_floorplan_label": {
+        "mapping": ""
+    },
+    "property_floorplan_2": {
+        "mapping": ""
+    },
+    "property_floorplan_2_label": {
+        "mapping": ""
+    },
+    "property_energy_certificate": {
+        "mapping": ""
+    },
+    "property_energy_certificate_label": {
+        "mapping": ""
+    }
+}

@@ -1,0 +1,453 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: houzez\n"
+"POT-Creation-Date: 2025-05-23 11:54+0500\n"
+"PO-Revision-Date: 2025-05-23 12:43+0500\n"
+"Last-Translator: \n"
+"Language-Team: Favethemes <hello@favethemes.com>\n"
+"Language: de_CH\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.6\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_x;esc_html__;esc_html_e;_n;_nx\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: includes/class-user-approval.php:147
+#, php-format
+msgid "[%s] User Auto-Approved: %s"
+msgstr ""
+
+#: includes/class-user-approval.php:156
+msgid "None"
+msgstr ""
+
+#: includes/class-user-approval.php:159
+#, php-format
+msgid ""
+"A new user has been automatically approved on your site %s.\n"
+"\n"
+"Username: %s\n"
+"Email: %s\n"
+"Roles: %s\n"
+"\n"
+"This user was auto-approved because their role was in your auto-approval "
+"list."
+msgstr ""
+
+#: includes/class-user-approval.php:180
+#, php-format
+msgid "Your account on %s has been approved"
+msgstr ""
+
+#: includes/class-user-approval.php:183
+#, php-format
+msgid ""
+"Hello %s,\n"
+"\n"
+"Good news! Your account on %s has been automatically approved. You can now "
+"log in here:\n"
+"%s\n"
+"\n"
+"Thank you!"
+msgstr ""
+
+#: includes/class-user-approval.php:266
+msgid "<strong>ERROR</strong>: Your registration has been declined."
+msgstr ""
+
+#: includes/class-user-approval.php:268
+msgid ""
+"<strong>ERROR</strong>: Your account is pending approval. Please wait for an "
+"administrator to activate it."
+msgstr ""
+
+#: includes/class-user-approval.php:270
+msgid ""
+"<strong>ERROR</strong>: Your account has been suspended. Please contact an "
+"administrator for assistance."
+msgstr ""
+
+#: includes/class-user-approval.php:306
+msgid "Approve"
+msgstr ""
+
+#: includes/class-user-approval.php:315
+msgid "Decline"
+msgstr ""
+
+#: includes/class-user-approval.php:324
+msgid "Suspend"
+msgstr ""
+
+#: includes/class-user-approval.php:340 includes/class-user-approval.php:374
+#: includes/class-user-approval.php:414
+msgid "Unauthorized"
+msgstr ""
+
+#: includes/class-user-approval.php:344 includes/class-user-approval.php:378
+#: includes/class-user-approval.php:418
+#, fuzzy
+#| msgid "Invalid username"
+msgid "Invalid request"
+msgstr "Ungültiger Benutzername"
+
+#: includes/class-user-approval.php:354 includes/class-user-approval.php:569
+msgid "Your account has been approved"
+msgstr ""
+
+#: includes/class-user-approval.php:356 includes/class-user-approval.php:571
+#, php-format
+msgid ""
+"Hello %s,\n"
+"\n"
+"Good news! Your account on %s has just been approved. You can now log in "
+"here:\n"
+"%s\n"
+"\n"
+"Thank you!"
+msgstr ""
+
+#: includes/class-user-approval.php:384
+msgid "Error: You cannot decline an administrator account."
+msgstr ""
+
+#: includes/class-user-approval.php:395 includes/class-user-approval.php:602
+msgid "Your account registration has been declined"
+msgstr ""
+
+#: includes/class-user-approval.php:397 includes/class-user-approval.php:604
+#, php-format
+msgid ""
+"Hello %s,\n"
+"\n"
+"We're sorry to let you know that your account registration on %s has been "
+"declined. If you believe this is an error, please contact us.\n"
+"\n"
+"Regards,"
+msgstr ""
+
+#: includes/class-user-approval.php:424
+msgid "Error: You cannot suspend an administrator account."
+msgstr ""
+
+#: includes/class-user-approval.php:435 includes/class-user-approval.php:634
+msgid "Your account has been suspended"
+msgstr ""
+
+#: includes/class-user-approval.php:437 includes/class-user-approval.php:636
+#, php-format
+msgid ""
+"Hello %s,\n"
+"\n"
+"We're sorry to let you know that your account on %s has been suspended. If "
+"you believe this is an error, please contact us.\n"
+"\n"
+"Regards,"
+msgstr ""
+
+#: includes/class-user-approval.php:453 includes/login_register.php:1176
+msgid "Status"
+msgstr ""
+
+#: includes/class-user-approval.php:480
+msgid "Pending"
+msgstr ""
+
+#: includes/class-user-approval.php:485 includes/class-user-approval.php:779
+msgid "Approved"
+msgstr ""
+
+#: includes/class-user-approval.php:490 includes/class-user-approval.php:780
+msgid "Declined"
+msgstr ""
+
+#: includes/class-user-approval.php:495 includes/class-user-approval.php:781
+msgid "Suspended"
+msgstr ""
+
+#: includes/class-user-approval.php:542
+msgid "Approve Users"
+msgstr ""
+
+#: includes/class-user-approval.php:543
+msgid "Decline Users"
+msgstr ""
+
+#: includes/class-user-approval.php:544
+msgid "Suspend Users"
+msgstr ""
+
+#: includes/class-user-approval.php:661
+#, php-format
+msgid "%s user has been approved."
+msgstr ""
+
+#: includes/class-user-approval.php:675
+#, php-format
+msgid "%s user has been declined."
+msgstr ""
+
+#: includes/class-user-approval.php:689
+#, php-format
+msgid "%s user has been suspended."
+msgstr ""
+
+#: includes/class-user-approval.php:777
+msgid "All Statuses"
+msgstr ""
+
+#: includes/class-user-approval.php:778
+msgid "Pending Approval"
+msgstr ""
+
+#: includes/class-user-approval.php:803
+msgid "Filter"
+msgstr ""
+
+#: includes/login_register.php:42 includes/login_register.php:516
+#, fuzzy
+#| msgid "The username field is empty."
+msgid "The username or email field is empty."
+msgstr "Bitte Benutzername eingeben."
+
+#: includes/login_register.php:46 includes/login_register.php:520
+msgid "The password field is empty."
+msgstr "Bitte Kennwort eingeben."
+
+#: includes/login_register.php:50 includes/login_register.php:524
+#, fuzzy
+#| msgid "Invalid username"
+msgid "Invalid username or email"
+msgstr "Ungültiger Benutzername"
+
+#: includes/login_register.php:81 includes/login_register.php:553
+#, php-format
+msgid ""
+"The password you entered for the username <strong>%s</strong> is incorrect."
+msgstr ""
+"Das Kennwort für Benutzername <strong>%s</strong> stimmt nicht überein."
+
+#: includes/login_register.php:103 includes/login_register.php:577
+msgid ""
+"Please verify your email address before logging in. A verification email has "
+"been sent to your email address."
+msgstr ""
+
+#: includes/login_register.php:115 includes/login_register.php:459
+#: includes/login_register.php:587
+msgid "Login successful, redirecting..."
+msgstr "Anmeldung erfolgreich, Sie werden weitergeleitet..."
+
+#: includes/login_register.php:163 includes/login_register.php:168
+#: includes/login_register.php:356 includes/login_register.php:361
+msgid "Access denied."
+msgstr ""
+
+#: includes/login_register.php:175
+#, fuzzy
+#| msgid "The username field is empty."
+msgid "The first name field is empty."
+msgstr "Bitte Benutzername eingeben."
+
+#: includes/login_register.php:181
+#, fuzzy
+#| msgid "The username field is empty."
+msgid "The last name field is empty."
+msgstr "Bitte Benutzername eingeben."
+
+#: includes/login_register.php:186 includes/login_register.php:374
+#: includes/login_register.php:627
+msgid "The username field is empty."
+msgstr "Bitte Benutzername eingeben."
+
+#: includes/login_register.php:190 includes/login_register.php:378
+#: includes/login_register.php:635
+msgid "Minimum 3 characters required"
+msgstr ""
+
+#: includes/login_register.php:194 includes/login_register.php:382
+#: includes/login_register.php:639
+msgid "Invalid username (do not use special characters or spaces)!"
+msgstr "Ungültiger Benutzername (keine Sonder- oder Leerzeichen)!"
+
+#: includes/login_register.php:199 includes/login_register.php:386
+#: includes/login_register.php:631
+msgid "This username is already registered."
+msgstr "Dieser Benutzername ist bereits registriert."
+
+#: includes/login_register.php:204 includes/login_register.php:390
+#: includes/login_register.php:643
+msgid "The email field is empty."
+msgstr "Bitte Email-Adresse eingeben."
+
+#: includes/login_register.php:209 includes/login_register.php:395
+#: includes/login_register.php:648
+msgid "This email address is already registered."
+msgstr "Diese Email-Adresse ist bereits registriert."
+
+#: includes/login_register.php:214 includes/login_register.php:400
+#: includes/login_register.php:653
+msgid "Invalid email address."
+msgstr "Ungültige Email-Adresse"
+
+#: includes/login_register.php:220
+msgid "Please enter your number"
+msgstr ""
+
+#: includes/login_register.php:229
+msgid "One of the password field is empty!"
+msgstr "Bitte Kennwort bestätigen!"
+
+#: includes/login_register.php:234
+msgid "Passwords do not match"
+msgstr "Die Kennwörter stimmen nicht überein!"
+
+#: includes/login_register.php:242 includes/login_register.php:369
+msgid "You need to agree with terms & conditions."
+msgstr "Sie müssen mit den AGBs einverstanden sein."
+
+#: includes/login_register.php:273 includes/login_register.php:450
+msgid ""
+"Your account was created successfully! Please wait for admin approval before "
+"you can login."
+msgstr ""
+
+#: includes/login_register.php:275
+#, fuzzy
+#| msgid "An email with the generated password was sent!"
+msgid ""
+"An email with the generated password was sent! Please wait for admin "
+"approval before you can login."
+msgstr ""
+"Wir haben Ihnen eine Email mit automatisch generiertem Kennwort versendet!"
+
+#: includes/login_register.php:280
+msgid "Your account was created and you can login now!"
+msgstr "Ihr Benutzerkonto wurde erstellt und Sie können sich jetzt anmelden!"
+
+#: includes/login_register.php:282
+msgid "An email with the generated password was sent!"
+msgstr ""
+"Wir haben Ihnen eine Email mit automatisch generiertem Kennwort versendet!"
+
+#: includes/login_register.php:658
+msgid "The passowrd field is empty."
+msgstr ""
+
+#: includes/login_register.php:679
+msgid "Agent account created!"
+msgstr ""
+
+#: includes/login_register.php:815
+msgid "Enter a username or email address."
+msgstr "Bitte Benutzername oder Email-Adresse eingeben."
+
+#: includes/login_register.php:822
+msgid "There is no user registered with that email address."
+msgstr "Mit dieser Email-Adresse existiert noch kein Benutzer."
+
+#: includes/login_register.php:830
+msgid "Invalid username"
+msgstr "Ungültiger Benutzername"
+
+#: includes/login_register.php:846
+msgid "Someone has requested a password reset for the following account:"
+msgstr ""
+"Jemand hat für das folgende Benutzerkonto eine Kennwort-Zurücksetzung "
+"angefordert:"
+
+#: includes/login_register.php:848
+#, php-format
+msgid "Username: %s"
+msgstr "Benutzer: %s"
+
+#: includes/login_register.php:849
+msgid "If this was a mistake, just ignore this email and nothing will happen."
+msgstr ""
+"Falls nicht Sie damit gemeint sind, ignorieren Sie einfach diese Email und "
+"es passiert nichts weiteres."
+
+#: includes/login_register.php:850
+msgid "To reset your password, visit the following address:"
+msgstr "Um Ihr Passwort zurückzusetzen, bitte folgen Sie diese Adresse:"
+
+#: includes/login_register.php:862
+#, php-format
+msgid "[%s] Password Reset"
+msgstr "[%s] Kennwort zurücksetzen"
+
+#: includes/login_register.php:891
+msgid "The email could not be sent."
+msgstr "Die Email konnte nicht versendet werden."
+
+#: includes/login_register.php:891
+msgid "Possible reason: your host may have disabled the mail() function."
+msgstr ""
+"Möglicher Grund: Ihr Server-Host hat vielleicht die mail() Funktion "
+"deaktiviert."
+
+#: includes/login_register.php:894
+msgid "Check your email"
+msgstr "Bitte überprüfen Sie Ihr Postfach (und Spam-Ordner)."
+
+#: includes/login_register.php:1116
+msgid "Follow us on"
+msgstr ""
+
+#: includes/login_register.php:1191
+msgid "Click to verify"
+msgstr ""
+
+#: includes/login_register.php:1192
+msgid "Deactivate"
+msgstr ""
+
+#: includes/login_register.php:1196
+msgid "Verified"
+msgstr ""
+
+#: includes/login_register.php:1211 includes/login_register.php:1221
+msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+
+#: includes/roles.php:22
+msgid "Buyer"
+msgstr ""
+
+#: includes/roles.php:32
+msgid "Agency"
+msgstr ""
+
+#: includes/roles.php:59
+msgid "Agent"
+msgstr ""
+
+#: includes/roles.php:86
+msgid "Seller"
+msgstr ""
+
+#: includes/roles.php:103
+msgid "Owner"
+msgstr ""
+
+#: includes/roles.php:122
+msgid "Manager"
+msgstr ""
+
+#: includes/social_login.php:42
+msgid "Please enter facebook api & secret keys"
+msgstr ""
+
+#: includes/social_login.php:60
+msgid "Connecting to facebook, please wait..."
+msgstr ""
+
+#~ msgid " The username field is empty."
+#~ msgstr "Bitte Benutzername eingeben."
+
+#~ msgid "My Partners"
+#~ msgstr "My Partners Fr p"

@@ -1,0 +1,11 @@
+ul.houzez-sortable-css li.ui-sortable-handle {
+    background-color: #333333;
+    margin-top: 5px;
+    padding: 10px 6px;
+    color: #fff;
+    vertical-align: middle;
+    cursor: pointer;
+}
+.houzez-custom-autocomplete-field .select2-search--inline input.select2-search__field {
+    min-width: 50px;
+}

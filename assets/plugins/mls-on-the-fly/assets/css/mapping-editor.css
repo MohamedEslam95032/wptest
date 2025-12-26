@@ -1,0 +1,336 @@
+/* Reset some default styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+/* Style the table */
+.wp-list-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.wp-list-table th {
+    background-color: #f0f0f0;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+    font-weight: bold;
+}
+
+.wp-list-table td {
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+}
+
+/* Style the buttons */
+#add-mapping-button {
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+#add-mapping-button,
+#add-key-mapping-button,
+#export-mapping-button,
+#add-taxonomy-mapping-button,
+#add-post-metas-mapping-button,
+#import-mapping-button,
+#import-mappings-button,
+#reset-mapping-button,
+#save-mapping-button  {
+    padding: 5px 15px;
+    background-color: #6302DD;
+    border: 1px solid #6302DD;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+#add-mapping-button:hover,
+#add-key-mapping-button:hover,
+#add-taxonomy-mapping-button:hover,
+#add-post-metas-mapping-button:hover,
+#export-mapping-button:hover,
+#import-mapping-button:hover,
+#reset-mapping-button:hover,
+#save-mapping-button:hover {
+    opacity: .7;
+    background-color: #6302DD;
+}
+
+/* Modal Styles Begin */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content {
+    background-color: #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content input {
+    border-radius: 8px;
+    border-width: 1px;
+    padding: 10px 14px;
+    border-color: #C6C6C6;
+    color: #8D8D8D;
+    line-height: 24px;
+    font-size: 16px;
+}
+
+.modal-content .modal-footer button#close-mapping-button {
+    background: #fff;
+    color: #161616;
+    border-color: #C6C6C6;
+}
+
+.modal-content #search-replace-fields .form-row {
+    margin: 5px;
+}
+
+.modal-content #search-replace-fields .form-row .remove-search-replace {
+    border-radius: 8px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #000;
+}
+
+.modal-dialog {
+    top: 50%;
+}
+
+.modal-content #add-search-replace-label,
+.modal-content #add-search-replace-label h5 {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    color: #161616;
+    margin-bottom: 0;
+}
+
+.modal-content #add-search-replace {
+    color: #644BC4;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    margin-top:10px;
+}
+
+.modal-content #add-search-replace::before {
+    content: '+';
+    margin-right: 10px;
+    font-size: 22px;
+    height: 20px;
+    width: 20px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+}
+
+.modal-content .modal-footer {
+    border-top: 0;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.modal-content .modal-footer button {
+    width: calc(50% - 10px);
+    padding: 10px 5px;
+    border-radius: 8px;
+    border-width: 1px;
+    font-weight: 600;
+    line-height: 24px;
+}
+
+/* Modal Styles End */
+
+#mls-on-the-fly-mapping input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#mapping-type-wrapper {
+    border-bottom: 1px solid #D5D6D7;
+    padding-bottom: 15px;
+}
+
+#mapping-type-wrapper > label:nth-child(n+2) {
+    margin-left: 15px;
+}
+
+#mls-on-the-fly-mapping input[type="radio"]:checked::before {
+    width: 14px;
+    height: 14px;
+    margin: 0;
+    padding: 0;
+    background-color: #644BC4;
+}
+
+/* Table Styles Begin */
+table#mls-on-the-fly-mapping-list-table {
+    width: 100%;
+    border: 0;
+    margin: 10px auto;
+}
+
+table#mls-on-the-fly-mapping-list-table thead tr {
+    background: unset;
+}
+
+table#mls-on-the-fly-mapping-list-table thead tr th {
+    background: rgba(100, 75, 196, 0.1);
+    vertical-align: middle;
+}
+
+
+table#mls-on-the-fly-mapping-list-table thead tr th:first-child {
+    border-radius: 8px 0 0 8px;
+}
+
+table#mls-on-the-fly-mapping-list-table thead tr th:last-child {
+    border-radius: 0 8px 8px 0;
+}
+
+table#mls-on-the-fly-mapping-list-table tbody tr {
+    background: unset;
+}
+
+table#mls-on-the-fly-mapping-list-table td,
+table#mls-on-the-fly-mapping-list-table th {
+    border: unset;
+    padding: 10px 15px 10px 15px;
+}
+
+table#mls-on-the-fly-mapping-list-table td:first-child {
+    display: flex;
+    align-items: center;
+}
+
+table#mls-on-the-fly-mapping-list-table td:first-child .row-number {
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+table#mls-on-the-fly-mapping-list-table th,
+table#mls-on-the-fly-mapping-list-table th.field_name,
+table#mls-on-the-fly-mapping-list-table th.mapping,
+table#mls-on-the-fly-mapping-list-table th.default {
+    text-align: left;
+}
+
+table#mls-on-the-fly-mapping-list-table th.replaces,
+table#mls-on-the-fly-mapping-list-table th.actions
+table#mls-on-the-fly-mapping-list-table td.replaces,
+table#mls-on-the-fly-mapping-list-table td.actions {
+    text-align: center;
+}
+
+table#mls-on-the-fly-mapping-list-table .delete-button,
+table#mls-on-the-fly-mapping-list-table .query-delete-button {
+    color: #DD1435;
+    fill: #DD1435;
+}
+
+table#mls-on-the-fly-mapping-list-table .delete-button:hover,
+table#mls-on-the-fly-mapping-list-table .query-delete-button:hover {
+    fill: #DD1435;
+    color: #DD1435;
+    text-decoration: none;
+}
+
+table#mls-on-the-fly-mapping-list-table .edit-button,
+table#mls-on-the-fly-mapping-list-table .query-edit-button,
+table#mls-on-the-fly-mapping-list-table .query-delete-button,
+table#mls-on-the-fly-mapping-list-table .delete-button {
+    cursor: pointer;
+}
+
+table#mls-on-the-fly-mapping-list-table .edit-button,
+table#mls-on-the-fly-mapping-list-table .query-edit-button {
+    color: #333333;
+    fill: #333333;
+}
+
+table#mls-on-the-fly-mapping-list-table .edit-button:hover,
+table#mls-on-the-fly-mapping-list-table .query-edit-button:hover {
+    fill: #333333;
+    color: #333333;
+    text-decoration: none;
+}
+
+table#mls-on-the-fly-mapping-list-table #delete-all-checked-mappings,
+table#mls-on-the-fly-mapping-list-table #query-delete-all-checked-mappings,
+table#mls-on-the-fly-mapping-list-table #query-delete-all-checked-post_metas-mappings,
+table#mls-on-the-fly-mapping-list-table #query-delete-all-checked-taxonomies-mappings,
+table#mls-on-the-fly-mapping-list-table #query-delete-all-checked-key_mappings-mappings {
+    background: #DD1435;
+    border-radius: 8px;
+    border: 1px solid #DD1435;
+    color: #fff;
+    fill: #fff;
+    padding: 5px 15px;
+}
+
+table#mls-on-the-fly-mapping-list-table #delete-all-checked-mappings > span {
+    margin-right: 5px;
+}
+
+table#mls-on-the-fly-mapping-list-table #delete-all-checked-mappings:hover,
+table#mls-on-the-fly-mapping-list-table #query-delete-all-checked-post_metas-mappings:hover,
+table#mls-on-the-fly-mapping-list-table #query-delete-all-checked-taxonomies-mappings:hover,
+table#mls-on-the-fly-mapping-list-table #query-delete-all-checked-key_mappings-mappings:hover,
+table#mls-on-the-fly-mapping-list-table .edit-button:hover,
+table#mls-on-the-fly-mapping-list-table .query-edit-button:hover,
+table#mls-on-the-fly-mapping-list-table .delete-button:hover,
+table#mls-on-the-fly-mapping-list-table .query-delete-button:hover,
+.modal-content #add-search-replace:hover,
+.modal-content .modal-footer button:hover {
+    opacity: .7;
+}
+
+/* Table Styles End */
+
+
+.mls-otf-utility-buttons-container{
+    text-align: right;
+}
+
+#mls-on-the-fly-mapping-list-table th.actions{
+    width: 220px;
+}

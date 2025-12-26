@@ -1,0 +1,81 @@
+{
+    "post_type": {
+        "default": "property"
+    },
+    "ID": {
+        "mapping": "{post_id}"
+    },
+    "post_status": {
+        "default": "publish"
+    },
+    "post_author": {
+        "default": 1
+    },
+    "filter": {
+        "default": "raw"
+    },
+    "post_content": {
+        "mapping": "{PublicRemarks}"
+    },
+    "post_excerpt": {
+        "mapping": "{PropertyType} - {PropertySubType}"
+    },
+    "post_title": {
+        "mapping": "{StreetNumber} {StreetDirPrefix} {StreetName} {StreetDirSuffix} {StreetSuffix}, {City}, {StateOrProvince} {PostalCode}"
+    },
+    "post_name": {
+        "mapping": "{ListingKey}"
+    },
+    "post_modified": {
+        "mapping": "{ModificationTimestamp}",
+        "replaces": [
+            {
+                "search": "T",
+                "replace": " "
+            },
+            {
+                "search": "Z",
+                "replace": ""
+            }
+        ]
+    },
+    "post_date": {
+        "mapping": "{ModificationTimestamp}",
+        "replaces": [
+            {
+                "search": "T",
+                "replace": " "
+            },
+            {
+                "search": "Z",
+                "replace": ""
+            }
+        ]
+    },
+    "post_modified_gmt": {
+        "mapping": "{ModificationTimestamp}",
+        "replaces": [
+            {
+                "search": "T",
+                "replace": " "
+            },
+            {
+                "search": "Z",
+                "replace": ""
+            }
+        ]
+    },
+    "post_date_gmt": {
+        "mapping": "{ModificationTimestamp}",
+        "replaces": [
+            {
+                "search": "T",
+                "replace": " "
+            },
+            {
+                "search": "Z",
+                "replace": ""
+            }
+        ]
+    }
+}

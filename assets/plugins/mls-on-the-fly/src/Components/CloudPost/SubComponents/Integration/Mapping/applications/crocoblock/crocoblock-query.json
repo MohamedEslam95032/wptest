@@ -1,0 +1,123 @@
+{
+    "key_mappings": {
+        "date": "ModificationTimestamp",
+        "listing_posted": "ModificationTimestamp",
+        "price": "ListPrice",
+        "bedrooms": "BedroomsTotal",
+        "bathrooms": "BathroomsTotalInteger",
+        "garage": "GarageSpaces",
+        "address": "UnparsedAddress"
+    },
+    "post_metas": {
+        "fave_property_id": {
+            "method": "where",
+            "rf_field": "ListingKey",
+            "compare": "eq",
+            "value": false,
+            "boolean": "or"
+        },
+        "property-zip": {
+            "method": "where",
+            "rf_field": "PostalCode",
+            "compare": "eq",
+            "value": false,
+            "boolean": "or"
+        },
+        "price": {
+            "method": "where",
+            "rf_field": "ListPrice",
+            "value": false
+        },
+        "bedrooms": {
+            "method": "where",
+            "rf_field": "BedroomsTotal",
+            "value": false
+        },
+        "bathrooms": {
+            "method": "where",
+            "rf_field": "BathroomsTotalInteger",
+            "value": false
+        },
+        "garage": {
+            "method": "where",
+            "rf_field": "GarageSpaces",
+            "value": false
+        },
+        "area-size": {
+            "method": "where",
+            "rf_field": "BuildingAreaTotal",
+            "value": false
+        },
+        "address": {
+            "method": "where",
+            "rf_field": "UnparsedAddress",
+            "value": false
+        },
+
+        "state": {
+            "method": "where",
+            "rf_field": "StateOrProvince",
+            "value": false
+        },
+        "city": {
+            "method": "where",
+            "rf_field": "City",
+            "value": false
+        },
+        "carport": {
+            "method": "where",
+            "rf_field": "CarportSpaces",
+            "value": false
+        },
+        "status": {
+            "method": "whereIn",
+            "rf_field": "StandardStatus",
+            "value": false
+        },
+        "fave_agents": {
+            "method": "where",
+            "rf_field": "ListAgentMlsId",
+            "value": false
+        },
+        "fave_property_agency": {
+            "method": "where",
+            "rf_field": "ListOfficeMlsId",
+            "value": false
+        }
+    },
+    "post_types": {
+    },
+    "taxonomies": {
+        "property-city": {
+            "mapping": "City"
+        },
+        "property-features": {
+            "mapping": [
+                "ExteriorFeatures",
+                "InteriorFeatures",
+                "Appliances"
+            ],
+            "method": "contains",
+            "separator": ","
+        },
+        "property-status": {
+            "mapping": "StandardStatus"
+        },
+        "property-type": {
+            "mapping": "PropertyType",
+            "child": "PropertySubType"
+        },
+        "property-state": {
+            "mapping": "StateOrProvince"
+        },
+        "property-area": {
+            "mapping": "SubdivisionName"
+        },
+        "property-country": {
+            "mapping": "Country"
+        },
+        "property-label": {
+            "mapping": "PropertyCondition"
+        }
+    }
+}

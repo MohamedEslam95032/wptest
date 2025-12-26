@@ -1,0 +1,13 @@
+/* Change separator color */
+#adminmenu li.wp-menu-separator.realtyna-base-plugin {
+    border-top: 3px solid #48358e !important; /* Example color */
+    background-color: #48358e !important; /* Example color */
+    margin-bottom: 0px;
+}
+
+/* Change MLS On The Fly<sup>&reg;</sup> menu background for all IDs containing "toplevel_page_mls-on-the-fly" */
+[id*="toplevel_page_mls-on-the-fly"] .wp-menu-name,
+[id*="toplevel_page_mls-on-the-fly"] .wp-submenu {
+    background-color: #644BC4 !important; /* Example color */
+    color: #ffffff !important;
+}

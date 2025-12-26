@@ -1,0 +1,143 @@
+{
+    "REAL_HOMES_property_currency": {
+        "mapping": "USD"
+    },
+    "REAL_HOMES_property_price": {
+        "mapping": "{ListPrice}"
+    },
+    "REAL_HOMES_property_sec_price": {
+        "mapping": "{PreviousListPrice}"
+    },
+    "REAL_HOMES_property_price_prefix": {
+        "mapping": ""
+    },
+    "REAL_HOMES_property_price_postfix": {
+        "mapping": ""
+    },
+    "REAL_HOMES_property_size": {
+        "mapping": "{BuildingAreaTotal}"
+    },
+    "REAL_HOMES_property_size_prefix": {
+        "mapping": "Sqft"
+    },
+    "REAL_HOMES_property_living_size": {
+        "mapping": "{LivingArea}"
+    },
+    "REAL_HOMES_property_living_size_prefix": {
+        "mapping": "{LivingAreaUnits}"
+    },
+    "REAL_HOMES_property_lot_size": {
+        "mapping": "{LotSizeAcres}"
+    },
+    "REAL_HOMES_property_lot_size_postfix": {
+        "mapping": "Acres"
+    },
+    "REAL_HOMES_property_bedrooms": {
+        "mapping": "{BedroomsTotal}"
+    },
+    "REAL_HOMES_property_rooms": {
+        "mapping": "{RoomsTotal}"
+    },
+    "REAL_HOMES_property_bathrooms": {
+        "mapping": "{BathroomsTotalInteger}"
+    },
+    "REAL_HOMES_property_garage": {
+        "mapping": "{GarageSpaces}"
+    },
+    "REAL_HOMES_property_garage_size": {
+        "mapping": "{GarageWidth} x {GarageLength} x {GarageHeight}"
+    },
+    "REAL_HOMES_property_year_built": {
+        "mapping": "{YearBuilt}"
+    },
+    "REAL_HOMES_property_id": {
+        "mapping": "{ListingId}"
+    },
+    "REAL_HOMES_property_map": {
+        "mapping": ""
+    },
+    "REAL_HOMES_property_location": {
+        "mapping": "IF('{Latitude}' != '','{Latitude},{Longitude}', '')"
+    },
+    "houzez_geolocation_lat": {
+        "mapping": "IF('{Latitude}' != '','{Latitude}', '')"
+    },
+    "houzez_geolocation_long": {
+        "mapping": "IF('{Longitude}' != '','{Longitude}', '')"
+    },
+    "REAL_HOMES_property_featured": {
+        "mapping": ""
+    },
+    "REAL_HOMES_property_loggedintoview": {
+        "mapping": ""
+    },
+    "REAL_HOMES_property_map_address": {
+        "mapping": "{StreetNumber} {StreetDirPrefix} {StreetName} {StreetDirSuffix} {StreetSuffix}, {City}, {StateOrProvince} {PostalCode}"
+    },
+    "REAL_HOMES_property_address": {
+        "mapping": "{StreetNumber} {StreetDirPrefix} {StreetName} {StreetDirSuffix} {StreetSuffix} "
+    },
+    "REAL_HOMES_property_zip": {
+        "mapping": "{PostalCode}"
+    },
+    "REAL_HOMES_property_country": {
+        "mapping": "US"
+    },
+    "property_country": {
+        "default": "United States"
+    },
+    "REAL_HOMES_property_mls_id": {
+        "mapping": "{ListingId}"
+    },
+    "REAL_HOMES_property_office_name": {
+        "mapping": "{ListOfficeName}"
+    },
+    "REAL_HOMES_property_agent_name": {
+        "mapping": "{ListAgentFullName}"
+    },
+    "REAL_HOMES_property_mls_status": {
+        "mapping": "{MlsStatus}"
+    },
+    "property_type": {
+        "mapping": "{PropertySubType}"
+    },
+    "property_status": {
+        "mapping": "{StandardStatus}"
+    },
+    "property_state": {
+        "mapping": "{StateOrProvince}"
+    },
+    "property_city": {
+        "mapping": "{City}"
+    },
+    "property_area" : {
+        "mapping": "{SubdivisionName}"
+    },
+    "REAL_HOMES_property_additional_feature_title" : {
+        "default": "Listing Terms|Association Fee|School District|Roof|Utilities|Sewer|Cooling|Heating|Flooring|County|Property Type|Pool|Parking|Elementary School|Middle School|High School|Community Features|Waterfront|Architectural Style"
+    },
+    "REAL_HOMES_property_additional_feature_value": {
+        "mapping": "{ListingTerms}|{AssociationFee}|{SchoolDistrict}|{Roof}|{Utilities}|{Sewer}|{Cooling}|{Heating}|{Flooring}|{CountyOrParish}|{PropertyType}|{PoolFeatures}|{ParkingFeatures}|{ElementarySchool}|{MiddleOrJuniorSchool}|{HighSchool}|{CommunityFeatures}|{WaterfrontFeatures}|{ArchitecturalStyle}"
+    },
+    "REAL_HOMES_property_video_url": {
+        "mapping": "{VirtualTourURLBranded}"
+    },
+    "REAL_HOMES_property_virtual_tour": {
+        "mapping": "IF('{VirtualTourURLUnbranded}' != '', '<iframe src={VirtualTourURLUnbranded}></iframe>', '')"
+    },
+    "additional_features": {
+        "mapping": ""
+    },
+    "property_exterior_features": {
+        "mapping": "{ExteriorFeatures}"
+    },
+    "property_interior_features": {
+        "mapping": "{InteriorFeatures}"
+    },
+    "property_appliances": {
+        "mapping": "{Appliances}"
+    },
+    "REAL_HOMES_property_mlsid": {
+        "mapping": "{ListingId}"
+    }
+}

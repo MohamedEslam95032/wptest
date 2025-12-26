@@ -1,0 +1,97 @@
+{
+    "price": {
+        "mapping": "{ListPrice}"
+    },
+    "property-size": {
+        "mapping": "{LotSizeArea}"
+    },
+    "heating": {
+        "mapping": "{Heating}"
+    },
+    "area-size": {
+        "mapping": "{BuildingAreaTotal}"
+    },
+    "bedrooms": {
+        "mapping": "{BedroomsTotal}"
+    },
+    "bathsrooms": {
+        "mapping": "{BathroomsTotalInteger}"
+    },
+    "garages": {
+        "mapping": "{GarageYN}"
+    },
+    "garages-size": {
+        "mapping": "{GarageSpaces}"
+    },
+    "year-built": {
+        "mapping": "{YearBuilt}"
+    },
+    "address": {
+        "mapping": "{StreetNumber} {StreetDirPrefix} {StreetName} {StreetDirSuffix} {StreetSuffix}, {City}, {StateOrProvince} {PostalCode}"
+    },
+    "parking" : {
+        "mapping": "{Parking}"
+    },
+    "parking_features" : {
+        "mapping": "{ParkingFeatures}"
+    },
+    "deposit": {
+        "mapping": "{ClosePrice}"
+    },
+    "minimum-term": {
+        "mapping": "{LeaseTerm}"
+    },
+    "allowed-pets": {
+        "mapping": "{PetsAllowed}"
+    },
+    "habitable": {
+        "mapping": "{HabitableResidenceYN}"
+    },
+
+    "electricity": {
+        "mapping": "{ElectricOnPropertyYN}"
+    },
+    "cable-tv": {
+        "mapping": "{CableTvExpense}"
+    },
+    "virtual-tour": {
+        "mapping": "{VirtualTourURLBranded}"
+    },
+    "total-floors": {
+        "mapping": "{StoriesTotal}"
+    },
+    "features": {
+        "mapping": "{ListingTerms}|{AssociationFee}|{SchoolDistrict}|{Roof}|{Utilities}|{Sewer}|{Cooling}|{Heating}|{Flooring}|{CountyOrParish}|{PropertyType}|{PoolFeatures}|{ParkingFeatures}|{ElementarySchool}|{MiddleOrJuniorSchool}|{HighSchool}|{CommunityFeatures}|{WaterfrontFeatures}|{ArchitecturalStyle}"
+    },
+    "accommodation": {
+        "mapping": "{Furnished}"
+    },
+    "property_type": {
+        "mapping": "{PropertySubType}"
+    },
+    "property_status": {
+        "mapping": "{StandardStatus}"
+    },
+    "property_state": {
+        "mapping": "{StateOrProvince}"
+    },
+    "property_city": {
+        "mapping": "{City}"
+    },
+
+    "floor-plans": {
+        "mapping": ""
+    },
+    "utilities": {
+        "mapping": ""
+    },
+    "gallery": {
+        "mapping": ""
+    },
+    "additional-space" : {
+        "mapping": ""
+    },
+    "payment-period": {
+        "mapping": ""
+    }
+}

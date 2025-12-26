@@ -1,0 +1,208 @@
+{
+    "post_metas": {
+        "price": {
+            "rf_field": "ListPrice",
+            "method": "where",
+            "value": false
+        },
+        "price_si": {
+            "rf_field": "ListPrice",
+            "method": "where",
+            "value": false
+        },
+        "ref_id": {
+            "rf_field": "ListingKey",
+            "method": "where",
+            "value": false
+        },
+        "mls_id": {
+            "rf_field": "ListingId",
+            "method": "where",
+            "value": false
+        },
+        "mls_id_num": {
+            "rf_field": "ListingId",
+            "method": "where",
+            "value": false
+        },
+        "bedrooms": {
+            "rf_field": "BedroomsTotal",
+            "method": "where",
+            "value": false
+        },
+        "bathrooms": {
+            "rf_field": "BathroomsTotalInteger",
+            "method": "where",
+            "value": false
+        },
+        "property_type": {
+            "rf_field": "PropertyType",
+            "method": "where",
+            "value": false
+        },
+        "location_text": {
+            "rf_field": "UnparsedAddress",
+            "method": "contains",
+            "value": false
+        },
+        "location2_name": {
+            "rf_field": "StateOrProvince",
+            "method": "where",
+            "value": false
+        },
+        "location3_name": {
+            "rf_field": "CountyOrParish",
+            "method": "where",
+            "value": false
+        },
+        "location4_name": {
+            "rf_field": "City",
+            "method": "where",
+            "value": false
+        },
+        "location5_name": {
+            "rf_field": "SubdivisionName",
+            "method": "where",
+            "value": false
+        },
+        "zip_name": {
+            "rf_field": "PostalCode",
+            "method": "where",
+            "value": false
+        },
+        "field_42": {
+            "rf_field": "StreetName",
+            "method": "where",
+            "value": false
+        },
+        "add_date": {
+            "rf_field": "OriginalEntryTimestamp",
+            "method": "where",
+            "value": false
+        },
+        "mls_area_major": {
+            "rf_field": "MLSAreaMajor",
+            "method": "where",
+            "value": false
+        },
+        "radius_search": {
+            "method": "distance",
+            "rf_field": "Coordinates",
+            "value": false
+        },
+        "polygon_search": {
+            "method": "intersects",
+            "rf_field": "Coordinates",
+            "value": false
+        },
+        "field_2112": {
+            "rf_field": "ListAgentFullName",
+            "method": "contains",
+            "value": false
+        },
+        "list_agent_mls_id": {
+            "rf_field": "ListAgentMlsId",
+            "method": "where",
+            "value": false
+        },
+        "co_list_agent_mls_id": {
+            "rf_field": "CoListAgentMlsId",
+            "method": "where",
+            "value": false
+        },
+        "co_list_agent_full_name": {
+            "rf_field": "CoListAgentFullName",
+            "method": "contains",
+            "value": false
+        },
+        "list_office_mls_id": {
+            "rf_field": "ListOfficeMlsId",
+            "method": "where",
+            "value": false
+        },
+        "co_list_office_mls_id": {
+            "rf_field": "CoListOfficeMlsId",
+            "method": "where",
+            "value": false
+        },
+        "co_list_office_name": {
+            "rf_field": "CoListOfficeName",
+            "method": "contains",
+            "value": false
+        },
+        "field_2111": {
+            "rf_field": "ListOfficeName",
+            "method": "contains",
+            "value": false
+        },
+        "raw": {
+            "method": "raw",
+            "value": false
+        },
+        "listing_status": {
+            "rf_field": "StandardStatus",
+            "method": "where",
+            "value": false
+        },
+        "field_23": {
+            "rf_field": "StandardStatus",
+            "method": "where",
+            "value": false
+        },
+        "build_year": {
+            "rf_field": "YearBuilt",
+            "method": "where",
+            "value": false
+        },
+        "lot_area_si": {
+            "rf_field": "LotSizeAcres",
+            "method": "where",
+            "value": false
+        },
+        "school_district": {
+            "rf_field": "SchoolDistrict",
+            "method": "contains",
+            "value": false
+        }
+    },
+    "post_types": {
+    },
+    "taxonomies": {
+        "wpl_property_location2_name": {
+            "mapping": "StateOrProvince"
+        },
+        "wpl_property_location3_name": {
+            "mapping": "CountyOrParish"
+        },
+        "wpl_property_location4_name": {
+            "mapping": "City"
+        },
+        "wpl_property_location5_name": {
+            "mapping": "SubdivisionName"
+        },
+        "wpl_property_mls_id": {
+            "mapping": "ListingId"
+        },
+        "wpl_property_field_42": {
+            "mapping": "StreetName"
+        },
+        "wpl_property_zip_name": {
+            "mapping": "PostalCode"
+        },
+        "wpl_property_location_text": {
+            "mapping": "UnparsedAddress"
+        }
+    },
+    "key_mappings": {
+        "mls_id_num": "ListingId",
+        "mls_id": "ListingId",
+        "price": "ListPrice",
+        "price_si": "ListPrice",
+        "add_date": "OriginalEntryTimestamp",
+        "bedrooms": "BedroomsTotal",
+        "bathrooms": "BathroomsTotalInteger",
+        "living_area_si": "LivingArea",
+        "lot_area_si": "LotSizeAcres",
+        "location_text": "UnparsedAddress"
+    }
+}

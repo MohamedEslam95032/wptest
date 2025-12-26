@@ -1,0 +1,48 @@
+{
+    "name": "realtyna/mls-on-the-fly-plugin",
+    "description": "A base plugin for Realtyna WordPress plugins.",
+    "type": "wordpress-plugin",
+    "require": {
+        "php": ">=8.1",
+        "realtyna/odata-php-client": "^0.1.6",
+        "realtyna/wp-plugin-framework": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Realtyna\\MlsOnTheFly\\": "src/",
+            "Realtyna\\Dev\\": "dev/"
+        },
+        "files": [
+            "src/Boot/helper.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Chandler P",
+            "email": "chandler.p@realtyna.net"
+        }
+    ],
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "keywords": [
+        "wordpress",
+        "plugin",
+        "framework"
+    ],
+    "support": {
+        "issues": "https://github.com/realtyna/base-plugin/issues",
+        "source": "https://github.com/realtyna/base-plugin"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "symfony/var-dumper": "^6.4"
+    },
+    "scripts": {
+        "test": "phpunit",
+        "post-create-project-cmd": [
+            "Realtyna\\Dev\\PluginSetup::changeNamespace",
+            "Realtyna\\Dev\\PluginSetup::changePluginDetails",
+            "composer dump-autoload"
+        ]
+    }
+}

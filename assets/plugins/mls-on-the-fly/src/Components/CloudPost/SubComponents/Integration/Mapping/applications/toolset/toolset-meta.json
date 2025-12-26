@@ -1,0 +1,58 @@
+{
+    "wpcf-price": {
+        "return_type" :"string",
+        "mapping": "{ListPrice}"
+    },
+    "wpcf-old_price": {
+        "return_type" : "string",
+        "mapping": ""
+    },
+    "wpcf-price_prefix": {
+        "return_type" : "string",
+        "mapping": ""
+    },
+    "wpcf-price_postfix": {
+        "return_type" : "string",
+        "mapping": ""
+    },
+    "wpcf-size": {
+        "return_type" : "string",
+        "mapping": "{LivingArea}"
+    },
+    "wpcf-lot_size": {
+        "return_type" : "string",
+        "mapping": "{BuildingAreaTotal}"
+    },
+    "wpcf-lot_size_postfix": {
+        "return_type" : "string",
+        "mapping": "Sq Ft"
+    },
+    "wpcf-number-of-bedrooms": {
+        "return_type" : "string",
+        "mapping": "{BedroomsTotal}"
+    },
+    "wpcf-number-of-bathrooms": {
+        "return_type" : "string",
+        "mapping": "{BathroomsTotalInteger}"
+    },
+    "wpcf-garage": {
+        "return_type" : "string",
+        "mapping": "{GarageSpaces}"
+    },
+    "wpcf-year_built": {
+        "return_type" : "string",
+        "mapping": "{YearBuilt}"
+    },
+    "wpcf-address": {
+        "return_type" : "string",
+        "mapping": "{StreetNumber} {StreetDirPrefix} {StreetName} {StreetDirSuffix} {StreetSuffix}, {City}, {StateOrProvince} {PostalCode}"
+    },
+    "wpcf-zip": {
+        "return_type" : "string",
+        "mapping": "{PostalCode}"
+    },
+    "wpcf-test-1": {
+        "return_type" : "string",
+        "mapping": "{LotSizeAcres}"
+    }
+}

@@ -1,0 +1,517 @@
+{
+    "wpl_accessibility_features": {
+        "mapping": "{AccessibilityFeatures}",
+        "return_type": "array",
+        "category": "Additional Information"
+    },
+    "wpl_add_date": {
+        "mapping": "{OriginalEntryTimestamp}"
+    },
+    "wpl_appliances": {
+        "mapping": "{Appliances}",
+        "return_type": "array",
+        "category": "Appliances"
+    },
+    "wpl_architectural_style": {
+        "mapping": "{ArchitecturalStyle}",
+        "return_type": "array",
+        "category": "Features"
+    },
+    "wpl_association_amenities": {
+        "mapping": "{AssociationAmenities}",
+        "category": "Additional Information"
+    },
+    "wpl_association_fee": {
+        "mapping": "{AssociationFee}",
+        "category": "Financial"
+    },
+    "wpl_association_fee_frequency": {
+        "mapping": "{AssociationFeeFrequency}",
+        "category": "Financial"
+    },
+    "wpl_association_fee_includes": {
+        "mapping": "{AssociationFeeIncludes}",
+        "return_type": "array",
+        "category": "Financial"
+    },
+    "wpl_association_yn": {
+        "mapping": "{AssociationYN}",
+        "category": "Financial"
+    },
+    "wpl_attached_garage_yn": {
+        "mapping": "{AttachedGarageYN}",
+        "category": "Additional Information"
+    },
+    "wpl_bathrooms": {
+        "mapping": "{BathroomsTotalInteger}"
+    },
+    "wpl_bedrooms": {
+        "mapping": "{BedroomsTotal}"
+    },
+    "wpl_build_year": {
+        "mapping": "{YearBuilt}"
+    },
+    "wpl_building_size": {
+        "mapping": "{BuildingAreaTotal}",
+        "category": "Additional Information"
+    },
+    "wpl_building_size_si": {
+        "mapping": "{BuildingAreaTotal}",
+        "category": "Additional Information"
+    },
+    "wpl_building_size_unit": {
+        "mapping": "{BuildingAreaUnits}",
+        "category": "Additional Information"
+    },
+    "wpl_business_type": {
+        "mapping": "{BusinessType}",
+        "category": "Additional Information"
+    },
+    "wpl_carport_spaces": {
+        "mapping": "{CarportSpaces}",
+        "category": "Features"
+    },
+    "wpl_co_list_agent_full_name": {
+        "mapping": "{CoListAgentFullName}",
+        "category": "Listing Information"
+    },
+    "wpl_co_list_agent_mls_id": {
+        "mapping": "{CoListAgentMlsId}",
+        "category": "Listing Information"
+    },
+    "wpl_co_list_office_mls_id": {
+        "mapping": "{CoListOfficeMlsId}",
+        "category": "Listing Information"
+    },
+    "wpl_co_list_office_name": {
+        "mapping": "{CoListOfficeName}",
+        "category": "Listing Information"
+    },
+    "wpl_community_features": {
+        "mapping": "{CommunityFeatures}",
+        "return_type": "array",
+        "category": "Additional Information"
+    },
+    "wpl_confirmed": {
+        "mapping": "1"
+    },
+    "wpl_construction_materials": {
+        "mapping": "{ConstructionMaterials}",
+        "return_type": "array",
+        "category": "Additional Information"
+    },
+    "wpl_current_use": {
+        "mapping": "{CurrentUse}",
+        "return_type": "array",
+        "category": "Additional Information"
+    },
+    "wpl_deleted": {
+        "mapping": "0"
+    },
+    "wpl_direction_faces": {
+        "mapping": "{DirectionFaces}",
+        "category": "Address Map"
+    },
+    "wpl_directions": {
+        "mapping": "{Directions}",
+        "category": "Address Map"
+    },
+    "wpl_electric": {
+        "mapping": "{Electric}",
+        "category": "Additional Information"
+    },
+    "wpl_elementary_school": {
+        "mapping": "{ElementarySchool}",
+        "category": "Neighborhood"
+    },
+    "wpl_elementary_school_district": {
+        "mapping": "{ElementarySchoolDistrict}",
+        "category": "Neighborhood"
+    },
+    "wpl_energy_tag": {
+        "mapping": "{GreenBuildingVerificationType}"
+    },
+    "wpl_entry_level": {
+        "mapping": "{EntryLevel}",
+        "category": "Additional Information"
+    },
+    "wpl_expired": {
+        "mapping": "0"
+    },
+    "wpl_exterior_features": {
+        "mapping": "{ExteriorFeatures}",
+        "return_type": "array",
+        "category": "Features"
+    },
+    "wpl_f_130": {
+        "mapping": "{Heating}",
+        "return_type": "array"
+    },
+    "wpl_f_131": {
+        "mapping": "{PoolFeatures}",
+        "return_type": "array"
+    },
+    "wpl_f_134": {
+        "mapping": "{Cooling}",
+        "return_type": "array"
+    },
+    "wpl_f_137": {
+        "mapping": "{Basement}",
+        "return_type": "array"
+    },
+    "wpl_f_138": {
+        "mapping": "{Fencing}",
+        "return_type": "array"
+    },
+    "wpl_f_144": {
+        "mapping": "{FireplaceFeatures}",
+        "return_type": "array"
+    },
+    "wpl_f_146": {
+        "mapping": "{PatioAndPorchFeatures}",
+        "return_type": "array"
+    },
+    "wpl_f_150": {
+        "mapping": "{ParkingFeatures}",
+        "return_type": "array"
+    },
+    "wpl_field_2111": {
+        "mapping": "{ListOfficeName}"
+    },
+    "wpl_field_2112": {
+        "mapping": "{ListAgentFullName}"
+    },
+    "wpl_field_308": {
+        "mapping": "{PublicRemarks}"
+    },
+    "wpl_field_42": {
+        "mapping": "{StreetName}"
+    },
+    "wpl_field_7": {
+        "mapping": "{View}"
+    },
+    "wpl_finalized": {
+        "mapping": "1"
+    },
+    "wpl_fireplaces_total": {
+        "mapping": "{FireplacesTotal}",
+        "category": "Features"
+    },
+    "wpl_flooring": {
+        "mapping": "{Flooring}",
+        "return_type": "array",
+        "category": "Features"
+    },
+    "wpl_foundation_details": {
+        "mapping": "{FoundationDetails}",
+        "return_type": "array",
+        "category": "Additional Information"
+    },
+    "wpl_full_bathrooms": {
+        "mapping": "{BathroomsFull}",
+        "category": "Basic Details"
+    },
+    "wpl_garage": {
+        "mapping": "{GarageSpaces}",
+        "category": "Additional Information"
+    },
+    "wpl_googlemap_ln": {
+        "mapping": "{Coordinates.0}"
+    },
+    "wpl_googlemap_lt": {
+        "mapping": "{Coordinates.1}"
+    },
+    "wpl_half_bathrooms": {
+        "mapping": "{BathroomsHalf}"
+    },
+    "wpl_high_school": {
+        "mapping": "{HighSchool}",
+        "category": "Neighborhood"
+    },
+    "wpl_high_school_district": {
+        "mapping": "{HighSchoolDistrict}",
+        "category": "Neighborhood"
+    },
+    "wpl_interior_features": {
+        "mapping": "{InteriorFeatures}",
+        "return_type": "array",
+        "category": "Features"
+    },
+    "wpl_kind": {
+        "mapping": "0"
+    },
+    "wpl_laundry_features": {
+        "mapping": "{LaundryFeatures}",
+        "return_type": "array",
+        "category": "Features"
+    },
+    "wpl_levels": {
+        "mapping": "{Levels}",
+        "return_type": "array",
+        "category": "Additional Information"
+    },
+    "wpl_list_agent_mls_id": {
+        "mapping": "{ListAgentMlsId}",
+        "category": "Listing Information"
+    },
+    "wpl_list_office_mls_id": {
+        "mapping": "{ListOfficeMlsId}",
+        "category": "Listing Information"
+    },
+    "wpl_listing": {
+        "mapping": "IF(CONTAINS({PropertyType}, Lease), \"For Rent\", \"For Sale\")"
+    },
+    "wpl_listing_status": {
+        "mapping": "{StandardStatus}"
+    },
+    "wpl_listing_term": {
+        "mapping": "{ListingTerms}",
+        "category": "Listing Information"
+    },
+    "wpl_living_area": {
+        "mapping": "{LivingArea}"
+    },
+    "wpl_living_area_si": {
+        "mapping": "{LivingArea}"
+    },
+    "wpl_living_area_unit": {
+        "mapping": "{LivingAreaUnits}"
+    },
+    "wpl_lot_area": {
+        "mapping": "{LotSizeAcres}"
+    },
+    "wpl_lot_area_si": {
+        "mapping": "{LotSizeAcres}"
+    },
+    "wpl_lot_area_unit": {
+        "mapping": "3"
+    },
+    "wpl_location1_name": {
+        "mapping": "US"
+    },
+    "wpl_location2_name": {
+        "mapping": "{StateOrProvince}"
+    },
+    "wpl_location3_name": {
+        "mapping": "{CountyOrParish}"
+    },
+    "wpl_location4_name": {
+        "mapping": "{City}"
+    },
+    "wpl_location5_name": {
+        "mapping": "{SubdivisionName}"
+    },
+    "wpl_lot_features": {
+        "mapping": "{LotFeatures}",
+        "return_type": "array",
+        "category": "Additional Information"
+    },
+    "wpl_lot_size_dimensions": {
+        "mapping": "{LotSizeDimensions}",
+        "category": "Additional Information"
+    },
+    "wpl_middle_or_junior_school_district": {
+        "mapping": "{MiddleOrJuniorSchoolDistrict}",
+        "category": "Neighborhood"
+    },
+    "wpl_middle_school": {
+        "mapping": "{MiddleOrJuniorSchool}",
+        "category": "Neighborhood"
+    },
+    "wpl_mls_area_major": {
+        "mapping": "{MLSAreaMajor}",
+        "category": "Address Map"
+    },
+    "wpl_mls_id": {
+        "mapping": "{ListingId}"
+    },
+    "wpl_mls_status": {
+        "mapping": "{MlsStatus}",
+        "category": "Listing Information"
+    },
+    "wpl_modification_timestamp": {
+        "mapping": "{ModificationTimestamp}",
+        "category": "Listing Information"
+    },
+    "wpl_new_construction_yn": {
+        "mapping": "{NewConstructionYN}",
+        "category": "Basic Details"
+    },
+    "wpl_number_of_units_total": {
+        "mapping": "{NumberOfUnitsTotal}",
+        "category": "Additional Information"
+    },
+    "wpl_on_market_date": {
+        "mapping": "{OnMarketDate}",
+        "category": "Additional Information"
+    },
+    "wpl_originating_system_name": {
+        "mapping": "{OriginatingSystemName}",
+        "category": "Listing Information"
+    },
+    "wpl_park_name": {
+        "mapping": "{ParkName}",
+        "category": "Additional Information"
+    },
+    "wpl_pic_numb": {
+        "mapping": "{PhotosCount}"
+    },
+    "wpl_pool_private_yn": {
+        "mapping": "{PoolPrivateYN}",
+        "category": "Features"
+    },
+    "wpl_possible_use": {
+        "mapping": "{PossibleUse}",
+        "category": "Additional Information"
+    },
+    "wpl_previous_price": {
+        "mapping": "{PreviousListPrice}",
+        "category": "Additional Information"
+    },
+    "wpl_price": {
+        "mapping": "{ListPrice}"
+    },
+    "wpl_price_si": {
+        "mapping": "{ListPrice}"
+    },
+    "wpl_price_unit": {
+        "mapping": "260"
+    },
+    "wpl_property_attached_yn": {
+        "mapping": "{PropertyAttachedYN}",
+        "category": "Basic Details"
+    },
+    "wpl_property_sub_type": {
+        "mapping": "{PropertySubType}",
+        "category": "Basic Details"
+    },
+    "wpl_property_type": {
+        "mapping": "{PropertyType}"
+    },
+    "wpl_ref_id": {
+        "mapping": "{ListingKey}"
+    },
+    "wpl_rent_includes": {
+        "mapping": "{RentIncludes}",
+        "category": "Additional Information"
+    },
+    "wpl_roof": {
+        "mapping": "{Roof}",
+        "return_type": "array"
+    },
+    "wpl_rooms": {
+        "mapping": "{RoomsTotal}"
+    },
+    "wpl_school_district": {
+        "mapping": "{SchoolDistrict}",
+        "category": "Neighborhood"
+    },
+    "wpl_senior_community_yn": {
+        "mapping": "{SeniorCommunityYN}",
+        "category": "Additional Information"
+    },
+    "wpl_sewer": {
+        "mapping": "{Sewer}",
+        "return_type": "array",
+        "category": "Features"
+    },
+    "wpl_show_address": {
+        "mapping": "{InternetAddressDisplayYN}"
+    },
+    "wpl_source": {
+        "mapping": "RF"
+    },
+    "wpl_special_listing_conditions": {
+        "mapping": "{SpecialListingConditions}",
+        "return_type": "array",
+        "category": "Listing Information"
+    },
+    "wpl_status_change_timestamp": {
+        "mapping": "{StatusChangeTimestamp}",
+        "category": "Listing Information"
+    },
+    "wpl_stories": {
+        "mapping": "{Stories}",
+        "category": "Additional Information"
+    },
+    "wpl_stories_total": {
+        "mapping": "{StoriesTotal}",
+        "category": "Additional Information"
+    },
+    "wpl_street_dir_prefix": {
+        "mapping": "{StreetDirPrefix}",
+        "category": "Address Map"
+    },
+    "wpl_street_dir_suffix": {
+        "mapping": "{StreetDirSuffix}",
+        "category": "Address Map"
+    },
+    "wpl_street_no": {
+        "mapping": "{StreetNumber}"
+    },
+    "wpl_street_suffix": {
+        "mapping": "{StreetSuffix}"
+    },
+    "wpl_street_suffix_modifier": {
+        "mapping": "{StreetSuffixModifier}",
+        "category": "Address Map"
+    },
+    "wpl_tax_annual_amount": {
+        "mapping": "{TaxAnnualAmount}",
+        "category": "Financial"
+    },
+    "wpl_unit_number": {
+        "mapping": "{UnitNumber}",
+        "category": "Address Map"
+    },
+    "wpl_location_text": {
+        "mapping": "{UnparsedAddress}",
+        "category": "Address Map"
+    },
+    "wpl_user_id": {
+        "mapping": "0"
+    },
+    "wpl_utilities": {
+        "mapping": "{Utilities}",
+        "return_type": "array",
+        "category": "Features"
+    },
+    "wpl_video_url": {
+        "mapping": "{VirtualTourURLBranded}",
+        "category": "Additional Information"
+    },
+    "wpl_virtual_tour": {
+        "mapping": "{VirtualTourURLUnbranded}",
+        "category": "Additional Information"
+    },
+    "wpl_water_body_name": {
+        "mapping": "{WaterBodyName}",
+        "category": "Additional Information"
+    },
+    "wpl_water_source": {
+        "mapping": "{WaterSource}",
+        "return_type": "array",
+        "category": "Additional Information"
+    },
+    "wpl_waterfront_features": {
+        "mapping": "{WaterfrontFeatures}",
+        "return_type": "array",
+        "category": "Features"
+    },
+    "wpl_waterfront_yn": {
+        "mapping": "{WaterfrontYN}",
+        "category": "Basic Details"
+    },
+    "wpl_window_features": {
+        "mapping": "{WindowFeatures}",
+        "return_type": "array",
+        "category": "Features"
+    },
+    "wpl_zip_name": {
+        "mapping": "{PostalCode}"
+    },
+    "wpl_zoning": {
+        "mapping": "{Zoning}",
+        "category": "Address Map"
+    }
+}

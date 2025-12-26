@@ -1,0 +1,101 @@
+{
+    "post_metas": {
+        "property_price": {
+            "rf_field": "ListPrice",
+            "method": "where",
+            "value": false
+        },
+        "property_unique_id": {
+            "rf_field": "ListingKey",
+            "method": "where",
+            "value": false
+        },
+        "property_bedrooms": {
+            "rf_field": "BedroomsTotal",
+            "method": "where",
+            "value": false
+        },
+        "property_bathrooms": {
+            "rf_field": "BathroomsTotalInteger",
+            "method": "where",
+            "value": false
+        },
+        "property_carport": {
+            "rf_field": "CarportSpaces",
+            "method": "where",
+            "value": false
+        },
+        "property_garage": {
+            "rf_field": "GarageSpaces",
+            "method": "where",
+            "value": false
+        },
+        "property_status": {
+            "rf_field": "StandardStatus",
+            "method": "whereIn",
+            "value": {
+                "current": "Active",
+                "current1": "ActiveUnderContract",
+                "current2": "Canceled",
+                "current3": "Closed",
+                "current4": "Delete",
+                "current5": "Expired",
+                "current6": "Hold",
+                "current7": "Incomplete",
+                "current8": "Pending",
+                "current9": "Withdrawn"
+            }
+        },
+        "property_address": {
+            "rf_field": "UnparsedAddress",
+            "method": "LIKE",
+            "value": false
+        }
+    },
+    "post_types": {
+        "property": {
+            "rf_field": "PropertyType",
+            "method": "where",
+            "operator": "contains",
+            "value": "Residential",
+            "boolean": "or"
+        },
+        "rental": {
+            "rf_field": "PropertyType",
+            "method": "where",
+            "operator": "contains",
+            "value": "Lease",
+            "boolean": "or"
+        },
+        "land": {
+            "rf_field": "PropertyType",
+            "method": "where",
+            "operator": "contains",
+            "value": "Land",
+            "boolean": "or"
+        },
+        "commercial": {
+            "rf_field": "PropertyType",
+            "method": "where",
+            "operator": "contains",
+            "value": "Commercial",
+            "boolean": "or"
+        },
+        "rural": {
+            "rf_field": "PropertyType",
+            "method": "where",
+            "operator": "contains",
+            "value": "Farm",
+            "boolean": "or"
+        },
+        "business": {
+            "rf_field": "PropertyType",
+            "method": "where",
+            "operator": "contains",
+            "value": "BusinessOpportunity",
+            "boolean": "or"
+        }
+    },
+    "post_taxonomies": {
+    }
+}

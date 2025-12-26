@@ -1,0 +1,408 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: houzez\n"
+"POT-Creation-Date: 2025-05-23 11:55+0500\n"
+"PO-Revision-Date: 2018-02-14 00:30+0500\n"
+"Last-Translator: \n"
+"Language-Team: Favethemes <hello@favethemes.com>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.6\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_x;esc_html__;esc_html_e;_n;_nx\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: houzez-crm.php:117
+msgid "Processing, Please wait..."
+msgstr ""
+
+#: houzez-crm.php:118
+msgid "Are you sure you want to do this?"
+msgstr ""
+
+#: houzez-crm.php:119
+msgid "Delete"
+msgstr ""
+
+#: houzez-crm.php:120
+msgid "Cancel"
+msgstr ""
+
+#: houzez-crm.php:121
+msgid "Confirm"
+msgstr ""
+
+#: houzez-crm.php:122
+msgid "Select"
+msgstr ""
+
+#: houzez-crm.php:123
+msgid "Import"
+msgstr ""
+
+#: houzez-crm.php:124 includes/class-leads.php:228
+msgid "Please map at least one field."
+msgstr ""
+
+#: houzez-crm.php:125
+msgid "Error in Importing Data."
+msgstr ""
+
+#: houzez-crm.php:127
+msgid "Are you sure you want to delete?"
+msgstr ""
+
+#: houzez-crm.php:128
+msgid "Are you sure you want to send email?"
+msgstr ""
+
+#: houzez-crm.php:359 houzez-crm.php:367
+msgid "Not good; huh?"
+msgstr ""
+
+#: includes/class-activities.php:20 includes/class-activities.php:71
+#: includes/class-deals.php:24 includes/class-leads.php:1116
+#: includes/class-notes.php:21
+msgid "Security check failed!"
+msgstr ""
+
+#: includes/class-activities.php:26
+msgid "No activities selected"
+msgstr ""
+
+#: includes/class-activities.php:34
+msgid "No valid activities found"
+msgstr ""
+
+#: includes/class-activities.php:54
+msgid "Activities deleted successfully"
+msgstr ""
+
+#: includes/class-activities.php:56
+msgid "You don't have rights to perform this action or no activities were deleted"
+msgstr ""
+
+#: includes/class-activities.php:77
+msgid "No activity id found"
+msgstr ""
+
+#: includes/class-activities.php:104 includes/class-deals.php:58
+#: includes/class-enquiry.php:617 includes/class-leads.php:1150
+#: includes/class-leads.php:1185 includes/class-notes.php:144
+msgid "You don't have rights to perform this action"
+msgstr ""
+
+#: includes/class-deals.php:30 includes/class-leads.php:1122
+msgid "No lead id found"
+msgstr ""
+
+#: includes/class-deals.php:77 includes/class-enquiry.php:561
+#: includes/class-leads.php:503
+msgid "Something went wrong!"
+msgstr ""
+
+#: includes/class-deals.php:132 includes/class-deals.php:177
+#: includes/class-deals.php:222 includes/class-deals.php:266
+msgid "Not updated, there is error"
+msgstr ""
+
+#: includes/class-deals.php:138 includes/class-deals.php:183
+#: includes/class-deals.php:228 includes/class-deals.php:272
+msgid "Successfully updated"
+msgstr ""
+
+#: includes/class-deals.php:289
+msgid "Title is empty"
+msgstr ""
+
+#: includes/class-deals.php:297
+msgid "Select contact name"
+msgstr ""
+
+#: includes/class-deals.php:305
+msgid "Enter deal value"
+msgstr ""
+
+#: includes/class-deals.php:316
+msgid "Deal Successfully updated!"
+msgstr ""
+
+#: includes/class-deals.php:327
+msgid "Deal Successfully added!"
+msgstr ""
+
+#: includes/class-deals.php:332
+msgid "Deal not added!"
+msgstr ""
+
+#: includes/class-enquiry.php:109
+msgid "Enter a valid contact"
+msgstr ""
+
+#: includes/class-enquiry.php:114
+msgid "Select property type"
+msgstr ""
+
+#: includes/class-enquiry.php:124
+msgid "Successfully updated!"
+msgstr ""
+
+#: includes/class-enquiry.php:132
+msgid "Successfully added!"
+msgstr ""
+
+#: includes/class-enquiry.php:595
+msgid "No enquiry selected"
+msgstr ""
+
+#: includes/class-enquiry.php:633
+#, php-format
+msgid "Matched Listing Email from %s"
+msgstr ""
+
+#: includes/class-enquiry.php:635
+msgid "We found these listings against your inquiry"
+msgstr ""
+
+#: includes/class-enquiry.php:652
+msgid "Email Sent Successfully!"
+msgstr ""
+
+#: includes/class-enquiry.php:657
+msgid "Server Error: Make sure Email function working on your server!"
+msgstr ""
+
+#: includes/class-leads.php:83
+msgid "You do not have permission to upload files."
+msgstr ""
+
+#: includes/class-leads.php:90
+msgid "Nonce verification failed."
+msgstr ""
+
+#: includes/class-leads.php:137
+msgid "File is uploaded successfully. Redirecting..."
+msgstr ""
+
+#: includes/class-leads.php:144
+msgid "You don't have permission to upload file"
+msgstr ""
+
+#: includes/class-leads.php:150
+msgid "Error: "
+msgstr ""
+
+#: includes/class-leads.php:174 includes/class-leads.php:186
+msgid "File not found."
+msgstr ""
+
+#: includes/class-leads.php:264
+msgid "Data imported successfully."
+msgstr ""
+
+#: includes/class-leads.php:301 includes/class-leads.php:357
+msgid "Prefix"
+msgstr ""
+
+#: includes/class-leads.php:302 includes/class-leads.php:358
+msgid "First Name"
+msgstr ""
+
+#: includes/class-leads.php:303 includes/class-leads.php:359
+msgid "Last Name"
+msgstr ""
+
+#: includes/class-leads.php:304 includes/class-leads.php:360
+msgid "Full Name"
+msgstr ""
+
+#: includes/class-leads.php:305 includes/class-leads.php:361
+msgid "Email"
+msgstr ""
+
+#: includes/class-leads.php:306 includes/class-leads.php:362
+msgid "Mobile"
+msgstr ""
+
+#: includes/class-leads.php:307 includes/class-leads.php:363
+msgid "Home Phone"
+msgstr ""
+
+#: includes/class-leads.php:308 includes/class-leads.php:364
+msgid "Work Phone"
+msgstr ""
+
+#: includes/class-leads.php:309 includes/class-leads.php:365
+msgid "Address"
+msgstr ""
+
+#: includes/class-leads.php:310 includes/class-leads.php:366
+msgid "City"
+msgstr ""
+
+#: includes/class-leads.php:311 includes/class-leads.php:367
+msgid "County / State"
+msgstr ""
+
+#: includes/class-leads.php:312 includes/class-leads.php:368
+msgid "Country"
+msgstr ""
+
+#: includes/class-leads.php:313 includes/class-leads.php:369
+msgid "Postal Code / Zip"
+msgstr ""
+
+#: includes/class-leads.php:314 includes/class-leads.php:370
+msgid "Type"
+msgstr ""
+
+#: includes/class-leads.php:315 includes/class-leads.php:371
+#: includes/settings/lead-settings.php:21
+msgid "Source"
+msgstr ""
+
+#: includes/class-leads.php:316 includes/class-leads.php:372
+msgid "Source Link"
+msgstr ""
+
+#: includes/class-leads.php:317 includes/class-leads.php:373
+msgid "Twitter"
+msgstr ""
+
+#: includes/class-leads.php:318 includes/class-leads.php:374
+msgid "Linkedin"
+msgstr ""
+
+#: includes/class-leads.php:319 includes/class-leads.php:375
+msgid "Facebook"
+msgstr ""
+
+#: includes/class-leads.php:320 includes/class-leads.php:376
+msgid "Private Note"
+msgstr ""
+
+#: includes/class-leads.php:321 includes/class-leads.php:377
+msgid "Message"
+msgstr ""
+
+#: includes/class-leads.php:422
+msgid "Please select title!"
+msgstr ""
+
+#: includes/class-leads.php:427
+msgid "Please enter your full name!"
+msgstr ""
+
+#: includes/class-leads.php:432
+msgid "Invalid email address."
+msgstr ""
+
+#: includes/class-leads.php:442
+msgid "Lead Successfully updated!"
+msgstr ""
+
+#: includes/class-leads.php:453
+msgid "Lead Successfully added!"
+msgstr ""
+
+#: includes/class-leads.php:1163
+msgid "No Item Selected"
+msgstr ""
+
+#: includes/class-notes.php:27
+msgid "Please enter note!"
+msgstr ""
+
+#: includes/class-notes.php:57
+msgid "Add successfully"
+msgstr ""
+
+#: includes/class-notes.php:82
+#, php-format
+msgid "%s ago"
+msgstr ""
+
+#: includes/class-notes.php:133
+msgid "Invalid note_id provided"
+msgstr ""
+
+#: includes/class-viewed.php:24
+msgid "No listing selected"
+msgstr ""
+
+#: includes/functions.php:500
+msgid "&laquo;"
+msgstr ""
+
+#: includes/functions.php:501
+msgid "&raquo;"
+msgstr ""
+
+#: includes/settings/class-crm-settings-api.php:605
+msgid "Choose File"
+msgstr ""
+
+#: includes/settings/class-crm-settings-api.php:626
+msgid "Choose Image"
+msgstr ""
+
+#: includes/settings/class-crm-settings-api.php:719
+#: includes/settings/class-crm-settings-api.php:720
+msgid "CRM Settings"
+msgstr ""
+
+#: includes/settings/deals-settings.php:14
+msgid "Status"
+msgstr ""
+
+#: includes/settings/deals-settings.php:15
+msgid "Provide comma separated values e.g (New Lead, Meeting Scheduled, Qualified, Proposal Sent, Called, Negotiation, Email Sent). First value will be considered default."
+msgstr ""
+
+#: includes/settings/deals-settings.php:22
+msgid "Next Action"
+msgstr ""
+
+#: includes/settings/deals-settings.php:23
+msgid "Provide comma separated values e.g (Qualification, Demo, Call, Send a Proposal, Send an Email, Follow Up, Meeting). First value will be considered default."
+msgstr ""
+
+#: includes/settings/enquiry-settings.php:14
+msgid "Enquiry Type"
+msgstr ""
+
+#: includes/settings/enquiry-settings.php:15
+msgid "Provide comma separated values e.g (Purchase, Rent, Sell, Miss, Evaluation, Mortgage)."
+msgstr ""
+
+#: includes/settings/lead-settings.php:14
+msgid "Lead Prefix"
+msgstr ""
+
+#: includes/settings/lead-settings.php:15
+msgid "Provide comma separated values e.g (Mr, Mrs, Ms, Miss, Dr, Prof, Mr & Mrs)."
+msgstr ""
+
+#: includes/settings/lead-settings.php:22
+msgid "Provide comma separated values e.g (Website, Newspaper, Friend, Google, Facebook)."
+msgstr ""
+
+#: includes/settings/settings-init.php:24
+msgid "Leads Settings"
+msgstr ""
+
+#: includes/settings/settings-init.php:28
+msgid "Enquiries Settings"
+msgstr ""
+
+#: includes/settings/settings-init.php:32
+msgid "Deals Settings"
+msgstr ""
+
+#~ msgid "My Partners"
+#~ msgstr "My Partners Fr p"

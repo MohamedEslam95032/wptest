@@ -1,0 +1,16 @@
+{
+    "name": "realtyna/odata-php-client",
+    "type": "library",
+    "license": "LGPL-3.0-or-later",
+    "autoload": {
+        "psr-4": {
+            "Realtyna\\OData\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=8.1",
+        "ext-dom": "*"
+    },
+    "require-dev": {
+    }
+}
