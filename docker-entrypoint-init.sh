@@ -99,8 +99,8 @@ fi
 
 # --------------------------------------------------
 # 6) Secure defaults
+# (اختياري لو هتضيف حاجات قدام)
 # --------------------------------------------------
-
 
 # --------------------------------------------------
 # 7) Install WordPress (once only)
@@ -153,33 +153,20 @@ wp option update siteurl "$WP_URL" --allow-root --path="$WP_PATH"
 wp option update home "$WP_URL" --allow-root --path="$WP_PATH"
 
 # --------------------------------------------------
-# 10) Activate uiXpress (SAFE – WP-CLI)
+# 10) NOTE: uiXpress / Houzez initialization is DISABLED here
+# - No activation
+# - No demo import
+# - Stable base only
 # --------------------------------------------------
-echo "▶ Checking uiXpress plugin"
-
-if wp plugin is-installed xpress/uixpress.php --allow-root --path="$WP_PATH"; then
-  if ! wp plugin is-active xpress/uixpress.php --allow-root --path="$WP_PATH"; then
-    echo "▶ Activating uiXpress via WP-CLI"
-    wp plugin activate xpress/uixpress.php --allow-root --path="$WP_PATH"
-  else
-    echo "ℹ uiXpress already active"
-  fi
-else
-  echo "⚠ uiXpress plugin not found, skipping activation"
-fi
+echo "ℹ Skipping uiXpress & Houzez initialization (stable base mode)"
 
 # --------------------------------------------------
-# 10) Permissions
+# 11) Permissions
 # --------------------------------------------------
 chown -R www-data:www-data "$WP_PATH"
 
 # --------------------------------------------------
-# 10.9) Initialize Houzez (Theme + Plugins + Demo)
-# --------------------------------------------------
-
-
-# --------------------------------------------------
-# 11) Start Apache
+# 12) Start Apache
 # --------------------------------------------------
 echo "🚀 Starting Apache"
 exec apache2-foreground
