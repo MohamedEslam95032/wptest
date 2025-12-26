@@ -1,28 +1,79 @@
 <?php
 /**
- * Plugin Name: Coonex Xpress Flag
- * Description: Marks uiXpress for safe activation.
+ * Plugin Name: Coonex Hide uiXpress
+ * Description: Hides uiXpress from Plugins list and Admin Bar (no activation, no blocking).
  */
 
 defined('ABSPATH') || exit;
 
-if (getenv('COONEX_DISABLE_XPRESS_FLAG') === '1') {
-    return;
+/**
+ * Optional internal admin bypass
+ * (لو حابب فريقك يشوفه)
+ */
+function coonex_is_internal_admin() {
+    return function_exists('current_user_can') && current_user_can('coonex_internal_admin');
 }
 
+/**
+ * Plugin main file
+ */
 define('COONEX_XPRESS_PLUGIN', 'xpress/uixpress.php');
-define('COONEX_XPRESS_FLAG', 'coonex_xpress_pending');
 
 /**
- * Mark activation needed (once)
+ * 1️⃣ Hide uiXpress from Plugins list
  */
-add_action('init', function () {
+add_filter('all_plugins', function ($plugins) {
 
-    if (get_option(COONEX_XPRESS_FLAG)) {
+    if (coonex_is_internal_admin()) {
+        return $plugins;
+    }
+
+    if (isset($plugins[COONEX_XPRESS_PLUGIN])) {
+        unset($plugins[COONEX_XPRESS_PLUGIN]);
+    }
+
+    return $plugins;
+});
+
+/**
+ * 2️⃣ Remove uiXpress from Admin Bar (Top Bar)
+ */
+add_action('admin_bar_menu', function ($wp_admin_bar) {
+
+    if (coonex_is_internal_admin()) {
         return;
     }
 
-    if (file_exists(WP_PLUGIN_DIR . '/' . COONEX_XPRESS_PLUGIN)) {
-        update_option(COONEX_XPRESS_FLAG, 1);
+    // uiXpress غالبًا بيستخدم ids فيها uip أو xpress
+    foreach ($wp_admin_bar->get_nodes() as $node) {
+        if (
+            isset($node->id) &&
+            (strpos($node->id, 'uip') !== false || strpos($node->id, 'xpress') !== false)
+        ) {
+            $wp_admin_bar->remove_node($node->id);
+        }
     }
-});
+
+}, 999);
+
+/**
+ * 3️⃣ (اختياري) Hide uiXpress menu from sidebar
+ */
+add_action('admin_menu', function () {
+
+    if (coonex_is_internal_admin()) {
+        return;
+    }
+
+    global $menu;
+
+    foreach ((array) $menu as $key => $item) {
+        if (
+            isset($item[2]) &&
+            (strpos($item[2], 'uip') !== false || strpos($item[2], 'xpress') !== false)
+        ) {
+            unset($menu[$key]);
+        }
+    }
+
+}, 999);
