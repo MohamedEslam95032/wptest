@@ -1,74 +1,185 @@
 #!/bin/bash
 set -e
 
+echo "▶ Starting Coonex WordPress Init Script"
+
 WP_PATH="/var/www/html"
 WP_CONFIG="$WP_PATH/wp-config.php"
 
-echo "▶ Starting Coonex WordPress Init Script"
+# --------------------------------------------------
+# 1) Wait for Database
+# --------------------------------------------------
+echo "⏳ Waiting for database..."
 
-# --------------------------------------------------
-# 1) Wait for DB
-# --------------------------------------------------
-until mariadb -h"$WORDPRESS_DB_HOST" -u"$WORDPRESS_DB_USER" -p"$WORDPRESS_DB_PASSWORD" -e "SELECT 1" >/dev/null 2>&1; do
-  echo "⏳ Waiting for database..."
+ATTEMPTS=0
+MAX_ATTEMPTS=30
+
+until mariadb \
+  -h"${WORDPRESS_DB_HOST}" \
+  -u"${WORDPRESS_DB_USER}" \
+  -p"${WORDPRESS_DB_PASSWORD}" \
+  -e "SELECT 1" >/dev/null 2>&1; do
+
+  ATTEMPTS=$((ATTEMPTS+1))
+  echo "⏳ DB not ready ($ATTEMPTS/$MAX_ATTEMPTS)"
+
+  if [ "$ATTEMPTS" -ge "$MAX_ATTEMPTS" ]; then
+    echo "❌ Database not reachable"
+    exit 1
+  fi
+
   sleep 2
 done
+
 echo "✅ Database is reachable"
 
 # --------------------------------------------------
-# 2) Ensure DB exists
+# 2) Ensure Database Exists
 # --------------------------------------------------
-mariadb -h"$WORDPRESS_DB_HOST" -u"$WORDPRESS_DB_USER" -p"$WORDPRESS_DB_PASSWORD" \
-  -e "CREATE DATABASE IF NOT EXISTS \`${WORDPRESS_DB_NAME}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+echo "▶ Ensuring database exists..."
+
+mariadb \
+  -h"${WORDPRESS_DB_HOST}" \
+  -u"${WORDPRESS_DB_USER}" \
+  -p"${WORDPRESS_DB_PASSWORD}" \
+  -e "CREATE DATABASE IF NOT EXISTS \`${WORDPRESS_DB_NAME}\`
+      DEFAULT CHARACTER SET utf8mb4
+      COLLATE utf8mb4_unicode_ci;"
 
 # --------------------------------------------------
-# 3) Copy WordPress core
+# 3) Copy WordPress Core (if not exists)
 # --------------------------------------------------
 if [ ! -f "$WP_PATH/wp-load.php" ]; then
+  echo "▶ Copying WordPress core"
   cp -a /usr/src/wordpress/. "$WP_PATH/"
   chown -R www-data:www-data "$WP_PATH"
+else
+  echo "ℹ WordPress core already exists"
 fi
 
 # --------------------------------------------------
-# 4) wp-config
+# 4) Create wp-config.php (if not exists)
 # --------------------------------------------------
 if [ ! -f "$WP_CONFIG" ]; then
+  echo "▶ Creating wp-config.php"
+
   wp config create \
     --path="$WP_PATH" \
-    --dbname="$WORDPRESS_DB_NAME" \
-    --dbuser="$WORDPRESS_DB_USER" \
-    --dbpass="$WORDPRESS_DB_PASSWORD" \
-    --dbhost="$WORDPRESS_DB_HOST" \
+    --dbname="${WORDPRESS_DB_NAME}" \
+    --dbuser="${WORDPRESS_DB_USER}" \
+    --dbpass="${WORDPRESS_DB_PASSWORD}" \
+    --dbhost="${WORDPRESS_DB_HOST}" \
     --skip-check \
     --allow-root
+else
+  echo "ℹ wp-config.php already exists"
 fi
 
 # --------------------------------------------------
-# 5) Install WP
+# 5) Inject Coonex Proxy + HTTPS Fix (NO REDIRECT LOOP)
+#     - This must be BEFORE wp-settings.php is loaded
+# --------------------------------------------------
+if ! grep -q "Coonex Proxy & HTTPS Detection" "$WP_CONFIG"; then
+  echo "▶ Injecting Coonex Proxy & HTTPS Detection into wp-config.php"
+
+  sed -i "/require_once ABSPATH . 'wp-settings.php';/i \
+/** ==================================================\\n\
+ * Coonex Proxy & HTTPS Detection (NO REDIRECT LOOP)\\n\
+ * Works with Traefik, Cloudflare, Coolify\\n\
+ * ================================================== */\\n\
+if ((isset(\$_SERVER['HTTP_X_FORWARDED_PROTO']) && \$_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') \\\
+ || (isset(\$_SERVER['HTTP_X_FORWARDED_SSL']) && \$_SERVER['HTTP_X_FORWARDED_SSL'] === 'on') \\\
+ || (isset(\$_SERVER['HTTP_CF_VISITOR']) && strpos(\$_SERVER['HTTP_CF_VISITOR'], 'https') !== false)) {\\n\
+    \$_SERVER['HTTPS'] = 'on';\\n\
+}\\n\\n\
+if (isset(\$_SERVER['HTTP_X_FORWARDED_PORT'])) {\\n\
+    \$_SERVER['SERVER_PORT'] = \$_SERVER['HTTP_X_FORWARDED_PORT'];\\n\
+}\\n\\n\
+if (getenv('WP_URL')) {\\n\
+    define('WP_HOME', getenv('WP_URL'));\\n\
+    define('WP_SITEURL', getenv('WP_URL'));\\n\
+}\\n\
+" "$WP_CONFIG"
+else
+  echo "ℹ Coonex proxy config already present"
+fi
+
+# --------------------------------------------------
+# 6) Install WordPress (once only)
 # --------------------------------------------------
 if ! wp core is-installed --allow-root --path="$WP_PATH"; then
+  echo "▶ Installing WordPress"
+
   wp core install \
     --path="$WP_PATH" \
-    --url="$WP_URL" \
-    --title="Coonex CMS" \
-    --admin_user="$WP_ADMIN_USER" \
-    --admin_password="$WP_ADMIN_PASS" \
-    --admin_email="$WP_ADMIN_EMAIL" \
+    --url="${WP_URL}" \
+    --title="${WP_TITLE:-Coonex}" \
+    --admin_user="${WP_ADMIN_USER:-admin}" \
+    --admin_password="${WP_ADMIN_PASS:-Admin@123}" \
+    --admin_email="${WP_ADMIN_EMAIL:-admin@coonex.io}" \
     --skip-email \
     --allow-root
+else
+  echo "ℹ WordPress already installed"
 fi
 
 # --------------------------------------------------
-# 6) Activate uiXpress SAFELY
+# 7) Ensure admin user from ENV exists (Bootstrap User)
 # --------------------------------------------------
+if [ -n "$WP_ADMIN_USER" ] && [ -n "$WP_ADMIN_PASS" ] && [ -n "$WP_ADMIN_EMAIL" ]; then
+  echo "▶ Ensuring admin user from ENV exists"
+
+  if ! wp user get "$WP_ADMIN_USER" --allow-root --path="$WP_PATH" >/dev/null 2>&1; then
+    wp user create \
+      "$WP_ADMIN_USER" \
+      "$WP_ADMIN_EMAIL" \
+      --user_pass="$WP_ADMIN_PASS" \
+      --role="${WP_ADMIN_ROLE:-administrator}" \
+      --allow-root \
+      --path="$WP_PATH"
+
+    echo "✅ Admin user created from ENV"
+  else
+    echo "ℹ Admin user already exists"
+  fi
+else
+  echo "ℹ Admin ENV vars not fully set, skipping admin creation"
+fi
+
+# --------------------------------------------------
+# 8) Enforce siteurl/home in DB (final guard against loops)
+# --------------------------------------------------
+if [ -n "$WP_URL" ]; then
+  echo "▶ Enforcing siteurl/home in database"
+  wp option update siteurl "$WP_URL" --allow-root --path="$WP_PATH" || true
+  wp option update home "$WP_URL" --allow-root --path="$WP_PATH" || true
+else
+  echo "⚠ WP_URL is empty, skipping siteurl/home enforcement"
+fi
+
+# --------------------------------------------------
+# 9) Activate uiXpress (SAFE – WP-CLI)
+#     - Do NOT activate from PHP (causes white screen)
+# --------------------------------------------------
+echo "▶ Checking uiXpress plugin"
 if wp plugin is-installed xpress/uixpress.php --allow-root --path="$WP_PATH"; then
   if ! wp plugin is-active xpress/uixpress.php --allow-root --path="$WP_PATH"; then
+    echo "▶ Activating uiXpress via WP-CLI"
     wp plugin activate xpress/uixpress.php --allow-root --path="$WP_PATH"
+  else
+    echo "ℹ uiXpress already active"
   fi
+else
+  echo "⚠ uiXpress plugin not found, skipping activation"
 fi
 
 # --------------------------------------------------
-# 7) Permissions + Start
+# 10) Permissions
 # --------------------------------------------------
 chown -R www-data:www-data "$WP_PATH"
+
+# --------------------------------------------------
+# 11) Start Apache
+# --------------------------------------------------
+echo "🚀 Starting Apache"
 exec apache2-foreground
