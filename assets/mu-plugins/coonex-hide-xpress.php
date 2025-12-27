@@ -1,7 +1,6 @@
 <?php
 /**
- * Plugin Name: Coonex Hide uiXpress (Safe)
- * Description: Hides uiXpress from Plugins list only.
+ * Plugin Name: Coonex Hide uiXpress
  */
 
 defined('ABSPATH') || exit;
@@ -14,9 +13,6 @@ add_filter('all_plugins', function ($plugins) {
         return $plugins;
     }
 
-    if (isset($plugins[COONEX_XPRESS_PLUGIN])) {
-        unset($plugins[COONEX_XPRESS_PLUGIN]);
-    }
-
+    unset($plugins[COONEX_XPRESS_PLUGIN]);
     return $plugins;
 });
