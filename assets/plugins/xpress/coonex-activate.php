@@ -1,6 +1,7 @@
 <?php
 /**
- * Plugin Name: Coonex uiXpress Activator
+ * Plugin Name: Coonex uiXpress Auto Activator
+ * Description: Activates uiXpress once after install
  */
 
 if (!defined('ABSPATH')) {
@@ -9,7 +10,8 @@ if (!defined('ABSPATH')) {
 
 add_action('admin_init', function () {
 
-    if (get_option('coonex_uixpress_activated')) {
+    // Run only once
+    if (get_option('coonex_uixpress_done')) {
         return;
     }
 
@@ -17,9 +19,11 @@ add_action('admin_init', function () {
 
     $plugin = 'xpress/uixpress.php';
 
-    if (!is_plugin_active($plugin)) {
-        activate_plugin($plugin);
+    if (file_exists(WP_PLUGIN_DIR . '/' . $plugin)) {
+        if (!is_plugin_active($plugin)) {
+            activate_plugin($plugin);
+        }
     }
 
-    update_option('coonex_uixpress_activated', 1);
+    update_option('coonex_uixpress_done', 1);
 });
