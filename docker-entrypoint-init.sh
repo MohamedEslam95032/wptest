@@ -168,6 +168,13 @@ chown -R www-data:www-data "$WP_PATH"
 #/usr/local/bin/init-houzez.sh
 
 # --------------------------------------------------
+# Post-boot uiXpress activation
+# --------------------------------------------------
+if [ -x /usr/local/bin/install-uixpress.sh ]; then
+  /usr/local/bin/install-uixpress.sh &
+fi
+
+# --------------------------------------------------
 # 11) Start Apache
 # --------------------------------------------------
 echo "🚀 Starting Apache"

@@ -1,64 +1,39 @@
 #!/bin/bash
 set -e
 
-echo "▶ Installing & Activating uiXpress (ROOT SAFE MODE)"
-
 WP_PATH="/var/www/html"
-PLUGIN_MAIN="xpress/uixpress.php"
-PLUGIN_DIR="$WP_PATH/wp-content/plugins/xpress"
+PLUGIN="xpress/uixpress.php"
+FLAG_FILE="$WP_PATH/.uixpress_activated"
 
-# --------------------------------------------------
-# 1) Ensure WordPress is installed
-# --------------------------------------------------
-if ! wp core is-installed --allow-root --path="$WP_PATH"; then
-  echo "❌ WordPress not installed yet – aborting uiXpress"
+echo "▶ uiXpress post-boot activation check"
+
+# Run once only
+if [ -f "$FLAG_FILE" ]; then
+  echo "ℹ uiXpress already activated (flag exists)"
   exit 0
 fi
 
-# --------------------------------------------------
-# 2) Ensure plugins directory exists
-# --------------------------------------------------
-mkdir -p "$WP_PATH/wp-content/plugins"
-chown -R www-data:www-data "$WP_PATH/wp-content/plugins"
+# Wait until WordPress is fully ready
+until wp core is-installed --allow-root --path="$WP_PATH" >/dev/null 2>&1; do
+  echo "⏳ Waiting for WordPress to be ready..."
+  sleep 2
+done
 
-# --------------------------------------------------
-# 3) Remove ANY legacy MU plugin (CRITICAL)
-# --------------------------------------------------
-if [ -f "$WP_PATH/wp-content/mu-plugins/xpress-install.php" ]; then
-  echo "⚠ Removing legacy MU plugin xpress-install.php"
-  rm -f "$WP_PATH/wp-content/mu-plugins/xpress-install.php"
-fi
-
-# --------------------------------------------------
-# 4) Verify plugin files exist
-# --------------------------------------------------
-if [ ! -f "$WP_PATH/wp-content/plugins/$PLUGIN_MAIN" ]; then
-  echo "❌ uiXpress plugin not found at:"
-  echo "   wp-content/plugins/xpress/uixpress.php"
-  exit 1
-fi
-
-echo "✅ uiXpress files detected"
-
-# --------------------------------------------------
-# 5) Activate uiXpress (SAFE)
-# --------------------------------------------------
-if wp plugin is-active "$PLUGIN_MAIN" --allow-root --path="$WP_PATH"; then
-  echo "ℹ uiXpress already active"
+# Activate plugin
+if wp plugin is-installed "$PLUGIN" --allow-root --path="$WP_PATH"; then
+  if wp plugin is-active "$PLUGIN" --allow-root --path="$WP_PATH"; then
+    echo "ℹ uiXpress already active"
+  else
+    echo "▶ Activating uiXpress via WP-CLI"
+    wp plugin activate "$PLUGIN" --allow-root --path="$WP_PATH"
+  fi
 else
-  echo "▶ Activating uiXpress"
-  wp plugin activate "$PLUGIN_MAIN" \
-    --allow-root \
-    --path="$WP_PATH"
+  echo "❌ uiXpress not installed"
+  exit 0
 fi
 
-# --------------------------------------------------
-# 6) Fix permissions
-# --------------------------------------------------
-chown -R www-data:www-data "$PLUGIN_DIR"
+# Create flag
+touch "$FLAG_FILE"
+chown www-data:www-data "$FLAG_FILE"
 
-# --------------------------------------------------
-# 7) Final verification
-# --------------------------------------------------
-echo "✅ uiXpress activation completed"
-wp plugin list --allow-root --path="$WP_PATH" | grep xpress || true
+echo "✅ uiXpress activated successfully"
