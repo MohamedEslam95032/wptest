@@ -48,7 +48,7 @@ fi
 if wp plugin is-active "$PLUGIN_MAIN" --allow-root --path="$WP_PATH"; then
   echo "ℹ uiXpress already active"
 else
-  echo "▶ Activating uiXpress"
+  echo "▶ Activating uixpress"
   wp plugin activate "$PLUGIN_MAIN" \
     --allow-root \
     --path="$WP_PATH"
