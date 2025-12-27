@@ -8,26 +8,41 @@ RUN apt-get update && apt-get install -y \
  && rm -rf /var/lib/apt/lists/*
 
 # --------------------------------------------------
+# PHP DEFAULTS (official & safe way)
+# --------------------------------------------------
+RUN { \
+      echo "upload_max_filesize = 20M"; \
+      echo "post_max_size = 25M"; \
+      echo "memory_limit = 256M"; \
+      echo "max_execution_time = 300"; \
+      echo "max_input_time = 300"; \
+    } > /usr/local/etc/php/conf.d/99-coonex-defaults.ini
+
+# --------------------------------------------------
 # WP-CLI
 # --------------------------------------------------
 RUN curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
  && chmod +x /usr/local/bin/wp
 
 # --------------------------------------------------
-# PHP Defaults (رفع limits)
+# Inject Coonex config into wp-config-sample.php
 # --------------------------------------------------
-RUN { \
-  echo "upload_max_filesize=64M"; \
-  echo "post_max_size=64M"; \
-  echo "memory_limit=256M"; \
-  echo "max_execution_time=300"; \
-  echo "max_input_time=300"; \
-} > /usr/local/etc/php/conf.d/99-coonex-defaults.ini
+RUN sed -i "/require_once ABSPATH . 'wp-settings.php';/i \
+/** ==============================\\n\
+ * Coonex URL & Proxy Detection (NO FORCE HTTPS)\\n\
+ * ============================== */\\n\
+if (getenv('WP_URL')) {\\n\
+    define('WP_HOME', getenv('WP_URL'));\\n\
+    define('WP_SITEURL', getenv('WP_URL'));\\n\
+}\\n\\n\
+if (!empty(\$_SERVER['HTTP_X_FORWARDED_PROTO'])) {\\n\
+    \$_SERVER['HTTPS'] = \$_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https' ? 'on' : 'off';\\n\
+}\\n" /usr/src/wordpress/wp-config-sample.php
 
 # --------------------------------------------------
-# Copy Themes / Plugins / MU-Plugins
+# Copy themes / plugins / MU plugins
 # --------------------------------------------------
-COPY assets/themes/ /usr/src/wordpress/wp-content/themes/
+#COPY assets/themes/ /usr/src/wordpress/wp-content/themes/
 COPY assets/plugins/ /usr/src/wordpress/wp-content/plugins/
 COPY assets/mu-plugins/ /usr/src/wordpress/wp-content/mu-plugins/
 

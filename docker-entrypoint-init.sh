@@ -47,17 +47,18 @@ mariadb \
       COLLATE utf8mb4_unicode_ci;"
 
 # --------------------------------------------------
-# 3) Copy WordPress Core
+# 3) Copy WordPress Core (if not exists)
 # --------------------------------------------------
 if [ ! -f "$WP_PATH/wp-load.php" ]; then
   echo "▶ Copying WordPress core"
   cp -a /usr/src/wordpress/. "$WP_PATH/"
+  chown -R www-data:www-data "$WP_PATH"
 else
   echo "ℹ WordPress core already exists"
 fi
 
 # --------------------------------------------------
-# 4) Create wp-config.php
+# 4) Create wp-config.php (if not exists)
 # --------------------------------------------------
 if [ ! -f "$WP_CONFIG" ]; then
   echo "▶ Creating wp-config.php"
@@ -75,33 +76,34 @@ else
 fi
 
 # --------------------------------------------------
-# 5) Inject Coonex URL + Proxy Detection (SAFE)
+# 5) Inject Coonex URL + Proxy Fix (REAL FILE)
 # --------------------------------------------------
 if ! grep -q "Coonex URL & Proxy Detection" "$WP_CONFIG"; then
-  echo "▶ Injecting Coonex URL & Proxy Detection"
+  echo "▶ Injecting Coonex URL & Proxy Detection into wp-config.php"
 
-  cat <<'EOF' >> "$WP_CONFIG"
-
-/** ==============================
- * Coonex URL & Proxy Detection (NO FORCE HTTPS)
- * ============================== */
-if (getenv('WP_URL')) {
-    define('WP_HOME', getenv('WP_URL'));
-    define('WP_SITEURL', getenv('WP_URL'));
-}
-
-if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
-    $_SERVER['HTTPS'] = $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https' ? 'on' : 'off';
-}
-
-EOF
-
+  sed -i "/require_once ABSPATH . 'wp-settings.php';/i \
+/** ==============================\\n\
+ * Coonex URL & Proxy Detection (NO FORCE HTTPS)\\n\
+ * ============================== */\\n\
+if (getenv('WP_URL')) {\\n\
+    define('WP_HOME', getenv('WP_URL'));\\n\
+    define('WP_SITEURL', getenv('WP_URL'));\\n\
+}\\n\\n\
+if (!empty(\$_SERVER['HTTP_X_FORWARDED_PROTO'])) {\\n\
+    \$_SERVER['HTTPS'] = \$_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https' ? 'on' : 'off';\\n\
+}\\n\
+" "$WP_CONFIG"
 else
-  echo "ℹ Proxy config already present"
+  echo "ℹ Coonex proxy config already present"
 fi
 
 # --------------------------------------------------
-# 6) Install WordPress (once)
+# 6) Secure defaults
+# --------------------------------------------------
+
+
+# --------------------------------------------------
+# 7) Install WordPress (once only)
 # --------------------------------------------------
 if ! wp core is-installed --allow-root --path="$WP_PATH"; then
   echo "▶ Installing WordPress"
@@ -120,44 +122,61 @@ else
 fi
 
 # --------------------------------------------------
-# 7) Ensure Admin User from ENV
+# 8) Ensure admin user from ENV exists (Bootstrap User)
 # --------------------------------------------------
 if [ -n "$WP_ADMIN_USER" ] && [ -n "$WP_ADMIN_PASS" ] && [ -n "$WP_ADMIN_EMAIL" ]; then
-  if ! wp user get "$WP_ADMIN_USER" --allow-root --path="$WP_PATH" >/dev/null 2>&1; then
-    echo "▶ Creating admin user from ENV"
+  echo "▶ Ensuring admin user from ENV exists"
 
+  if ! wp user get "$WP_ADMIN_USER" --allow-root --path="$WP_PATH" >/dev/null 2>&1; then
     wp user create \
       "$WP_ADMIN_USER" \
       "$WP_ADMIN_EMAIL" \
       --user_pass="$WP_ADMIN_PASS" \
-      --role="administrator" \
+      --role="${WP_ADMIN_ROLE:-administrator}" \
       --allow-root \
       --path="$WP_PATH"
+
+    echo "✅ Admin user created from ENV"
   else
     echo "ℹ Admin user already exists"
   fi
+else
+  echo "ℹ Admin ENV vars not fully set, skipping admin creation"
 fi
 
 # --------------------------------------------------
-# 8) Enforce siteurl / home
+# 9) Fix siteurl/home in DB (final guard)
 # --------------------------------------------------
+echo "▶ Enforcing siteurl/home in database"
+
 wp option update siteurl "$WP_URL" --allow-root --path="$WP_PATH"
 wp option update home "$WP_URL" --allow-root --path="$WP_PATH"
 
 # --------------------------------------------------
-# 9) Activate uiXpress safely (WP-CLI)
+# 10) Activate uiXpress (SAFE – WP-CLI)
 # --------------------------------------------------
+echo "▶ Checking uiXpress plugin"
+
 if wp plugin is-installed xpress/uixpress.php --allow-root --path="$WP_PATH"; then
   if ! wp plugin is-active xpress/uixpress.php --allow-root --path="$WP_PATH"; then
-    echo "▶ Activating uiXpress"
+    echo "▶ Activating uiXpress via WP-CLI"
     wp plugin activate xpress/uixpress.php --allow-root --path="$WP_PATH"
+  else
+    echo "ℹ uiXpress already active"
   fi
+else
+  echo "⚠ uiXpress plugin not found, skipping activation"
 fi
 
 # --------------------------------------------------
 # 10) Permissions
 # --------------------------------------------------
 chown -R www-data:www-data "$WP_PATH"
+
+# --------------------------------------------------
+# 10.9) Initialize Houzez (Theme + Plugins + Demo)
+# --------------------------------------------------
+#/usr/local/bin/init-houzez.sh
 
 # --------------------------------------------------
 # 11) Start Apache
