@@ -1,39 +1,47 @@
 #!/bin/bash
 set -e
 
+echo "▶ Activating uiXpress via WP-CLI (SAFE)"
+
 WP_PATH="/var/www/html"
-PLUGIN="xpress/uixpress.php"
-FLAG_FILE="$WP_PATH/.uixpress_activated"
+PLUGIN_PATH="xpress/uixpress.php"
+ADMIN_USER="${WP_ADMIN_USER:-admin}"
 
-echo "▶ uiXpress post-boot activation check"
-
-# Run once only
-if [ -f "$FLAG_FILE" ]; then
-  echo "ℹ uiXpress already activated (flag exists)"
+# ----------------------------------------
+# 1) تأكد إن ووردبريس متسطب
+# ----------------------------------------
+if ! wp core is-installed --allow-root --path="$WP_PATH"; then
+  echo "❌ WordPress not installed yet – aborting"
   exit 0
 fi
 
-# Wait until WordPress is fully ready
-until wp core is-installed --allow-root --path="$WP_PATH" >/dev/null 2>&1; do
-  echo "⏳ Waiting for WordPress to be ready..."
-  sleep 2
-done
+# ----------------------------------------
+# 2) تأكد إن البلاجن موجود
+# ----------------------------------------
+if [ ! -f "$WP_PATH/wp-content/plugins/$PLUGIN_PATH" ]; then
+  echo "❌ uiXpress files not found – aborting"
+  exit 0
+fi
 
-# Activate plugin
-if wp plugin is-installed "$PLUGIN" --allow-root --path="$WP_PATH"; then
-  if wp plugin is-active "$PLUGIN" --allow-root --path="$WP_PATH"; then
-    echo "ℹ uiXpress already active"
-  else
-    echo "▶ Activating uiXpress via WP-CLI"
-    wp plugin activate "$PLUGIN" --allow-root --path="$WP_PATH"
-  fi
+# ----------------------------------------
+# 3) تأكد إن اليوزر موجود
+# ----------------------------------------
+if ! wp user get "$ADMIN_USER" --allow-root --path="$WP_PATH" >/dev/null 2>&1; then
+  echo "❌ Admin user not found – aborting"
+  exit 0
+fi
+
+# ----------------------------------------
+# 4) لو متفعلش → فعّله (ده المهم)
+# ----------------------------------------
+if wp plugin is-active "$PLUGIN_PATH" --allow-root --path="$WP_PATH"; then
+  echo "ℹ uiXpress already active"
 else
-  echo "❌ uiXpress not installed"
-  exit 0
+  echo "▶ Activating uiXpress as user: $ADMIN_USER"
+  wp plugin activate "$PLUGIN_PATH" \
+    --allow-root \
+    --path="$WP_PATH" \
+    --user="$ADMIN_USER"
 fi
 
-# Create flag
-touch "$FLAG_FILE"
-chown www-data:www-data "$FLAG_FILE"
-
-echo "✅ uiXpress activated successfully"
+echo "✅ uiXpress activation finished"
