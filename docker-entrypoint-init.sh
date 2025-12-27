@@ -52,7 +52,6 @@ mariadb \
 if [ ! -f "$WP_PATH/wp-load.php" ]; then
   echo "▶ Copying WordPress core"
   cp -a /usr/src/wordpress/. "$WP_PATH/"
-  chown -R www-data:www-data "$WP_PATH"
 else
   echo "ℹ WordPress core already exists"
 fi
@@ -76,32 +75,92 @@ else
 fi
 
 # --------------------------------------------------
-# 5) Inject Coonex URL + Proxy Fix
+# 5) Inject Coonex URL + Proxy Detection (SAFE)
 # --------------------------------------------------
 if ! grep -q "Coonex URL & Proxy Detection" "$WP_CONFIG"; then
   echo "▶ Injecting Coonex URL & Proxy Detection"
 
-  sed -i "/require_once ABSPATH . 'wp-settings.php';/i \
-/** ==============================\\n\
- * Coonex URL & Proxy Detection (NO FORCE HTTPS)\\n\
- * ============================== */\\n\
-if (getenv('WP_URL')) {\\n\
-    define('WP_HOME', getenv('WP_URL'));\\n\
-    define('WP_SITEURL', getenv('WP_URL'));\\n\
-}\\n\\n\
-if (!empty(\$_SERVER['HTTP_X_FORWARDED_PROTO'])) {\\n\
-    \$_SERVER['HTTPS'] = \$_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https' ? 'on' : 'off';\\n\
-}\\n\
-" "$WP_CONFIG"
+  cat <<'EOF' >> "$WP_CONFIG"
+
+/** ==============================
+ * Coonex URL & Proxy Detection (NO FORCE HTTPS)
+ * ============================== */
+if (getenv('WP_URL')) {
+    define('WP_HOME', getenv('WP_URL'));
+    define('WP_SITEURL', getenv('WP_URL'));
+}
+
+if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
+    $_SERVER['HTTPS'] = $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https' ? 'on' : 'off';
+}
+
+EOF
+
 else
   echo "ℹ Proxy config already present"
 fi
 
 # --------------------------------------------------
-# 6) Install WordPress
+# 6) Install WordPress (once)
 # --------------------------------------------------
 if ! wp core is-installed --allow-root --path="$WP_PATH"; then
   echo "▶ Installing WordPress"
 
   wp core install \
-    --
+    --path="$WP_PATH" \
+    --url="${WP_URL}" \
+    --title="${WP_TITLE:-Coonex}" \
+    --admin_user="${WP_ADMIN_USER:-admin}" \
+    --admin_password="${WP_ADMIN_PASS:-Admin@123}" \
+    --admin_email="${WP_ADMIN_EMAIL:-admin@coonex.io}" \
+    --skip-email \
+    --allow-root
+else
+  echo "ℹ WordPress already installed"
+fi
+
+# --------------------------------------------------
+# 7) Ensure Admin User from ENV
+# --------------------------------------------------
+if [ -n "$WP_ADMIN_USER" ] && [ -n "$WP_ADMIN_PASS" ] && [ -n "$WP_ADMIN_EMAIL" ]; then
+  if ! wp user get "$WP_ADMIN_USER" --allow-root --path="$WP_PATH" >/dev/null 2>&1; then
+    echo "▶ Creating admin user from ENV"
+
+    wp user create \
+      "$WP_ADMIN_USER" \
+      "$WP_ADMIN_EMAIL" \
+      --user_pass="$WP_ADMIN_PASS" \
+      --role="administrator" \
+      --allow-root \
+      --path="$WP_PATH"
+  else
+    echo "ℹ Admin user already exists"
+  fi
+fi
+
+# --------------------------------------------------
+# 8) Enforce siteurl / home
+# --------------------------------------------------
+wp option update siteurl "$WP_URL" --allow-root --path="$WP_PATH"
+wp option update home "$WP_URL" --allow-root --path="$WP_PATH"
+
+# --------------------------------------------------
+# 9) Activate uiXpress safely (WP-CLI)
+# --------------------------------------------------
+if wp plugin is-installed xpress/uixpress.php --allow-root --path="$WP_PATH"; then
+  if ! wp plugin is-active xpress/uixpress.php --allow-root --path="$WP_PATH"; then
+    echo "▶ Activating uiXpress"
+    wp plugin activate xpress/uixpress.php --allow-root --path="$WP_PATH"
+  fi
+fi
+
+# --------------------------------------------------
+# 10) Permissions
+# --------------------------------------------------
+chown -R www-data:www-data "$WP_PATH"
+
+# --------------------------------------------------
+# 11) Start Apache
+# --------------------------------------------------
+echo "🚀 Starting Apache"
+exec apache2-foreground
