@@ -1,18 +1,20 @@
 <?php
 /**
- * Plugin Name: Coonex Hide uiXpress
+ * Plugin Name: Coonex Hide uiXpress (SAFE)
+ * Description: Hides uiXpress from Plugins list only (no menu, no blocks, no crashes).
+ * Author: Coonex
+ * Version: 1.0.0
  */
 
 defined('ABSPATH') || exit;
 
-define('COONEX_XPRESS_PLUGIN', 'xpress/uixpress.php');
-
+/**
+ * Hide uiXpress from Plugins list
+ * SAFE: does NOT affect dashboard, routes, menus, or assets
+ */
 add_filter('all_plugins', function ($plugins) {
-
-    if (function_exists('current_user_can') && current_user_can('coonex_internal_admin')) {
-        return $plugins;
+    if (isset($plugins['xpress/uixpress.php'])) {
+        unset($plugins['xpress/uixpress.php']);
     }
-
-    unset($plugins[COONEX_XPRESS_PLUGIN]);
     return $plugins;
 });
