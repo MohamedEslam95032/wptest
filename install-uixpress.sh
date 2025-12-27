@@ -4,9 +4,8 @@ set -e
 echo "▶ Installing uiXpress (SAFE ROOT INSTALL)"
 
 WP_PATH="/var/www/html"
-PLUGIN_SLUG="uixpress"
-PLUGIN_DIR="$WP_PATH/wp-content/plugins/xpress"
-PLUGIN_MAIN="xpress/uixpress.php"
+PLUGIN_DIR="$WP_PATH/wp-content/plugins/uxpress"
+PLUGIN_MAIN="uxpress/uixpress.php"
 
 # --------------------------------------------------
 # 1) Ensure WordPress is installed
@@ -31,16 +30,15 @@ if [ -f "$WP_PATH/wp-content/mu-plugins/xpress-install.php" ]; then
 fi
 
 # --------------------------------------------------
-# 4) Download uiXpress if not exists
+# 4) Verify plugin files exist
 # --------------------------------------------------
 if [ ! -f "$WP_PATH/wp-content/plugins/$PLUGIN_MAIN" ]; then
-  echo "▶ Downloading uiXpress via WP-CLI"
-  wp plugin install "$PLUGIN_SLUG" \
-    --path="$WP_PATH" \
-    --allow-root
-else
-  echo "ℹ uiXpress files already exist"
+  echo "❌ uiXpress plugin files not found at:"
+  echo "   wp-content/plugins/uxpress/uixpress.php"
+  exit 1
 fi
+
+echo "✅ uiXpress files detected"
 
 # --------------------------------------------------
 # 5) Activate uiXpress (SAFE)
@@ -48,19 +46,19 @@ fi
 if wp plugin is-active "$PLUGIN_MAIN" --allow-root --path="$WP_PATH"; then
   echo "ℹ uiXpress already active"
 else
-  echo "▶ Activating uixpress"
+  echo "▶ Activating uiXpress"
   wp plugin activate "$PLUGIN_MAIN" \
     --allow-root \
     --path="$WP_PATH"
 fi
 
 # --------------------------------------------------
-# 6) Fix permissions (important for admin UI)
+# 6) Fix permissions
 # --------------------------------------------------
-chown -R www-data:www-data "$WP_PATH/wp-content/plugins/xpress"
+chown -R www-data:www-data "$PLUGIN_DIR"
 
 # --------------------------------------------------
 # 7) Final verification
 # --------------------------------------------------
-echo "✅ uiXpress install completed"
-wp plugin list --allow-root --path="$WP_PATH" | grep xpress || true
+echo "✅ uiXpress activation completed"
+wp plugin list --allow-root --path="$WP_PATH" | grep uxpress || true
