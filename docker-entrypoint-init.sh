@@ -155,17 +155,23 @@ wp option update home "$WP_URL" --allow-root --path="$WP_PATH"
 # --------------------------------------------------
 # 10) Activate uiXpress (SAFE – WP-CLI)
 # --------------------------------------------------
+echo "▶ Checking uiXpress plugin"
 
+if wp plugin is-installed xpress/uixpress.php --allow-root --path="$WP_PATH"; then
+  if ! wp plugin is-active xpress/uixpress.php --allow-root --path="$WP_PATH"; then
+    echo "▶ Activating uiXpress via WP-CLI"
+    wp plugin activate xpress/uixpress.php --allow-root --path="$WP_PATH"
+  else
+    echo "ℹ uiXpress already active"
+  fi
+else
+  echo "⚠ uiXpress plugin not found, skipping activation"
+fi
 
 # --------------------------------------------------
 # 10) Permissions
 # --------------------------------------------------
 chown -R www-data:www-data "$WP_PATH"
-
-# --------------------------------------------------
-# 10.9) Initialize Houzez (Theme + Plugins + Demo)
-# --------------------------------------------------
-#/usr/local/bin/init-houzez.sh
 
 # --------------------------------------------------
 # 11) Start Apache
