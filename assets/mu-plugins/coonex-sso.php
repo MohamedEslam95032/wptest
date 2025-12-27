@@ -1,100 +1,56 @@
 <?php
 /**
- * Plugin Name: Coonex JWT SSO (MU)
- * Description: Core JWT-based SSO for Coonex.
+ * Plugin Name: Coonex JWT SSO
  */
 
 defined('ABSPATH') || exit;
 
 add_action('init', function () {
 
-    // Only handle wp-login.php
-    if (!isset($GLOBALS['pagenow']) || $GLOBALS['pagenow'] !== 'wp-login.php') {
+    if (!isset($_GET['token'])) {
         return;
-    }
-
-    // Allow WordPress internal reauth / interim login
-    if (isset($_GET['reauth']) || isset($_GET['interim-login'])) {
-        return;
-    }
-
-    // No token? redirect safely
-    if (empty($_GET['token'])) {
-        wp_safe_redirect(home_url());
-        exit;
     }
 
     $secret = getenv('COONEX_SSO_SECRET');
     if (!$secret) {
-        wp_die('SSO secret not configured');
+        wp_die('SSO secret missing');
     }
 
-    $jwt = trim($_GET['token']);
+    $jwt = $_GET['token'];
     $parts = explode('.', $jwt);
-
     if (count($parts) !== 3) {
-        wp_safe_redirect(home_url());
-        exit;
+        wp_die('Invalid token');
     }
 
-    [$header, $payload, $signature] = $parts;
+    [$h, $p, $s] = $parts;
 
     $expected = rtrim(strtr(
-        base64_encode(hash_hmac(
-            'sha256',
-            "$header.$payload",
-            $secret,
-            true
-        )),
+        base64_encode(hash_hmac('sha256', "$h.$p", $secret, true)),
         '+/',
         '-_'
     ), '=');
 
-    if (!hash_equals($expected, $signature)) {
-        wp_safe_redirect(home_url());
-        exit;
+    if (!hash_equals($expected, $s)) {
+        wp_die('Invalid signature');
     }
 
-    $data = json_decode(
-        base64_decode(strtr($payload, '-_', '+/')),
-        true
-    );
-
-    if (!is_array($data) || empty($data['email'])) {
-        wp_safe_redirect(home_url());
-        exit;
+    $data = json_decode(base64_decode(strtr($p, '-_', '+/')), true);
+    if (!$data || empty($data['email'])) {
+        wp_die('Invalid payload');
     }
 
-    $email = sanitize_email($data['email']);
-    $name  = sanitize_text_field($data['name'] ?? '');
-    $role  = sanitize_text_field($data['role'] ?? 'subscriber');
-
-    $user = get_user_by('email', $email);
-
+    $user = get_user_by('email', $data['email']);
     if (!$user) {
-        $user_id = wp_create_user(
-            $email,
-            wp_generate_password(32),
-            $email
+        $uid = wp_create_user(
+            $data['email'],
+            wp_generate_password(),
+            $data['email']
         );
-        $user = get_user_by('id', $user_id);
-
-        if ($name) {
-            wp_update_user([
-                'ID'           => $user->ID,
-                'display_name' => $name,
-                'first_name'   => $name,
-            ]);
-        }
-    }
-
-    if ($role && !$user->has_cap($role)) {
-        $user->set_role($role);
+        $user = get_user_by('id', $uid);
     }
 
     wp_set_current_user($user->ID);
-    wp_set_auth_cookie($user->ID, true);
-
-    wp_safe_redirect(admin_url());
+    wp_set_auth_cookie($user->ID);
+    wp_redirect(admin_url());
     exit;
 });
