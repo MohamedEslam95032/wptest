@@ -14,20 +14,17 @@ RUN curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh
  && chmod +x /usr/local/bin/wp
 
 # --------------------------------------------------
-# PHP Defaults (رفع limits)
+# PHP defaults (upload / memory)
 # --------------------------------------------------
-RUN { \
-  echo "upload_max_filesize=64M"; \
-  echo "post_max_size=64M"; \
-  echo "memory_limit=256M"; \
-  echo "max_execution_time=300"; \
-  echo "max_input_time=300"; \
-} > /usr/local/etc/php/conf.d/99-coonex-defaults.ini
+RUN echo "upload_max_filesize=20M" > /usr/local/etc/php/conf.d/99-coonex.ini \
+ && echo "post_max_size=25M" >> /usr/local/etc/php/conf.d/99-coonex.ini \
+ && echo "memory_limit=256M" >> /usr/local/etc/php/conf.d/99-coonex.ini \
+ && echo "max_execution_time=300" >> /usr/local/etc/php/conf.d/99-coonex.ini \
+ && echo "max_input_time=300" >> /usr/local/etc/php/conf.d/99-coonex.ini
 
 # --------------------------------------------------
-# Copy Themes / Plugins / MU-Plugins
+# Copy plugins / mu-plugins
 # --------------------------------------------------
-COPY assets/themes/ /usr/src/wordpress/wp-content/themes/
 COPY assets/plugins/ /usr/src/wordpress/wp-content/plugins/
 COPY assets/mu-plugins/ /usr/src/wordpress/wp-content/mu-plugins/
 
