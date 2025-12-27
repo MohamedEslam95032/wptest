@@ -4,44 +4,35 @@ set -e
 echo "▶ Activating uiXpress via WP-CLI (SAFE)"
 
 WP_PATH="/var/www/html"
-PLUGIN_PATH="xpress/uixpress.php"
-ADMIN_USER="${WP_ADMIN_USER:-admin}"
+PLUGIN_SLUG="xpress"
+PLUGIN_FILE="xpress/uixpress.php"
 
 # ----------------------------------------
 # 1) تأكد إن ووردبريس متسطب
 # ----------------------------------------
 if ! wp core is-installed --allow-root --path="$WP_PATH"; then
-  echo "❌ WordPress not installed yet – aborting"
+  echo "❌ WordPress not installed yet – skipping uiXpress activation"
   exit 0
 fi
 
 # ----------------------------------------
 # 2) تأكد إن البلاجن موجود
 # ----------------------------------------
-if [ ! -f "$WP_PATH/wp-content/plugins/$PLUGIN_PATH" ]; then
-  echo "❌ uiXpress files not found – aborting"
+if [ ! -f "$WP_PATH/wp-content/plugins/$PLUGIN_FILE" ]; then
+  echo "❌ uiXpress plugin files not found – skipping"
   exit 0
 fi
 
 # ----------------------------------------
-# 3) تأكد إن اليوزر موجود
+# 3) لو متفعلش → فعّله
 # ----------------------------------------
-if ! wp user get "$ADMIN_USER" --allow-root --path="$WP_PATH" >/dev/null 2>&1; then
-  echo "❌ Admin user not found – aborting"
-  exit 0
-fi
-
-# ----------------------------------------
-# 4) لو متفعلش → فعّله (ده المهم)
-# ----------------------------------------
-if wp plugin is-active "$PLUGIN_PATH" --allow-root --path="$WP_PATH"; then
+if wp plugin is-active "$PLUGIN_SLUG" --allow-root --path="$WP_PATH"; then
   echo "ℹ uiXpress already active"
 else
-  echo "▶ Activating uiXpress as user: $ADMIN_USER"
-  wp plugin activate "$PLUGIN_PATH" \
+  echo "▶ Activating uiXpress"
+  wp plugin activate "$PLUGIN_SLUG" \
     --allow-root \
-    --path="$WP_PATH" \
-    --user="$ADMIN_USER"
+    --path="$WP_PATH"
 fi
 
 echo "✅ uiXpress activation finished"
