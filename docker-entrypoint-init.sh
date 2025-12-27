@@ -153,20 +153,23 @@ wp option update siteurl "$WP_URL" --allow-root --path="$WP_PATH"
 wp option update home "$WP_URL" --allow-root --path="$WP_PATH"
 
 # --------------------------------------------------
-# 10) Activate uiXpress (SAFE – WP-CLI)
+# 10) Auto-install uiXpress (ONE TIME – SAFE)
 # --------------------------------------------------
-echo "▶ Checking uiXpress plugin"
+XPRESS_FLAG="$WP_PATH/.uixpress_installed"
 
-if wp plugin is-installed xpress/uixpress.php --allow-root --path="$WP_PATH"; then
-  if ! wp plugin is-active xpress/uixpress.php --allow-root --path="$WP_PATH"; then
-    echo "▶ Activating uiXpress via WP-CLI"
-    wp plugin activate xpress/uixpress.php --allow-root --path="$WP_PATH"
+if [ ! -f "$XPRESS_FLAG" ]; then
+  echo "▶ Auto-installing uiXpress (first run only)"
+
+  if [ -x /usr/local/bin/install-uixpress.sh ]; then
+    /usr/local/bin/install-uixpress.sh && touch "$XPRESS_FLAG"
+    echo "✅ uiXpress installed successfully"
   else
-    echo "ℹ uiXpress already active"
+    echo "⚠ install-uixpress.sh not found or not executable"
   fi
 else
-  echo "⚠ uiXpress plugin not found, skipping activation"
+  echo "ℹ uiXpress already installed – skipping"
 fi
+
 
 # --------------------------------------------------
 # 10) Permissions
