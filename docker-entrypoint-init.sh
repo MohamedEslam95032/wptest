@@ -47,7 +47,7 @@ mariadb \
       COLLATE utf8mb4_unicode_ci;"
 
 # --------------------------------------------------
-# 3) Copy WordPress Core (if not exists)
+# 3) Copy WordPress Core
 # --------------------------------------------------
 if [ ! -f "$WP_PATH/wp-load.php" ]; then
   echo "▶ Copying WordPress core"
@@ -58,7 +58,7 @@ else
 fi
 
 # --------------------------------------------------
-# 4) Create wp-config.php (if not exists)
+# 4) Create wp-config.php
 # --------------------------------------------------
 if [ ! -f "$WP_CONFIG" ]; then
   echo "▶ Creating wp-config.php"
@@ -76,10 +76,10 @@ else
 fi
 
 # --------------------------------------------------
-# 5) Inject Coonex URL + Proxy Fix (REAL FILE)
+# 5) Inject Coonex URL + Proxy Fix
 # --------------------------------------------------
 if ! grep -q "Coonex URL & Proxy Detection" "$WP_CONFIG"; then
-  echo "▶ Injecting Coonex URL & Proxy Detection into wp-config.php"
+  echo "▶ Injecting Coonex URL & Proxy Detection"
 
   sed -i "/require_once ABSPATH . 'wp-settings.php';/i \
 /** ==============================\\n\
@@ -94,71 +94,14 @@ if (!empty(\$_SERVER['HTTP_X_FORWARDED_PROTO'])) {\\n\
 }\\n\
 " "$WP_CONFIG"
 else
-  echo "ℹ Coonex proxy config already present"
+  echo "ℹ Proxy config already present"
 fi
 
 # --------------------------------------------------
-# 6) Secure defaults
-# --------------------------------------------------
-
-
-# --------------------------------------------------
-# 7) Install WordPress (once only)
+# 6) Install WordPress
 # --------------------------------------------------
 if ! wp core is-installed --allow-root --path="$WP_PATH"; then
   echo "▶ Installing WordPress"
 
   wp core install \
-    --path="$WP_PATH" \
-    --url="${WP_URL}" \
-    --title="${WP_TITLE:-Coonex}" \
-    --admin_user="${WP_ADMIN_USER:-admin}" \
-    --admin_password="${WP_ADMIN_PASS:-Admin@123}" \
-    --admin_email="${WP_ADMIN_EMAIL:-admin@coonex.io}" \
-    --skip-email \
-    --allow-root
-else
-  echo "ℹ WordPress already installed"
-fi
-
-# --------------------------------------------------
-# 8) Ensure admin user from ENV exists (Bootstrap User)
-# --------------------------------------------------
-if [ -n "$WP_ADMIN_USER" ] && [ -n "$WP_ADMIN_PASS" ] && [ -n "$WP_ADMIN_EMAIL" ]; then
-  echo "▶ Ensuring admin user from ENV exists"
-
-  if ! wp user get "$WP_ADMIN_USER" --allow-root --path="$WP_PATH" >/dev/null 2>&1; then
-    wp user create \
-      "$WP_ADMIN_USER" \
-      "$WP_ADMIN_EMAIL" \
-      --user_pass="$WP_ADMIN_PASS" \
-      --role="${WP_ADMIN_ROLE:-administrator}" \
-      --allow-root \
-      --path="$WP_PATH"
-
-    echo "✅ Admin user created from ENV"
-  else
-    echo "ℹ Admin user already exists"
-  fi
-else
-  echo "ℹ Admin ENV vars not fully set, skipping admin creation"
-fi
-
-# --------------------------------------------------
-# 9) Fix siteurl/home in DB (final guard)
-# --------------------------------------------------
-echo "▶ Enforcing siteurl/home in database"
-
-wp option update siteurl "$WP_URL" --allow-root --path="$WP_PATH"
-wp option update home "$WP_URL" --allow-root --path="$WP_PATH"
-
-# --------------------------------------------------
-# 10) Permissions
-# --------------------------------------------------
-chown -R www-data:www-data "$WP_PATH"
-
-# --------------------------------------------------
-# 11) Start Apache
-# --------------------------------------------------
-echo "🚀 Starting Apache"
-exec apache2-foreground
+    --
