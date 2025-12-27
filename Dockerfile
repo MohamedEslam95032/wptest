@@ -46,8 +46,8 @@ RUN chmod +x /usr/local/bin/docker-entrypoint-init.sh
 # --------------------------------------------------
 # uiXpress installer (SEPARATE – NOT AUTO-RUN)
 # --------------------------------------------------
-#COPY install-uixpress.sh /usr/local/bin/install-uixpress.sh
-#RUN chmod +x /usr/local/bin/install-uixpress.sh
+COPY install-uixpress.sh /usr/local/bin/install-uixpress.sh
+RUN chmod +x /usr/local/bin/install-uixpress.sh
 
 # --------------------------------------------------
 # Entrypoint
