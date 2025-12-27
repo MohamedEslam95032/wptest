@@ -76,36 +76,7 @@ else
 fi
 
 # --------------------------------------------------
-# 5) Inject Coonex Proxy + HTTPS Fix (NO REDIRECT LOOP)
-#     - This must be BEFORE wp-settings.php is loaded
-# --------------------------------------------------
-if ! grep -q "Coonex Proxy & HTTPS Detection" "$WP_CONFIG"; then
-  echo "▶ Injecting Coonex Proxy & HTTPS Detection into wp-config.php"
-
-  sed -i "/require_once ABSPATH . 'wp-settings.php';/i \
-/** ==================================================\\n\
- * Coonex Proxy & HTTPS Detection (NO REDIRECT LOOP)\\n\
- * Works with Traefik, Cloudflare, Coolify\\n\
- * ================================================== */\\n\
-if ((isset(\$_SERVER['HTTP_X_FORWARDED_PROTO']) && \$_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') \\\
- || (isset(\$_SERVER['HTTP_X_FORWARDED_SSL']) && \$_SERVER['HTTP_X_FORWARDED_SSL'] === 'on') \\\
- || (isset(\$_SERVER['HTTP_CF_VISITOR']) && strpos(\$_SERVER['HTTP_CF_VISITOR'], 'https') !== false)) {\\n\
-    \$_SERVER['HTTPS'] = 'on';\\n\
-}\\n\\n\
-if (isset(\$_SERVER['HTTP_X_FORWARDED_PORT'])) {\\n\
-    \$_SERVER['SERVER_PORT'] = \$_SERVER['HTTP_X_FORWARDED_PORT'];\\n\
-}\\n\\n\
-if (getenv('WP_URL')) {\\n\
-    define('WP_HOME', getenv('WP_URL'));\\n\
-    define('WP_SITEURL', getenv('WP_URL'));\\n\
-}\\n\
-" "$WP_CONFIG"
-else
-  echo "ℹ Coonex proxy config already present"
-fi
-
-# --------------------------------------------------
-# 6) Install WordPress (once only)
+# 5) Install WordPress (once only)
 # --------------------------------------------------
 if ! wp core is-installed --allow-root --path="$WP_PATH"; then
   echo "▶ Installing WordPress"
@@ -124,7 +95,7 @@ else
 fi
 
 # --------------------------------------------------
-# 7) Ensure admin user from ENV exists (Bootstrap User)
+# 6) Ensure admin user from ENV exists
 # --------------------------------------------------
 if [ -n "$WP_ADMIN_USER" ] && [ -n "$WP_ADMIN_PASS" ] && [ -n "$WP_ADMIN_EMAIL" ]; then
   echo "▶ Ensuring admin user from ENV exists"
@@ -137,31 +108,16 @@ if [ -n "$WP_ADMIN_USER" ] && [ -n "$WP_ADMIN_PASS" ] && [ -n "$WP_ADMIN_EMAIL" 
       --role="${WP_ADMIN_ROLE:-administrator}" \
       --allow-root \
       --path="$WP_PATH"
-
-    echo "✅ Admin user created from ENV"
   else
     echo "ℹ Admin user already exists"
   fi
-else
-  echo "ℹ Admin ENV vars not fully set, skipping admin creation"
 fi
 
 # --------------------------------------------------
-# 8) Enforce siteurl/home in DB (final guard against loops)
-# --------------------------------------------------
-if [ -n "$WP_URL" ]; then
-  echo "▶ Enforcing siteurl/home in database"
-  wp option update siteurl "$WP_URL" --allow-root --path="$WP_PATH" || true
-  wp option update home "$WP_URL" --allow-root --path="$WP_PATH" || true
-else
-  echo "⚠ WP_URL is empty, skipping siteurl/home enforcement"
-fi
-
-# --------------------------------------------------
-# 9) Activate uiXpress (SAFE – WP-CLI)
-#     - Do NOT activate from PHP (causes white screen)
+# 7) Activate uiXpress (CLEAN – like manual install)
 # --------------------------------------------------
 echo "▶ Checking uiXpress plugin"
+
 if wp plugin is-installed xpress/uixpress.php --allow-root --path="$WP_PATH"; then
   if ! wp plugin is-active xpress/uixpress.php --allow-root --path="$WP_PATH"; then
     echo "▶ Activating uiXpress via WP-CLI"
@@ -170,16 +126,16 @@ if wp plugin is-installed xpress/uixpress.php --allow-root --path="$WP_PATH"; th
     echo "ℹ uiXpress already active"
   fi
 else
-  echo "⚠ uiXpress plugin not found, skipping activation"
+  echo "⚠ uiXpress plugin not found"
 fi
 
 # --------------------------------------------------
-# 10) Permissions
+# 8) Permissions
 # --------------------------------------------------
 chown -R www-data:www-data "$WP_PATH"
 
 # --------------------------------------------------
-# 11) Start Apache
+# 9) Start Apache
 # --------------------------------------------------
 echo "🚀 Starting Apache"
 exec apache2-foreground
