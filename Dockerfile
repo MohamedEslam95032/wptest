@@ -14,19 +14,13 @@ RUN curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh
  && chmod +x /usr/local/bin/wp
 
 # --------------------------------------------------
-# PHP defaults (upload / memory)
+# Copy WordPress assets
 # --------------------------------------------------
-RUN echo "upload_max_filesize=20M" > /usr/local/etc/php/conf.d/99-coonex.ini \
- && echo "post_max_size=25M" >> /usr/local/etc/php/conf.d/99-coonex.ini \
- && echo "memory_limit=256M" >> /usr/local/etc/php/conf.d/99-coonex.ini \
- && echo "max_execution_time=300" >> /usr/local/etc/php/conf.d/99-coonex.ini \
- && echo "max_input_time=300" >> /usr/local/etc/php/conf.d/99-coonex.ini
+# Themes
+COPY assets/themes/ /usr/src/wordpress/wp-content/themes/
 
-# --------------------------------------------------
-# Copy plugins / mu-plugins
-# --------------------------------------------------
-COPY assets/plugins/ /usr/src/wordpress/wp-content/plugins/
-COPY assets/mu-plugins/ /usr/src/wordpress/wp-content/mu-plugins/
+# Plugins (uiXpress ONLY – no activation here)
+COPY assets/plugins/xpress/ /usr/src/wordpress/wp-content/plugins/xpress/
 
 # --------------------------------------------------
 # Entrypoint
