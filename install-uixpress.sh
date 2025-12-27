@@ -1,17 +1,17 @@
 #!/bin/bash
 set -e
 
-echo "▶ Installing uiXpress (SAFE ROOT INSTALL)"
+echo "▶ Installing & Activating uiXpress (ROOT SAFE MODE)"
 
 WP_PATH="/var/www/html"
-PLUGIN_DIR="$WP_PATH/wp-content/plugins/uxpress"
-PLUGIN_MAIN="uxpress/uixpress.php"
+PLUGIN_MAIN="xpress/uixpress.php"
+PLUGIN_DIR="$WP_PATH/wp-content/plugins/xpress"
 
 # --------------------------------------------------
 # 1) Ensure WordPress is installed
 # --------------------------------------------------
 if ! wp core is-installed --allow-root --path="$WP_PATH"; then
-  echo "❌ WordPress not installed yet – aborting uiXpress install"
+  echo "❌ WordPress not installed yet – aborting uiXpress"
   exit 0
 fi
 
@@ -33,8 +33,8 @@ fi
 # 4) Verify plugin files exist
 # --------------------------------------------------
 if [ ! -f "$WP_PATH/wp-content/plugins/$PLUGIN_MAIN" ]; then
-  echo "❌ uiXpress plugin files not found at:"
-  echo "   wp-content/plugins/uxpress/uixpress.php"
+  echo "❌ uiXpress plugin not found at:"
+  echo "   wp-content/plugins/xpress/uixpress.php"
   exit 1
 fi
 
@@ -61,4 +61,4 @@ chown -R www-data:www-data "$PLUGIN_DIR"
 # 7) Final verification
 # --------------------------------------------------
 echo "✅ uiXpress activation completed"
-wp plugin list --allow-root --path="$WP_PATH" | grep uxpress || true
+wp plugin list --allow-root --path="$WP_PATH" | grep xpress || true
