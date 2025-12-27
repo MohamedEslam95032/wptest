@@ -8,17 +8,6 @@ RUN apt-get update && apt-get install -y \
  && rm -rf /var/lib/apt/lists/*
 
 # --------------------------------------------------
-# PHP DEFAULTS (official & safe way)
-# --------------------------------------------------
-RUN { \
-      echo "upload_max_filesize = 20M"; \
-      echo "post_max_size = 25M"; \
-      echo "memory_limit = 256M"; \
-      echo "max_execution_time = 300"; \
-      echo "max_input_time = 300"; \
-    } > /usr/local/etc/php/conf.d/99-coonex-defaults.ini
-
-# --------------------------------------------------
 # WP-CLI
 # --------------------------------------------------
 RUN curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
@@ -26,6 +15,7 @@ RUN curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh
 
 # --------------------------------------------------
 # Inject Coonex config into wp-config-sample.php
+# (NO FORCE HTTPS – SAFE behind proxy)
 # --------------------------------------------------
 RUN sed -i "/require_once ABSPATH . 'wp-settings.php';/i \
 /** ==============================\\n\
@@ -37,20 +27,30 @@ if (getenv('WP_URL')) {\\n\
 }\\n\\n\
 if (!empty(\$_SERVER['HTTP_X_FORWARDED_PROTO'])) {\\n\
     \$_SERVER['HTTPS'] = \$_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https' ? 'on' : 'off';\\n\
-}\\n" /usr/src/wordpress/wp-config-sample.php
+}\\n\
+" /usr/src/wordpress/wp-config-sample.php
 
 # --------------------------------------------------
-# Copy themes / plugins / MU plugins
+# Copy themes / plugins (custom only)
 # --------------------------------------------------
-#COPY assets/themes/ /usr/src/wordpress/wp-content/themes/
+COPY assets/themes/ /usr/src/wordpress/wp-content/themes/
 COPY assets/plugins/ /usr/src/wordpress/wp-content/plugins/
 COPY assets/mu-plugins/ /usr/src/wordpress/wp-content/mu-plugins/
 
 # --------------------------------------------------
-# Entrypoint
+# WordPress init entrypoint (CORE ONLY)
 # --------------------------------------------------
 COPY docker-entrypoint-init.sh /usr/local/bin/docker-entrypoint-init.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint-init.sh
 
+# --------------------------------------------------
+# uiXpress installer (SEPARATE – NOT AUTO-RUN)
+# --------------------------------------------------
+COPY install-uixpress.sh /usr/local/bin/install-uixpress.sh
+RUN chmod +x /usr/local/bin/install-uixpress.sh
+
+# --------------------------------------------------
+# Entrypoint
+# --------------------------------------------------
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint-init.sh"]
 CMD ["apache2-foreground"]
